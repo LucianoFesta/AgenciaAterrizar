@@ -10,5 +10,7 @@ namespace AgenciaAterrizar.Models
 
         public virtual Pais? Pais { get; set; }
 
+        public virtual ICollection<ReservaHotel>? ReservasHoteles { get; set; }
+
     }
 }

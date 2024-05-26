@@ -9,6 +9,7 @@ namespace AgenciaAterrizar.Models
         public MedioDePagoEnum Descripcion { get; set; }
 
         public ICollection<ReservaVuelo> ReservasVuelos { get; set; }
+        public virtual ICollection<ReservaHotel>? ReservasHoteles { get; set; }
     }
 
     public enum MedioDePagoEnum

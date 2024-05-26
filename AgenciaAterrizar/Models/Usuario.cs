@@ -23,6 +23,7 @@ namespace AgenciaAterrizar.Models
 
         public virtual TipoUsuario? TipoUsuario { get; set; }
         public virtual ICollection<ReservaVuelo>? ReservasVuelos { get; set; }
+        public virtual ICollection<ReservaHotel>? ReservasHoteles { get; set; }
 
     }
 

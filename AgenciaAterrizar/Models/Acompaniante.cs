@@ -6,13 +6,14 @@ namespace AgenciaAterrizar.Models
     {
         [Key]
         public int AcompanianteId { get; set; }
-        public string? Nombre { get; set; }
-        public string? Apellido { get; set; }
+        public string? NombreCompleto { get; set; }
         public DateTime FechaNacimiento { get; set; }
-        public string? Pasaporte { get; set; }
-        public DateTime VencimientoPasaporte { get; set; }
+        public TipoDocumento TipoDocumento { get; set; }
+        public string? Documento { get; set; }
+        public DateTime VencimientoDocumento { get; set; }
 
 
         public ICollection<ReservaVuelo> ReservasVuelos { get; set; }
     }
+
 }

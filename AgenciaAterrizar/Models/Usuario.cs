@@ -7,8 +7,7 @@ namespace AgenciaAterrizar.Models
         [Key]
         public int UsuarioId { get; set; }
         public int TipoUsuarioID { get; set; }
-        public string? Nombres { get; set; }
-        public string? Apellido { get; set; }
+        public string? NombreCompleto { get; set; }
         public TipoDocumento TipoDocumento { get; set; }
         public int DNI { get; set; }
         public DateTime FechaNacimiento { get; set; }

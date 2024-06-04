@@ -14,11 +14,10 @@ namespace AgenciaAterrizar.Models
         public DateTime FechaSalida { get; set; }
         public DateTime FechaRegreso { get; set; }
         public int AerolineaId { get; set; }
-        public string? NumeroVuelo { get; set; }
-        public ICollection<Escala> Escalas { get; set; }
+
+        // public string? NumeroVuelo { get; set; }
         public string? DuracionVuelo { get; set; }
         public int CantidadPasajeros { get; set; }
-        public ICollection<Acompaniante> Acompaniantes { get; set; }
         public int MedioDePagoId { get; set; }
         public int NroTarjeta { get; set; }
         public int CantidadCuotas { get; set; }
@@ -26,7 +25,14 @@ namespace AgenciaAterrizar.Models
 
         public virtual Usuario Usuario { get; set; }
         public virtual MedioDePago MedioDePago { get; set; }
+
+
+
+        
         public virtual Acompaniante Acompaniante { get; set; }
         public virtual Escala Escala { get; set; }
+
+        public ICollection<Escala> Escalas { get; set; }
+        public ICollection<Acompaniante> Acompaniantes { get; set; }
     }
 }

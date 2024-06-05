@@ -5,7 +5,7 @@ namespace AgenciaAterrizar.Models
     public class RegimenComida
     {
         [Key]
-        public int RegimenId { get; set; }
+        public int RegimenID { get; set; }
         public TipoRegimen Descripcion { get; set; }
 
     }

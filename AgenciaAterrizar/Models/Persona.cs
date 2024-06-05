@@ -5,8 +5,8 @@ namespace AgenciaAterrizar.Models
     public class Persona
     {
         [Key]
-        public int PersonaId { get; set; }
-        public int UsuarioId { get; set; } // VER DE AGREGAR LA RELACION CON LA TABLA USER.
+        public int PersonaID { get; set; }
+        public int UsuarioID { get; set; } // VER DE AGREGAR LA RELACION CON LA TABLA USER.
         public string? NombreCompleto { get; set; }
         public TipoDocumento TipoDocumento { get; set; }
         public int DNI { get; set; }

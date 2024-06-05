@@ -6,7 +6,7 @@ namespace AgenciaAterrizar.Models
     {
         [Key]
         public int ReservaVueloId { get; set; }
-        public int UsuarioId { get; set; }
+        public int PersonaId { get; set; }
         public int AeropuertoOrigenId { get; set; }
         public string? TerminalAeropuertoOrigen { get; set; }
         public int AeropuertoDestinoId { get; set; }
@@ -22,16 +22,12 @@ namespace AgenciaAterrizar.Models
         public int NroTarjeta { get; set; }
         public int CantidadCuotas { get; set; }
         public decimal MontoTotalCompra { get; set; }
+        public virtual int EscalaId { get; set; }
+        public virtual int AcompanianteId { get; set; }
 
-        public virtual Usuario Usuario { get; set; }
+        public virtual Persona Persona { get; set; }
         public virtual MedioDePago MedioDePago { get; set; }
-
-
-
         
-        public virtual Acompaniante Acompaniante { get; set; }
-        public virtual Escala Escala { get; set; }
-
         public ICollection<Escala> Escalas { get; set; }
         public ICollection<Acompaniante> Acompaniantes { get; set; }
     }

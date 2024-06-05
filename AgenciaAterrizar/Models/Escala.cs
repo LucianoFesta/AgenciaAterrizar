@@ -18,6 +18,6 @@ namespace AgenciaAterrizar.Models
         public string? DuracionVuelo { get; set; }
 
         public virtual Aerolinea Aerolinea { get; set; }
-        public ICollection<ReservaVuelo> ReservasVuelos { get; set; }
+        public virtual ReservaVuelo ReservasVuelos { get; set; }
     }
 }

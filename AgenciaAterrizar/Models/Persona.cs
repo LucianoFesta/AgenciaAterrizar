@@ -2,11 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AgenciaAterrizar.Models
 {
-    public class Usuario
+    public class Persona
     {
         [Key]
-        public int UsuarioId { get; set; }
-        public int TipoUsuarioID { get; set; }
+        public int PersonaId { get; set; }
+        public int UsuarioId { get; set; } // VER DE AGREGAR LA RELACION CON LA TABLA USER.
         public string? NombreCompleto { get; set; }
         public TipoDocumento TipoDocumento { get; set; }
         public int DNI { get; set; }
@@ -17,11 +17,7 @@ namespace AgenciaAterrizar.Models
         public string? Provincia { get; set; }
         public string? Localidad { get; set; }
         public string? Domicilio { get; set; }
-        public string? Email { get; set; }
-        public string? Telefono { get; set; }
-        public string? Contraseña { get; set; }
 
-        public virtual TipoUsuario? TipoUsuario { get; set; }
         public virtual ICollection<ReservaVuelo>? ReservasVuelos { get; set; }
         public virtual ICollection<ReservaHotel>? ReservasHoteles { get; set; }
 

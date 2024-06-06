@@ -9,15 +9,16 @@ namespace AgenciaAterrizar.Models
         public int AcompanianteReservaID{ get; set; }
         public int PersonaId { get; set; }
         public int AeropuertoOrigenID { get; set; }
-        public string? TerminalAeropuertoOrigen { get; set; }
+        public string TerminalAeropuertoOrigen { get; set; }
         public int AeropuertoDestinoID { get; set; }
-        public string? TerminalAeropuertoDestino { get; set; }
+        public string TerminalAeropuertoDestino { get; set; }
         public DateTime FechaSalida { get; set; }
         public DateTime FechaRegreso { get; set; }
+        public int EscalaID { get; set; }
         public int AerolineaID { get; set; }
 
         // public string? NumeroVuelo { get; set; }
-        public string? DuracionVuelo { get; set; }
+        public string DuracionVuelo { get; set; }
         public int CantidadPasajeros { get; set; }
         public int MedioDePagoID { get; set; }
         public int NroTarjeta { get; set; }

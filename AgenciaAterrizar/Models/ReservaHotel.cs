@@ -9,7 +9,7 @@ namespace AgenciaAterrizar.Models
         public string? CodigoHotel { get; set; }
         public string? NombreHotel { get; set; }
         public int PersonaID { get; set; }
-        public int CiudadID { get; set; }
+        public string CiudadID { get; set; }
         public DateTime FechaCheckIn { get; set; }
         public DateTime FechaCheckout { get; set; }
         public decimal PrecioNoche { get; set; }

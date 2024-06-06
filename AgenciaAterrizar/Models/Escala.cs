@@ -15,8 +15,8 @@ namespace AgenciaAterrizar.Models
         public bool EscalaVuelta { get; set; }
         public DateTime FechaSalida { get; set; }
         public DateTime FechaLlegada { get; set; }
-        public string? NumeroVuelo { get; set; }
-        public string? DuracionVuelo { get; set; }
+        public string NumeroVuelo { get; set; }
+        public string DuracionVuelo { get; set; }
 
         public virtual Aerolinea Aerolinea { get; set; }
         public virtual Aeropuerto Aeropuerto { get; set; }

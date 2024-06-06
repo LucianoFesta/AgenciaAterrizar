@@ -7,10 +7,10 @@ namespace AgenciaAterrizar.Models
         [Key]
         public int AcompanianteID { get; set; }
         public int AcompanianteReservaID{ get; set; }
-        public string? NombreCompleto { get; set; }
+        public string NombreCompleto { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public TipoDocumento TipoDocumento { get; set; }
-        public string? Documento { get; set; }
+        public string Documento { get; set; }
         public DateTime VencimientoDocumento { get; set; }
 
         public ICollection<AcompanianteReserva> AcompampanianteReservas { get; set; }

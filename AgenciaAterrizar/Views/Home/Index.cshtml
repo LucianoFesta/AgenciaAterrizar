@@ -1,8 +1,109 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="col-12">
+   <form>
+        <h2>Vuelos</h2>
+        <div class="d-flex flex-wrap">
+            <div class="mb-3 col-6">
+                <label for="origen" class="form-label">Origen:</label>
+                <select id="origen" class="form-control select2"></select>
+            </div>
+            <div class="mb-3 col-6">
+                <label for="destino" class="form-label">Destino:</label>
+                <select id="destino" class="form-control select2"></select>
+            </div>
+            <div class="mb-3 col-6">
+                <label for="fechaDesde" class="form-label">Desde:</label>
+                <input type="datetime-local" class="form-control" id="fechaDesde">
+            </div>
+            <div class="mb-3 col-6">
+                <label for="fechaHasta" class="form-label">Hasta:</label>
+                <input type="datetime-local" class="form-control" id="fechaHasta">
+            </div>
+            <div class="mb-3 col-6">
+                <label for="pasajeros" class="form-label">Pasajeros:</label>
+                <input type="number" class="form-control" id="pasajeros">
+            </div>
+            <div class="mb-3 col-12">
+                <button type="submit" class="btn btn-primary" id="buscarBtn">Buscar</button>
+            </div>
+        </div>
+    </form>
 </div>
+
+@section Scripts{
+    <script src="~/js/home.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#origen').select2({
+                placeholder: 'Por favor, seleccione el origen..',
+                minimumInputLength: 2,
+                language: {
+                    inputTooShort: function() {
+                        return 'Por favor, ingrese al menos 2 carácteres.';
+                    },
+                    noResults: function() {
+                        return 'No se encontraron resultados.';
+                    }
+                },
+                ajax: {
+                    url: '@Url.Action("GetAeropuertos", "Home")',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            keyword: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.map(function (item) {
+                                return {
+                                    id: item.id,
+                                    text: item.text
+                                };
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            $('#destino').select2({
+                placeholder: 'Por favor, seleccione el destino..',
+                minimumInputLength: 2,
+                language: {
+                    inputTooShort: function() {
+                        return 'Por favor, ingrese al menos 2 carácteres.';
+                    },
+                    noResults: function() {
+                        return 'No se encontraron resultados.';
+                    }
+                },
+                ajax: {
+                    url: '@Url.Action("GetAeropuertos", "Home")',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term // search term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.map(function (item) {
+                                return {
+                                    id: item.id,
+                                    text: item.text
+                                };
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+    </script>
+}

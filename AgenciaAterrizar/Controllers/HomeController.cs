@@ -1,16 +1,20 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using AgenciaAterrizar.Models;
+using AgenciaAterrizar.Data;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AgenciaAterrizar.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ApplicationDbContext _context;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ApplicationDbContext context)
     {
-        _logger = logger;
+        _context = context;
     }
 
     public IActionResult Index()
@@ -28,4 +32,24 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    public JsonResult GetAeropuertos(string keyword)
+    {
+        var listaFiltradaEropuertos = _context.Aeropuertos
+            .Where(a => a.Ciudad.ToLower().Contains(keyword.ToLower()))
+            .Select(a => new
+            {
+                id = a.AeropuertoID,
+                text = $"{a.Nombre} - ({a.Ciudad})"
+            })
+            .ToList();
+
+        return Json(listaFiltradaEropuertos);
+    }
+
+    public JsonResult Console()
+    {
+        return Json(true);
+    }
 }
+

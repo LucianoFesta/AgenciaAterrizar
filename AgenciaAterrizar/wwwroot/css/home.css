@@ -1,3 +1,105 @@
-.btn{
-    height: 50px;
+.btnSearch {
+    font-size: 18px;
+    color: black;
+    background-color: rgb(238, 153, 57);
+    transition: 0.3s all ease-in-out;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* .btnSearch:hover{
+    color: white;
+    background-color: black;
+    border: 1px solid white;
+} */
+
+h3{
+    color: rgb(238, 153, 57)
+}
+
+i{
+    color: rgb(168, 91, 3)
+}
+
+.inputPasajeros{
+    height: 40px;
+}
+
+.divBuscador{
+    padding: 20px 15px;
+    width: 80vw;
+    margin: auto;
+    background: #fcf6f1;
+    border: 1.5px solid #f0ddb9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.select2-container .select2-selection--single {
+    height: 40px !important;
+    width: 30vw;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 40px !important;  
+    width: 30vw;
+}
+
+.select2-search--dropdown {
+    width: 30vw;
+}
+
+.select2-container--open .select2-dropdown--below {
+    width: 30vw !important;
+}
+
+.select2-container--default .select2-results>.select2-results__options {
+    width: 30vw;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    width: 7vw !important;
+}
+
+span .selection{
+    width: 20vw !important; 
+}
+
+.inputFecha{
+    height: 40px;
+    width: 32vw;
+}
+
+.btn-outline-primary {
+    color: black;
+    border-color: rgb(238, 153, 57);
+    padding: 0 10px;
+    height: 25px;
+    margin: 20px 0;
+    transition: 0.3s all ease-in-out;
+}
+
+.btn-outline-primary:hover{
+    border-color: black;
+    background-color: rgb(236, 235, 235);
+    color: black;
+}
+
+.btn-check:active+.btn-outline-primary, .btn-check:checked+.btn-outline-primary, .btn-outline-primary.active, .btn-outline-primary.dropdown-toggle.show, .btn-outline-primary:active {
+    color: white;
+    background-color: black;
+    border-color: black;
+}
+
+label{
+    font-weight: 600;
+}
+
+#listaOfertas h3{
+    padding-top: 20px;
+}
+
+.divOpciones{
+    padding: 20px 40px;
 }

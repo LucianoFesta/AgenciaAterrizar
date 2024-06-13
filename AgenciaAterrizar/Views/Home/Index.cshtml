@@ -2,45 +2,97 @@
     ViewData["Title"] = "Inicio";
 }
 
-<div class="col-12">
+<div class="col-8 divBuscador">
    <form>
-        <h2>Vuelos</h2>
-        <div class="d-flex flex-wrap">
-            <div class="mb-3 col-6">
-                <label for="origen" class="form-label">Origen:</label>
-                <select id="origen" class="form-control select2"></select>
+        <div>
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-plane-departure mx-3"></i>
+                <h3>Buscá tu próximo vuelo</h3>
             </div>
-            <div class="mb-3 col-6">
-                <label for="destino" class="form-label">Destino:</label>
-                <select id="destino" class="form-control select2"></select>
+        </div>
+
+        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+            <input type="checkbox" class="btn-check" id="ida" autocomplete="off" onchange="checkSeleccionado('ida')">
+            <label class="btn btn-outline-primary" for="ida">Ida</label>
+
+            <input type="checkbox" class="btn-check" id="idaVuelta" autocomplete="off" onchange="checkSeleccionado('idaVuelta')" checked>
+            <label class="btn btn-outline-primary" for="idaVuelta">Ida y Vuelta</label>
+        </div>
+
+        <div class="d-flex flex-column justify-content-center">
+            <div class="d-flex flex-row justify-content-center">
+                <div class="mb-3 mx-3 col-5">
+                    <label for="origen" class="form-label">Origen:</label>
+                    <select id="origen" class="form-control select2"></select>
+                </div>
+                <div class="mb-3 mx-3 col-5">
+                    <label for="destino" class="form-label">Destino:</label>
+                    <select id="destino" class="form-control select2"></select>
+                </div>
             </div>
-            <div class="mb-3 col-6">
-                <label for="fechaDesde" class="form-label">Desde:</label>
-                <input type="datetime-local" class="form-control" id="fechaDesde">
+
+            <div class="d-flex divFecha flex-wrap">
+                <div class="mb-3 mx-3 inputFecha col-3">
+                    <label for="fechaDesde" class="form-label">Desde:</label>
+                    <input type="date" class="form-control inputFecha select2" id="fechaDesde">
+                </div>
+                <div class="mb-3 mx-3 inputFecha col-3">
+                    <label for="fechaHasta" class="form-label">Hasta:</label>
+                    <input type="date" class="form-control inputFecha select2" id="fechaHasta">
+                </div>
+                <div class="mb-3 mx-2 col-1">
+                    <label for="pasajeros" class="form-label">Pasajeros:</label>
+                    <input type="number" class="form-control inputPasajeros" id="pasajeros">
+                </div>
             </div>
-            <div class="mb-3 col-6">
-                <label for="fechaHasta" class="form-label">Hasta:</label>
-                <input type="datetime-local" class="form-control" id="fechaHasta">
-            </div>
-            <div class="mb-3 col-6">
-                <label for="pasajeros" class="form-label">Pasajeros:</label>
-                <input type="number" class="form-control" id="pasajeros">
-            </div>
-            <div class="mb-3 col-12">
-                <button type="submit" class="btn btn-primary" id="buscarBtn">Buscar</button>
+
+            <div class="mb-3 mt-3">
+                <button class="btn btn-warning btnSearch" id="buscarBtn" data-bs-toggle="tooltip" data-bs-placement="top" title="Buscar">Buscar</button>
             </div>
         </div>
     </form>
 </div>
 
+<div class="row mt-3 mb-3" id="listaOfertas">
+    <h3>Estos vuelos encontramos para ti:</h3>
+    <div class="divOpciones">
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fa-solid fa-plane-departure me-2"></i> AR</h5>
+                <p class="card-text"><b>Salida: </b> 01/01/2024 10:55Hs. <i class="fa-solid fa-arrow-right"></i> <b>Llegada: </b> 01/01/2024 10:55Hs.</p>
+                <p class="card-text">1 Parada/s.</p>
+                <p class="card-text"><b>Precio Final: </b> $94555.20</p>
+                <p class="card-text"><b>Duración: </b> 15 Horas 55 Minutos.</p>
+                <a href="#" class="btn btn-primary">Reservar</a>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fa-solid fa-plane-departure me-2"></i> ${oferta.intinerario[0].segments[0].carrierCode}</h5>
+                <p class="card-text"><b>Salida: </b> ${formatoFechaMostrar(oferta.intinerario[0].segments[0].departure.at)}Hs. <i class="fa-solid fa-arrow-right"></i> <b>Llegada: </b>${formatoFechaMostrar(oferta.intinerario[1].segments[oferta.segmentosVuelta - 1].arrival.at)}Hs. </p>
+                <p class="card-text">${oferta.intinerario[0].segments.length - 1} Parada/s.</p>
+                <p class="card-text"><b>Precio Final: </b> $${oferta.precio.total}</p>
+                <p class="card-text"><b>Duración del vuelo: </b> ${convertirAHorayMinutos(oferta.intinerario[0].duration)}.</p>
+                <a href="#" class="btn btn-primary">Reservar</a>
+            </div>
+        </div>
+
+</div>
+
 @section Scripts{
     <script src="~/js/home.js"></script>
+    
+    @* Select del buscador de origen y destino de vuelos, filtrando las sugerencias al usuario *@
     <script>
         $(document).ready(function() {
             $('#origen').select2({
-                placeholder: 'Por favor, seleccione el origen..',
+                placeholder: 'Ingrese una ciudad..',
                 minimumInputLength: 2,
                 language: {
+                    searching: function() {
+                        return "Buscando Origen..";
+                    },
                     inputTooShort: function() {
                         return 'Por favor, ingrese al menos 2 carácteres.';
                     },
@@ -49,20 +101,20 @@
                     }
                 },
                 ajax: {
-                    url: '@Url.Action("GetAeropuertos", "Home")',
+                    url: '@Url.Action("ObtenerAeropuertos", "Home")',
                     dataType: 'json',
                     delay: 250,
-                    data: function (params) {
+                    data: function (palabraIngresada) {
                         return {
-                            keyword: params.term
+                            keyword: palabraIngresada.term //Termino que envia a la solicitud ajax (controlador)
                         };
                     },
-                    processResults: function (data) {
+                    processResults: function (listaAeropuertos) { //Respuesta del controlador
                         return {
-                            results: data.map(function (item) {
+                            results: listaAeropuertos.map(function (aeropuerto) {
                                 return {
-                                    id: item.id,
-                                    text: item.text
+                                    id: aeropuerto.id,
+                                    text: aeropuerto.text
                                 };
                             })
                         };
@@ -72,9 +124,12 @@
             });
 
             $('#destino').select2({
-                placeholder: 'Por favor, seleccione el destino..',
+                placeholder: 'Ingrese una ciudad..',
                 minimumInputLength: 2,
                 language: {
+                    searching: function() {
+                        return "Buscando destino..";
+                    },                   
                     inputTooShort: function() {
                         return 'Por favor, ingrese al menos 2 carácteres.';
                     },
@@ -83,25 +138,24 @@
                     }
                 },
                 ajax: {
-                    url: '@Url.Action("GetAeropuertos", "Home")',
+                    url: '@Url.Action("ObtenerAeropuertos", "Home")',
                     dataType: 'json',
                     delay: 250,
-                    data: function (params) {
+                    data: function (palabraIngresada) {
                         return {
-                            q: params.term // search term
+                            keyword: palabraIngresada.term //Termino que envia a la solicitud ajax (controlador)
                         };
                     },
-                    processResults: function (data) {
+                    processResults: function (listaAeropuertos) { //Respuesta del controlador
                         return {
-                            results: data.map(function (item) {
+                            results: listaAeropuertos.map(function (aeropuerto) {
                                 return {
-                                    id: item.id,
-                                    text: item.text
+                                    id: aeropuerto.id,
+                                    text: aeropuerto.text
                                 };
                             })
                         };
                     },
-                    cache: true
                 }
             });
         });

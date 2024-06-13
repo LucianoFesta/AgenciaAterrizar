@@ -17,6 +17,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddControllersWithViews(); // El archivo de compilacion trabaja con servicios y vistas.
 
+//Inyecto el AthenticatorAmadeus y AmadeusApi en el proyecto.
+builder.Services.AddScoped<AuthenticatorAmadeus, AuthenticatorAmadeus>();
+builder.Services.AddScoped<AmadeusApiCliente, AmadeusApiCliente>();
+
 //CONFIGURACION DE USUARIOS -> Si el usuario no esta logueado, avisa que necesita loguearse.
 builder.Services.ConfigureApplicationCookie(options =>
 {

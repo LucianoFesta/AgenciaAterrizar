@@ -5,6 +5,7 @@ using AgenciaAterrizar.Data;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace AgenciaAterrizar.Controllers;
 
@@ -12,9 +13,13 @@ public class HomeController : Controller
 {
     private readonly ApplicationDbContext _context;
 
-    public HomeController(ApplicationDbContext context)
+    private readonly AmadeusApiCliente _amadeusApiClient;
+
+    public HomeController(ApplicationDbContext context, AmadeusApiCliente amadeusApiCliente)
     {
         _context = context;
+
+        _amadeusApiClient = amadeusApiCliente;
     }
 
     public IActionResult Index()
@@ -33,23 +38,25 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    public JsonResult GetAeropuertos(string keyword)
+    public JsonResult ObtenerAeropuertos(string keyword)
     {
-        var listaFiltradaEropuertos = _context.Aeropuertos
-            .Where(a => a.Ciudad.ToLower().Contains(keyword.ToLower()))
+        var listaFiltradaAeropuertos = _context.Aeropuertos
+            .Where(a => a.Ciudad.ToLower().Contains(keyword.ToLower()) || a.Pais.Nombre.ToLower().Contains(keyword.ToLower()))
             .Select(a => new
             {
                 id = a.AeropuertoID,
-                text = $"{a.Nombre} - ({a.Ciudad})"
+                text = $"{a.Ciudad}, {a.Pais.Nombre} - ({a.AeropuertoID} - {a.Nombre})"
             })
             .ToList();
 
-        return Json(listaFiltradaEropuertos);
+        return Json(listaFiltradaAeropuertos);
     }
 
-    public JsonResult Console()
+    public async Task<IActionResult> ObtenerVuelos( string VueloIda,  string VueloRegreso, string FechaDesde, string FechaHasta, int CantPasajeros )
     {
-        return Json(true);
+        var vuelos = await _amadeusApiClient.ObtenerOfertaVuelos(VueloIda, VueloRegreso, FechaDesde, FechaHasta, CantPasajeros);
+
+        return Ok(vuelos);
     }
 }
 

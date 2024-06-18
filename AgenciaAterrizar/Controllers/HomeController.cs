@@ -54,9 +54,25 @@ public class HomeController : Controller
 
     public async Task<IActionResult> ObtenerVuelos( string VueloIda,  string VueloRegreso, string FechaDesde, string FechaHasta, int CantPasajeros )
     {
-        var vuelos = await _amadeusApiClient.ObtenerOfertaVuelos(VueloIda, VueloRegreso, FechaDesde, FechaHasta, CantPasajeros);
+        var vuelosOfertas = await _amadeusApiClient.ObtenerOfertaVuelos(VueloIda, VueloRegreso, FechaDesde, FechaHasta, CantPasajeros);
+        var ciudadIda = _context.Aeropuertos.Where(a => a.AeropuertoID == VueloIda).FirstOrDefault();
+        var ciudadVuelta = _context.Aeropuertos.Where(a => a.AeropuertoID == VueloRegreso).FirstOrDefault();
+        //return Ok(vuelos);
+        return Ok(new { listaOfertas = vuelosOfertas, ida = ciudadIda, vuelta = ciudadVuelta });
+    }
 
-        return Ok(vuelos);
+    public JsonResult BuscarCodigoAerolinea(string CodigoAerolinea)
+    {
+        var nombreAerolinea = _context.Aerolineas.Where(a => a.AerolineaID == CodigoAerolinea).FirstOrDefault();
+
+        if(nombreAerolinea == null){
+            nombreAerolinea = new Aerolinea(){
+                AerolineaID = "00",
+                Nombre = "Aerolínea sin nombre"
+            };
+        }
+
+        return Json(nombreAerolinea.Nombre);
     }
 }
 

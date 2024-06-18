@@ -1,21 +1,106 @@
-.btnSearch {
-    font-size: 18px;
-    color: black;
-    background-color: rgb(238, 153, 57);
-    transition: 0.3s all ease-in-out;
-    padding: 5px;
-    border-radius: 5px;
-    width: 100%;
+.navBar{
+    background-color: #04001c !important;
+    color: white !important;
+    padding: 10px;
+    margin-bottom: 30px !important;
 }
 
-/* .btnSearch:hover{
+footer{
+    background-color: #04001c !important;
+    color: white !important;
+    padding: 0;
+    margin: 0;
+}
+
+.navBar a{
+    color: white !important;
+}
+
+.btnNav {
+    all: unset;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+    border-radius: 25px;
+    color: rgb(238, 153, 57);
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border 300ms, color 300ms;
+    user-select: none;
+}
+
+li a p {
+    margin: 0;
+}
+
+.btnNav:hover {
+    color: black;
+}
+
+.btnNav:active {
+    border-color: white;
+}
+
+.btnNav::after, .btnNav::before {
+    content: "";
+    position: absolute;
+    width: 100px;
+    aspect-ratio: 1;
+    background: rgb(238, 153, 57);
+    opacity: 25%;
+    border-radius: 50%;
+    transition: transform 500ms, background 300ms;
+}
+
+.btnNav::before {
+    left: 0;
+    transform: translateX(-8em);
+}
+
+.btnNav::after {
+    right: 0;
+    transform: translateX(8em);
+}
+
+.btnNav:hover:before {
+    transform: translateX(-1em);
+}
+
+.btnNav:hover:after {
+    transform: translateX(1em);
+}
+
+.btnNav:active:before,
+.btnNav:active:after {
+    background: white;
+}
+
+.btnSearch {
+    font-size: 18px;
+    background-color: #fcd45a53;
+    color: rgba(32, 31, 31, 0.895);
+    font-weight: bold;
+    width: 100%;
+    height: 2.9em;
+    border: rgb(238, 153, 57) 2px solid;
+    border-radius: 11px;
+    transition: all 0.6s ease;
+}
+
+.btnSearch:hover{
+    background-color: rgb(238, 153, 57);
     color: white;
-    background-color: black;
-    border: 1px solid white;
-} */
+}
 
 h3{
-    color: rgb(238, 153, 57)
+    color: rgb(241, 140, 25);
+}
+
+.card-title{
+    margin-bottom: 30px;
 }
 
 i{
@@ -27,13 +112,17 @@ i{
 }
 
 .divBuscador{
+    background-color: #3127643f;
     padding: 20px 15px;
     width: 80vw;
     margin: auto;
-    background: #fcf6f1;
-    border: 1.5px solid #f0ddb9;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1.5px solid #04001c;
+}
+
+form{
+    position: relative;
 }
 
 .select2-container .select2-selection--single {
@@ -86,10 +175,11 @@ span .selection{
     color: black;
 }
 
+
 .btn-check:active+.btn-outline-primary, .btn-check:checked+.btn-outline-primary, .btn-outline-primary.active, .btn-outline-primary.dropdown-toggle.show, .btn-outline-primary:active {
     color: white;
-    background-color: black;
-    border-color: black;
+    background-color: rgb(238, 153, 57);
+    border-color: rgb(238, 153, 57);
 }
 
 label{
@@ -102,4 +192,98 @@ label{
 
 .divOpciones{
     padding: 20px 40px;
+    width: 95vw;
+    margin: auto;
+}
+
+.card{
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80vw;
+    margin: auto;
+}
+
+
+.buttonReserva {
+    background-color: #ffffff00;
+    color: rgb(238, 153, 57);
+    width: 100%;
+    height: 2.9em;
+    border: rgb(238, 153, 57) 0.2em solid;
+    border-radius: 11px;
+    text-align: right;
+    transition: all 0.6s ease;
+}
+
+.buttonReserva:hover {
+    background-color: rgb(238, 153, 57);
+    color: white;
+    cursor: pointer;
+}
+
+.buttonReserva svg {
+    width: 1.6em;
+    margin: -0.2em 0.8em 1em;
+    position: absolute;
+    display: flex;
+    transition: all 0.6s ease;
+}
+
+.buttonReserva:hover svg {
+    transform: translateX(5px);
+}
+  
+.text {
+    margin: 0 5px
+} 
+
+.divItinerarioCompleto{
+    width: 50vw;
+}
+
+.accordion-button{
+    background-color: #31276400;
+}
+
+.accordion-button:not(.collapsed) {
+    color: black; 
+    background-color: #31276400; 
+    box-shadow: none; 
+}
+
+.accordion-button div{
+    padding-left: 6vw !important;
+
+}
+
+.divItinerario{
+    padding: 0 50px;
+}
+
+h5{
+    margin: 10px;
+    border-bottom: 1px solid #3127643f;
+    padding-bottom: 10px;
+}
+
+.itinerario{
+    width: 85%;
+    margin: auto;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 5px 20px;
+    background-color: #3127643f;
+}
+
+.itinerario p{
+    font-size: 13px;
+    margin: 0;
+}
+
+.itinerario div{
+    padding: 0 10px;
+}
+
+.itinerario .divDuracion{
+    margin-top: 20px;
 }

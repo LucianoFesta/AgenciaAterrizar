@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using System.IO.Compression;
 
 namespace AgenciaAterrizar.Controllers;
 
@@ -55,10 +56,10 @@ public class HomeController : Controller
     public async Task<IActionResult> ObtenerVuelos( string VueloIda,  string VueloRegreso, string FechaDesde, string FechaHasta, int CantPasajeros )
     {
         var vuelosOfertas = await _amadeusApiClient.ObtenerOfertaVuelos(VueloIda, VueloRegreso, FechaDesde, FechaHasta, CantPasajeros);
-        var ciudadIda = _context.Aeropuertos.Where(a => a.AeropuertoID == VueloIda).FirstOrDefault();
-        var ciudadVuelta = _context.Aeropuertos.Where(a => a.AeropuertoID == VueloRegreso).FirstOrDefault();
+        var aeropuertoIda = _context.Aeropuertos.Where(a => a.AeropuertoID == VueloIda).FirstOrDefault();
+        var aeropuertoVuelta = _context.Aeropuertos.Where(a => a.AeropuertoID == VueloRegreso).FirstOrDefault();
         //return Ok(vuelos);
-        return Ok(new { listaOfertas = vuelosOfertas, ida = ciudadIda, vuelta = ciudadVuelta });
+        return Ok(new { listaOfertas = vuelosOfertas, ida = aeropuertoIda, vuelta = aeropuertoVuelta });
     }
 
     public JsonResult BuscarCodigoAerolinea(string CodigoAerolinea)
@@ -73,6 +74,16 @@ public class HomeController : Controller
         }
 
         return Json(nombreAerolinea.Nombre);
+    }
+
+    public JsonResult BuscarAeropuertosEscalas(string Departure, string Arrival)
+    {
+        var aeropuertos = _context.Aeropuertos.ToList();
+
+        var aeropuertoIda = aeropuertos.Where(a => a.AeropuertoID == Departure).FirstOrDefault();
+        var aeropuertoVuelta = aeropuertos.Where(a => a.AeropuertoID == Arrival).FirstOrDefault();
+
+        return Json(new { departure = aeropuertoIda, arrival = aeropuertoVuelta });
     }
 }
 

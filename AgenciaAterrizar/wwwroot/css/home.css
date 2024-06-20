@@ -282,8 +282,17 @@ h5{
 
 .itinerario div{
     padding: 0 10px;
+    align-items: center;
 }
 
 .itinerario .divDuracion{
+    margin-top: 20px;
+}
+
+.itinerarioAccordion{
+    font-size: 12px;
+    width: 100%;
+    background-color: rgba(238, 153, 57, 0.461);
+    border-radius: 8px;
     margin-top: 20px;
 }

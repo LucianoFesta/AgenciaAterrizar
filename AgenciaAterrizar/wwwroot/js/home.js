@@ -21,15 +21,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         $.ajax({
             url: '../../Home/ObtenerVuelos',
-            data: { VueloIda: ida, VueloRegreso: vuelta, FechaDesde: fechaDesde, FechaHasta: fechaHasta, CantPasajeros: pasajeros },
+            data: { VueloIda: 'EZE', VueloRegreso: 'SCL', FechaDesde: '2024-08-22', FechaHasta: '2024-08-29', CantPasajeros: 1 },
+            // data: { VueloIda: ida, VueloRegreso: vuelta, FechaDesde: fechaDesde, FechaHasta: fechaHasta, CantPasajeros: pasajeros },
             type: 'GET',
             dataType: 'json',
+            beforeSend: function() {
+                // Muestra el indicador de carga antes de enviar la solicitud
+                $('#loading').show();
+            },
             success: async function(result) {
                 //Amadeus devuelve la información en formato JSON. Hay que convertirlo en Objeto de JS.
                 let listaOfertasJson = JSON.parse(result.listaOfertas);
 
                 //De la respuesta del Amadeus solo quiero el objeto DATA que es donde esta la info de los vuelos ofrecidos.
                 var ofertasVuelo = listaOfertasJson.data;
+
+                $('#loading').hide();
+                $('#tituloDeBusqueda').show();
+
+                const resultListElement = document.getElementById('tituloDeBusqueda');
+                resultListElement.scrollIntoView({ behavior: 'smooth' });
 
                 console.log(ofertasVuelo);
 
@@ -148,7 +159,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                              
                         // Generar el HTML para la oferta
                         $('#listaOfertas').append(`
-                            <div class="card mt-4">
+                            <div class="card mt-4 animate__animated animate__fadeIn">
                                 <h5 class="card-title"><i class="fa-solid fa-plane"></i> ${oferta.intinerario[0].segments[0].carrierCode} - ${oferta.nombreAerolinea}</h5>
                                 <div class="divItinerario">
                                     <div class="card-body d-flex align-items-center justify-content-between">
@@ -242,6 +253,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
+
 function BuscarNombreAerolinea(codigoAerolinea){
     //Como debe consultar a la base de datos y esperar el resultado a retornar es una promesa.
     return new Promise((resolve, reject) => {
@@ -259,6 +271,7 @@ function BuscarNombreAerolinea(codigoAerolinea){
         });
     });
 }
+
 
 function BuscarAerolineasEscala(departure, arrival){
 
@@ -288,8 +301,9 @@ function formatoFechaMostrar(stringFecha) {
     return `${dia} ${mes}. ${anio}`;
 }
 
+
 function formatoFechaSinFechaMostrar(stringFecha) {
-    console.log(stringFecha)
+
     const fecha = new Date(stringFecha);
     const horas = String(fecha.getHours()).padStart(2, '0');
     const minutos = String(fecha.getMinutes()).padStart(2, '0');
@@ -297,11 +311,11 @@ function formatoFechaSinFechaMostrar(stringFecha) {
     return `${horas}:${minutos}`;
 }
 
+
 function convertirAHorayMinutos(duracion) {
-    // console.log(duracion);
-    const regex = /PT(\d+)H(?:(\d+)M)?/; // Expresión regular para capturar horas y opcionalmente minutos.
+    // Expresión regular para capturar horas y opcionalmente minutos.
+    const regex = /PT(\d+)H(?:(\d+)M)?/; 
     const match = duracion.match(regex);
-    // console.log(match);
 
     const horas = match ? parseInt(match[1], 10) : 0;
     const minutos = match && match[2] ? parseInt(match[2], 10) : 0o0;
@@ -319,6 +333,7 @@ function checkSeleccionado(id) {
         }
     });
 }
+
 
 function reservarVuelo(element) {
     const ofertaJson = element.getAttribute('data-oferta');

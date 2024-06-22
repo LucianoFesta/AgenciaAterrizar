@@ -99,8 +99,16 @@ h3{
     color: rgb(241, 140, 25);
 }
 
+#tituloDeBusqueda h3{
+    margin-top: 40px;
+}
+
 .card-title{
     margin-bottom: 30px;
+}
+
+.mostrar{
+    display: flex;
 }
 
 i{
@@ -112,6 +120,7 @@ i{
 }
 
 .divBuscador{
+    position: relative;
     background-color: #3127643f;
     padding: 20px 15px;
     width: 80vw;
@@ -296,3 +305,97 @@ h5{
     border-radius: 8px;
     margin-top: 20px;
 }
+
+.divLoading{
+    position: fixed; /* Fija el loader en la pantalla */
+    top: 0; /* Comienza desde el borde superior */
+    left: 0; /* Comienza desde el borde izquierdo */
+    width: 100%; /* Cubre todo el ancho de la pantalla */
+    height: 100%; /* Cubre todo el alto de la pantalla */
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+    color: rgb(238, 153, 57);
+    font-weight: bold;
+    z-index: 9999; 
+    pointer-events: none; /* Desactiva las interacciones de puntero */
+}
+
+#loading{
+    pointer-events: none; /* Desactiva las interacciones de puntero */
+}
+
+/* SPINNER */
+.spinner {
+    --uib-size: 5vw;
+    --uib-speed: 1.2s;
+    --uib-color: rgb(238, 153, 57);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--uib-size);
+    height: var(--uib-size);
+}
+   
+.newtons-cradle__dot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 25%;
+    transform-origin: center top;
+}
+
+.newtons-cradle__dot::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 25%;
+    border-radius: 50%;
+    background-color: var(--uib-color);
+}
+   
+.newtons-cradle__dot:first-child {
+    animation: swing var(--uib-speed) linear infinite;
+}
+
+.newtons-cradle__dot:last-child {
+    animation: swing2 var(--uib-speed) linear infinite;
+}
+   
+@keyframes swing {
+    0% {
+        transform: rotate(0deg);
+        animation-timing-function: ease-out;
+    }
+
+    25% {
+        transform: rotate(70deg);
+        animation-timing-function: ease-in;
+    }
+
+    50% {
+        transform: rotate(0deg);
+        animation-timing-function: linear;
+    }
+}
+   
+@keyframes swing2 {
+    0% {
+        transform: rotate(0deg);
+        animation-timing-function: linear;
+    }
+
+    50% {
+        transform: rotate(0deg);
+        animation-timing-function: ease-out;
+    }
+
+    75% {
+        transform: rotate(-70deg);
+        animation-timing-function: ease-in;
+    }
+}
+   

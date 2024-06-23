@@ -1,90 +1,10 @@
-.navBar{
-    background-color: #04001c !important;
-    color: white !important;
-    padding: 10px;
-    margin-bottom: 30px !important;
-}
-
-footer{
-    background-color: #04001c !important;
-    color: white !important;
-    padding: 0;
-    margin: 0;
-}
-
-.navBar a{
-    color: white !important;
-}
-
-.btnNav {
-    all: unset;
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding: 10px;
-    border-radius: 25px;
-    color: rgb(238, 153, 57);
-    font-size: 17px;
-    font-weight: 600;
-    cursor: pointer;
-    overflow: hidden;
-    transition: border 300ms, color 300ms;
-    user-select: none;
-}
-
-li a p {
-    margin: 0;
-}
-
-.btnNav:hover {
-    color: black;
-}
-
-.btnNav:active {
-    border-color: white;
-}
-
-.btnNav::after, .btnNav::before {
-    content: "";
-    position: absolute;
-    width: 100px;
-    aspect-ratio: 1;
-    background: rgb(238, 153, 57);
-    opacity: 25%;
-    border-radius: 50%;
-    transition: transform 500ms, background 300ms;
-}
-
-.btnNav::before {
-    left: 0;
-    transform: translateX(-8em);
-}
-
-.btnNav::after {
-    right: 0;
-    transform: translateX(8em);
-}
-
-.btnNav:hover:before {
-    transform: translateX(-1em);
-}
-
-.btnNav:hover:after {
-    transform: translateX(1em);
-}
-
-.btnNav:active:before,
-.btnNav:active:after {
-    background: white;
-}
-
 .btnSearch {
-    font-size: 18px;
+    font-size: 17px;
     background-color: #fcd45a53;
     color: rgba(32, 31, 31, 0.895);
     font-weight: bold;
     width: 100%;
-    height: 2.9em;
+    height: 40px;
     border: rgb(238, 153, 57) 2px solid;
     border-radius: 11px;
     transition: all 0.6s ease;
@@ -164,7 +84,7 @@ span .selection{
     width: 20vw !important; 
 }
 
-.inputFecha{
+.inputFecha, .divInputFecha{
     height: 40px;
     width: 32vw;
 }
@@ -505,44 +425,148 @@ h5{
     }
 }
 
-
 .loaderText {
     position: relative;
     overflow: hidden;
     border-right: 3px solid;
     width: 0px;
     animation: typewriter 2s steps(11)  infinite alternate , blink 0.5s steps(11) infinite;
-  }
-  
-  .loader-text {
+}
+
+.loader-text {
     font-size: 25px;
     font-weight: bold;
     font-family: "Montserrat", sans-serif;
     background: linear-gradient(to right,rgba(238, 153, 57, 1), white);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-  }
+}
   
-  @keyframes typewriter {
+@keyframes typewriter {
     0% {
-      width: 0px;
+        width: 0px;
     }
-  
+
     100% {
-      width: 240px;
+        width: 240px;
     }
-  }
+}
   
-  @keyframes blink {
+@keyframes blink {
     0% {
-      border-right-color: rgba(255,255,255,.75);
-      ;
+        border-right-color: rgba(255,255,255,.75);
+        ;
     }
-  
+
     100% {
-      border-right-color: transparent;
+        border-right-color: transparent;
     }
-  }
+}
   
+
+@media (max-width: 480px) {
+    /*RESULTADOS*/
+
+    .divOpciones{
+        padding: 10px;
+    }
+
+    .divItinerario{
+        padding: 0;
+    }
+
+    .card{
+        width: 90vw;
+    }
+
+    .divContenidoOferta{
+        flex-direction: column;
+    }
+
+    .divItinerarioCompleto {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 1024px) {
+    /* BUSCADOR */
+
+    .titleSearch{
+        justify-content: center;
+    }
+
+    .btn-group label{
+        font-size: 12px;
+        padding: 2px 4px;
+    }
+
+    .selectDestinos{
+        flex-direction: column !important;
+        width: 70vw;
+        margin: auto;
+    }
+
+    .select2-container .select2-selection--single{
+        width: 60vw;
+    }
+
+    .select2-search--dropdown .select2-search__field, 
+    .select2-results__option, 
+    .select2-container--default .select2-results>.select2-results__options, 
+    .select2-container--open .select2-dropdown--below, 
+    .select2-container--default .select2-selection--single 
+    .select2-selection__rendered,
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        width: 60vw !important;
+    }
+
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        width: 58vw !important;
+    }
+
+    .selectDates{
+        flex-direction: column;
+        width: 63vw;
+    }
+
+    .inputFecha{
+        width: 63vw;
+    }
+
+    .divInputFecha{
+        height: 60px;
+    }
+
+    .divInputPasajeros{
+        width: 10vw;
+        margin-top: 20px;
+    }
+
+        /*RESULTADOS*/
+
+        .divOpciones{
+            padding: 0px;
+        }
+    
+        .divItinerario{
+            padding: 0;
+        }
+    
+        .card{
+            width: 80vw;
+        }
+    
+        .divContenidoOferta{
+            flex-direction: column;
+        }
+    
+        .divItinerarioCompleto {
+            width: 100%;
+        }
+    
+}
+
   
    

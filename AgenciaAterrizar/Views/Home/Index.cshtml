@@ -5,7 +5,7 @@
 <div class="col-8 divBuscador">
    <form>
         <div>
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center titleSearch">
                 <i class="fa-solid fa-plane-departure mx-3"></i>
                 <h3>Buscá tu próximo vuelo</h3>
             </div>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="d-flex flex-column justify-content-center">
-            <div class="d-flex flex-row justify-content-center">
+            <div class="d-flex flex-row justify-content-center selectDestinos">
                 <div class="mb-3 mx-3 col-5">
                     <label for="origen" class="form-label">Origen:</label>
                     <select id="origen" class="form-control select2"></select>
@@ -31,8 +31,8 @@
                 </div>
             </div>
 
-            <div class="d-flex divFecha flex-wrap">
-                <div class="mb-3 mx-3 inputFecha col-3">
+            <div class="d-flex divFecha flex-wrap selectDates">
+                <div class="mb-3 mx-3 divInputFecha col-3">
                     <label for="fechaDesde" class="form-label">Desde:</label>
                     <input type="date" class="form-control inputFecha select2" id="fechaDesde">
                 </div>
@@ -40,7 +40,7 @@
                     <label for="fechaHasta" class="form-label">Hasta:</label>
                     <input type="date" class="form-control inputFecha select2" id="fechaHasta">
                 </div>
-                <div class="mb-3 mx-2 col-1">
+                <div class="mb-3 mx-2 col-1 divInputPasajeros">
                     <label for="pasajeros" class="form-label">Pasajeros:</label>
                     <input type="number" class="form-control inputPasajeros" id="pasajeros">
                 </div>
@@ -79,10 +79,10 @@
 <div class="row mt-3 mb-3 animate__animated animate__fadeIn pruebaa">
     <div class="divOpciones" id="listaOfertas">
 
-       @* <div class="card mt-4">
+       <div class="card mt-4">
             <h5 class="card-title"><i class="fa-solid fa-plane"></i> AR - Aerolíneas Argentinas</h5>
             <div class="divItinerario">
-                <div class="card-body d-flex align-items-center justify-content-between">
+                <div class="card-body d-flex align-items-center justify-content-between divContenidoOferta">
                     <div class="divItinerarioCompleto">
                         <p class="card-text"><b><i class="fa-solid fa-plane-departure"></i> Partida: </b> 01 Ene. 2024 | <span><b>Buenos Aires - Bangkok</b></span></p>
                         <div class="accordion-item itinerario">
@@ -149,7 +149,7 @@
                     <div class="d-flex flex-column align-items-center justify-content-between">
                         <p class="card-text"><b>Precio Final: </b> $ 94555.20</p>
                         @* <button href="#" class="btn btnSearch" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)"><i class="fa-solid fa-ticket"></i> Reservar Vuelo</button> *@
-                        @*<button class="buttonReserva mt-3" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)">
+                        <button class="buttonReserva mt-3" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
                             </svg>
@@ -158,21 +158,7 @@
                     </div>
                 </div>
             </div>
-        </div>*@
-        @* <div class="card mt-4">
-            <div class="card-body d-flex align-items-center justify-content-between">
-                <div>
-                    <h5 class="card-title"><i class="fa-solid fa-plane-departure me-2"></i> ${oferta.intinerario[0].segments[0].carrierCode}</h5>
-                    <p class="card-text"><b>Salida: </b> ${formatoFechaMostrar(oferta.intinerario[0].segments[0].departure.at)}Hs. <i class="fa-solid fa-arrow-right"></i> <b>Llegada: </b>${formatoFechaMostrar(oferta.intinerario[1].segments[oferta.segmentosVuelta - 1].arrival.at)}Hs. </p>
-                    <p class="card-text">${oferta.intinerario[0].segments.length - 1} Parada/s.</p>
-                    <p class="card-text"><b>Duración del vuelo: </b> ${convertirAHorayMinutos(oferta.intinerario[0].duration)}.</p>
-                </div>
-                <div class="d-flex flex-column align-items-center justify-content-between">
-                    <p class="card-text"><b>Precio Final: </b> $${oferta.precio.total}</p>
-                    <a href="#" class="btn btn-primary" onclick="reservarVuelo(${JSON.stringify(oferta)})">Reservar Vuelo</a>
-                </div>
-            </div>
-        </div> *@
+        </div>
     </div>
 </div>
 

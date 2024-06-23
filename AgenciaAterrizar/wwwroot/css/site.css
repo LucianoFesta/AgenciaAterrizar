@@ -33,3 +33,104 @@ body {
       max-width: 1250px;
   }
 }
+
+.navBar{
+  background-color: #04001c !important;
+  color: white !important;
+  padding: 10px;
+  margin-bottom: 30px !important;
+}
+
+footer{
+  background-color: #04001c !important;
+  color: white !important;
+  padding: 0;
+  margin: 0;
+}
+
+.navBar a{
+  color: white !important;
+}
+
+.btnNav {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 10px;
+  border-radius: 25px;
+  color: rgb(238, 153, 57);
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border 300ms, color 300ms;
+  user-select: none;
+}
+
+.navbar-toggler {
+  background-color: rgba(238, 153, 57, 0.671);
+}
+
+li a p {
+  margin: 0;
+}
+
+.btnNav:hover {
+  color: black;
+}
+
+.btnNav:active {
+  border-color: white;
+}
+
+.btnNav::after, .btnNav::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  aspect-ratio: 1;
+  background: rgb(238, 153, 57);
+  opacity: 25%;
+  border-radius: 50%;
+  transition: transform 500ms, background 300ms;
+}
+
+.btnNav::before {
+  left: 0;
+  transform: translateX(-8em);
+}
+
+.btnNav::after {
+  right: 0;
+  transform: translateX(8em);
+}
+
+.btnNav:hover:before {
+  transform: translateX(-1em);
+}
+
+.btnNav:hover:after {
+  transform: translateX(1em);
+}
+
+.btnNav:active:before,
+.btnNav:active:after {
+  background: white;
+}
+
+@media (max-width: 1024px) {
+
+  .btnNav::after, .btnNav::before {
+    width: 378px;
+  }
+  
+  .btnNav::before {
+    transform: translateX(-100em);
+  }
+  
+  .btnNav::after {
+    transform: translateX(100em);
+  }
+
+}

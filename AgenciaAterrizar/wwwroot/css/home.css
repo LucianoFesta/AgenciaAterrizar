@@ -517,6 +517,7 @@ h5{
   .loader-text {
     font-size: 25px;
     font-weight: bold;
+    font-family: "Montserrat", sans-serif;
     background: linear-gradient(to right,rgba(238, 153, 57, 1), white);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

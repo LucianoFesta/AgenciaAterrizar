@@ -307,95 +307,241 @@ h5{
 }
 
 .divLoading{
-    position: fixed; /* Fija el loader en la pantalla */
-    top: 0; /* Comienza desde el borde superior */
-    left: 0; /* Comienza desde el borde izquierdo */
-    width: 100%; /* Cubre todo el ancho de la pantalla */
-    height: 100%; /* Cubre todo el alto de la pantalla */
-    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.747);
     display: flex; 
     justify-content: center; 
     align-items: center; 
     flex-direction: column;
     color: rgb(238, 153, 57);
+    font-size: 20px;
     font-weight: bold;
     z-index: 9999; 
-    pointer-events: none; /* Desactiva las interacciones de puntero */
+    pointer-events: none;
+}
+
+.divLoading div{
+    margin: 20px;
 }
 
 #loading{
-    pointer-events: none; /* Desactiva las interacciones de puntero */
+    pointer-events: none !important; 
 }
 
-/* SPINNER */
-.spinner {
-    --uib-size: 5vw;
-    --uib-speed: 1.2s;
-    --uib-color: rgb(238, 153, 57);
+
+/*****************************************************************************************************/
+/********************************************** LOADER ***********************************************/
+/*****************************************************************************************************/
+
+.loader {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    background: #212121;
+    border-radius: 50%;
+    box-shadow: inset 0px 0px 7px rgb(238, 153, 57);
+    border: 1px solid rgb(238, 153, 57);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: var(--uib-size);
-    height: var(--uib-size);
-}
-   
-.newtons-cradle__dot {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    width: 25%;
-    transform-origin: center top;
+    overflow: hidden;
 }
 
-.newtons-cradle__dot::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 25%;
+.loader::before {
+    content: "";
+    position: absolute;
+    inset: 20px;
+    background: transparent;
+    border: 1px solid rgb(238, 153, 57);
     border-radius: 50%;
-    background-color: var(--uib-color);
-}
-   
-.newtons-cradle__dot:first-child {
-    animation: swing var(--uib-speed) linear infinite;
+    box-shadow: inset 0px 0px 5px rgb(238, 153, 57);
 }
 
-.newtons-cradle__dot:last-child {
-    animation: swing2 var(--uib-speed) linear infinite;
+.loader::after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgb(238, 153, 57);
+    box-shadow: inset 0px 0px 3px rgb(238, 153, 57);
 }
-   
-@keyframes swing {
+
+.loader span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    transform-origin: top left;
+    animation: radar81 2s linear infinite;
+    box-shadow: -25px -75px 30px -50px rgb(238, 153, 57);
+    border-top: 2px solid rgb(238, 153, 57);
+}
+
+.loader span::before {
+    display: none;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15%;
+    height: 100%;
+    background: rgb(238, 153, 57);
+    transform-origin: top left;
+    transform: rotate(-90deg);
+    filter: blur(15px) drop-shadow(10px 0px 10px rgb(238, 153, 57));
+}
+
+@keyframes radar81 {
     0% {
         transform: rotate(0deg);
-        animation-timing-function: ease-out;
     }
 
-    25% {
-        transform: rotate(70deg);
-        animation-timing-function: ease-in;
-    }
-
-    50% {
-        transform: rotate(0deg);
-        animation-timing-function: linear;
+    100% {
+        transform: rotate(360deg);
     }
 }
-   
-@keyframes swing2 {
+
+#dot-1 {
+    --dot-start-top: 100px;
+    --dot-start-left: 140px;
+    --dot-end-top: 130px;
+    --dot-end-left: 20px;
+    --delay: 0s;
+}
+
+#dot-2 {
+    --dot-start-top: 100px;
+    --dot-start-left: 0px;
+    --dot-end-top: -3px;
+    --dot-end-left: 90px;
+    --delay: 0s;
+}
+
+#dot-3 {
+    --dot-start-top: 100px;
+    --dot-start-left: 105px;
+    --dot-end-top: 18px;
+    --dot-end-left: 18px;
+    --delay: 0s;
+}
+
+#dot-4 {
+    --dot-start-top: 110px;
+    --dot-start-left: 150px;
+    --dot-end-top: 140px;
+    --dot-end-left: 30px;
+    --delay: 0s;
+}
+
+#dot-5 {
+    --dot-start-top: -5px;
+    --dot-start-left: 85px;
+    --dot-end-top: 125px;
+    --dot-end-left: 120px;
+    --delay: 4s;
+}
+
+.dot {
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: var(--dot-start-top);
+    left: var(--dot-start-left);
+    border-radius: 9999px;
+    background: rgba(255, 255, 255);
+    box-shadow: inset 0px 0px 10px 2px rgba(238, 153, 57, 0.329),
+        0px 0px 10px 2px rgba(238, 153, 57, 0.329);
+    -webkit-animation: fly 32s linear infinite;
+    animation-delay: var(--delay);
+    -moz-animation: fly 32s linear infinite;
+}
+
+@keyframes fly {
     0% {
-        transform: rotate(0deg);
-        animation-timing-function: linear;
+        top: var(--dot-start-top);
+        left: var(--dot-start-left);
     }
 
-    50% {
-        transform: rotate(0deg);
-        animation-timing-function: ease-out;
+    100% {
+        top: var(--dot-end-top);
+        left: var(--dot-end-left);
     }
 
-    75% {
-        transform: rotate(-70deg);
-        animation-timing-function: ease-in;
+    5%,
+    15%,
+    25%,
+    35%,
+    45%,
+    55%,
+    65%,
+    75%,
+    85%,
+    95% {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: inset 0 0 10px 2px rgba(238, 153, 57, 0.5),
+        0 0 15px 2px rgba(238, 153, 57, 1);
+    }
+
+    0%,
+    10%,
+    20%,
+    30%,
+    40%,
+    50%,
+    60%,
+    70%,
+    80%,
+    90% {
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: inset 0 0 10px 2px rgba(238, 153, 57, 0.5),
+        0 0 5px 2px rgba(238, 153, 57, 1);
     }
 }
+
+
+.loaderText {
+    position: relative;
+    overflow: hidden;
+    border-right: 3px solid;
+    width: 0px;
+    animation: typewriter 2s steps(11)  infinite alternate , blink 0.5s steps(11) infinite;
+  }
+  
+  .loader-text {
+    font-size: 25px;
+    font-weight: bold;
+    background: linear-gradient(to right,rgba(238, 153, 57, 1), white);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  @keyframes typewriter {
+    0% {
+      width: 0px;
+    }
+  
+    100% {
+      width: 240px;
+    }
+  }
+  
+  @keyframes blink {
+    0% {
+      border-right-color: rgba(255,255,255,.75);
+      ;
+    }
+  
+    100% {
+      border-right-color: transparent;
+    }
+  }
+  
+  
    

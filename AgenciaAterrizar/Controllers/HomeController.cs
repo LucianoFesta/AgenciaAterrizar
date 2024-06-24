@@ -55,11 +55,41 @@ public class HomeController : Controller
 
     public async Task<IActionResult> ObtenerVuelos( string VueloIda,  string VueloRegreso, string FechaDesde, string FechaHasta, int CantPasajeros )
     {
-        var vuelosOfertas = await _amadeusApiClient.ObtenerOfertaVuelos(VueloIda, VueloRegreso, FechaDesde, FechaHasta, CantPasajeros);
-        var aeropuertoIda = _context.Aeropuertos.Where(a => a.AeropuertoID == VueloIda).FirstOrDefault();
-        var aeropuertoVuelta = _context.Aeropuertos.Where(a => a.AeropuertoID == VueloRegreso).FirstOrDefault();
-        //return Ok(vuelos);
-        return Ok(new { listaOfertas = vuelosOfertas, ida = aeropuertoIda, vuelta = aeropuertoVuelta });
+        if(string.IsNullOrEmpty(VueloIda) || string.IsNullOrEmpty(VueloRegreso) || string.IsNullOrEmpty(FechaDesde) || string.IsNullOrEmpty(FechaHasta) || CantPasajeros <= 0)
+        {
+            return Ok(new { success = false, message = "Por favor, verificar los campos ingresados en el buscador." });
+        }
+
+        DateTime fechaDesdeParsed;
+        DateTime fechaHastaParsed;
+        string formatoFecha = "yyyy-MM-dd"; // Formato de fecha específico
+
+        if (!DateTime.TryParseExact(FechaDesde, formatoFecha, null, System.Globalization.DateTimeStyles.None, out fechaDesdeParsed) ||
+            !DateTime.TryParseExact(FechaHasta, formatoFecha, null, System.Globalization.DateTimeStyles.None, out fechaHastaParsed))
+        {
+            return Ok(new { success = false, message = "Las fechas ingresadas no tienen un formato válido." });
+        }
+
+        if (fechaDesdeParsed > fechaHastaParsed)
+        {
+            return Ok(new { success = false, message = "La fecha de inicio no puede ser posterior a la fecha de fin." });
+        }
+
+        try
+        {
+            var vuelosOfertas = await _amadeusApiClient.ObtenerOfertaVuelos(VueloIda, VueloRegreso, FechaDesde, FechaHasta, CantPasajeros);
+
+            var aeropuertoIda = _context.Aeropuertos.Where(a => a.AeropuertoID == VueloIda).FirstOrDefault();
+            var aeropuertoVuelta = _context.Aeropuertos.Where(a => a.AeropuertoID == VueloRegreso).FirstOrDefault();
+
+            return Ok(new {success = true, listaOfertas = vuelosOfertas, ida = aeropuertoIda, vuelta = aeropuertoVuelta });
+
+        }
+        catch (Exception ex)
+        {
+            return Ok(new { success = false, message = "Ocurrió un error al obtener las ofertas de vuelos. Por favor, inténtelo de nuevo más tarde.", error = ex.Message });
+        }
+        
     }
 
     public JsonResult BuscarCodigoAerolinea(string CodigoAerolinea)

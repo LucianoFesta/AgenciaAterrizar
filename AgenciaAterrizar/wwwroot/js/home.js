@@ -30,6 +30,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 $('#loading').show();
             },
             success: async function(result) {
+                if(!result.success)
+                {   
+                    if(result.error){
+                        console.log(result.error)
+                    }
+
+                    $('#loading').hide();
+
+                    Swal.fire({
+                        title: 'Ups, existe un inconveniente:',
+                        text: result.message,
+                        icon: 'warning',
+                        confirmButtonText: 'Volver a intentarlo'
+                    });
+                }
                 //Amadeus devuelve la información en formato JSON. Hay que convertirlo en Objeto de JS.
                 let listaOfertasJson = JSON.parse(result.listaOfertas);
 
@@ -162,7 +177,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             <div class="card mt-4 animate__animated animate__fadeIn">
                                 <h5 class="card-title"><i class="fa-solid fa-plane"></i> ${oferta.intinerario[0].segments[0].carrierCode} - ${oferta.nombreAerolinea}</h5>
                                 <div class="divItinerario">
-                                    <div class="card-body d-flex align-items-center justify-content-between">
+                                    <div class="card-body d-flex align-items-center justify-content-between divContenidoOferta">
                                         <div class="divItinerarioCompleto">
                                             <p class="card-text"><i class="fa-solid fa-plane-departure"></i><b> Partida: </b> ${formatoFechaMostrar(oferta.intinerario[0].segments[0].departure.at)} | <span><b>${result.ida.ciudad} - ${result.vuelta.ciudad}</b></span></p>
                                             <div class="accordion-item itinerario">
@@ -247,7 +262,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 }
             },
             error: function(error) {
-                console.log("Error al realizar la petición de vuelos: ", error);
+                Swal.fire({
+                    title: 'Ups, existe un inconveniente:',
+                    text: 'Ocurrió un error a la hora de mostrar el resultado de la búsqueda solicitada. Por favor, intente más tarde.',
+                    icon: 'warning',
+                    confirmButtonText: 'Volver a intentarlo'
+                });
             }
         });
     });

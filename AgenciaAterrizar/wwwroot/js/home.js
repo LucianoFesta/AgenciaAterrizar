@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         $.ajax({
             url: '../../Home/ObtenerVuelos',
-            data: { VueloIda: 'EZE', VueloRegreso: 'SCL', FechaDesde: '2024-08-22', FechaHasta: '2024-08-29', CantPasajeros: 1 },
-            // data: { VueloIda: ida, VueloRegreso: vuelta, FechaDesde: fechaDesde, FechaHasta: fechaHasta, CantPasajeros: pasajeros },
+            //data: { VueloIda: 'EZE', VueloRegreso: 'SCL', FechaDesde: '2024-08-22', FechaHasta: '2024-08-29', CantPasajeros: 1 },
+            data: { VueloIda: ida, VueloRegreso: vuelta, FechaDesde: fechaDesde, FechaHasta: fechaHasta, CantPasajeros: pasajeros },
             type: 'GET',
             dataType: 'json',
             beforeSend: function() {

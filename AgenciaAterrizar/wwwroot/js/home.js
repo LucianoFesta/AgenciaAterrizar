@@ -15,9 +15,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         let ida = document.getElementById('origen').value;
         let vuelta = document.getElementById('destino').value;
-        let fechaDesde = document.getElementById('fechaDesde').value;
         let fechaHasta = document.getElementById('fechaHasta').value;
+        let fechaDesde = document.getElementById('fechaDesde').value;
         let pasajeros = document.getElementById('pasajeros').value;
+        
+        //Verificar si se trata de un vuelo de ida-vuelta o solo de ida.
+        if(document.getElementById('ida').checked){
+            fechaDesde = document.getElementById('fechaDesdeSoloIda').value;
+            fechaHasta = '';
+            pasajeros = document.getElementById('pasajerosSoloIda').value;
+        }
 
         $.ajax({
             url: '../../Home/ObtenerVuelos',
@@ -59,206 +66,344 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 console.log(ofertasVuelo);
 
-                //De cada oferta que me devuelve Amadeus queremos solo obtener la info que necesitamos. Se crea un objeto anónimo.
-                for (const ofertaVuelo of ofertasVuelo) {
-                    let oferta = {
-                        idOferta: ofertaVuelo.id,
-                        intinerario: ofertaVuelo.itineraries,
-                        directo: ofertaVuelo.oneWay,
-                        asientosDisponibles: ofertaVuelo.numberOfBookableSeats,
-                        precio: ofertaVuelo.price,
-                        adicionales: ofertaVuelo.pricingOptions,
-                        codigoAerolinea: ofertaVuelo.validatingAirlineCodes[0],
-                        nombreAerolinea: '',
-                        cantEscalasIda: 1,
-                        escalasIda: [],
-                        cantEscalasVuelta: 1,
-                        escalasVuelta: []
-                    };
+                //Si se trata de un vuelo de ida solamente, creo un html acorde a la respuesta de amadeus.
+                if(document.getElementById('ida').checked)
+                {
+                    console.log('crear un html para ida.');
+                    //De cada oferta que me devuelve Amadeus queremos solo obtener la info que necesitamos. Se crea un objeto anónimo.
+                    for (const ofertaVuelo of ofertasVuelo) {
 
-                    try {
-                        // Obtener nombre de la aerolínea.
-                        oferta.nombreAerolinea = await BuscarNombreAerolinea(oferta.codigoAerolinea);
+                        let oferta = {
+                            idOferta: ofertaVuelo.id,
+                            intinerario: ofertaVuelo.itineraries,
+                            directo: ofertaVuelo.oneWay,
+                            asientosDisponibles: ofertaVuelo.numberOfBookableSeats,
+                            precio: ofertaVuelo.price,
+                            adicionales: ofertaVuelo.pricingOptions,
+                            codigoAerolinea: ofertaVuelo.validatingAirlineCodes[0],
+                            nombreAerolinea: '',
+                            cantEscalas: 1,
+                            escalas: [],
+                        };
 
-                        // Obtener escalas de ida.
-                        const escalasIda = oferta.intinerario[0].segments.map(async (segment) => {
-                            const escala = {
-                                departure: segment.departure.iataCode,
-                                departureDate: segment.departure.at,
-                                departureAirport: "",
-                                arrival: segment.arrival.iataCode,
-                                arrivalAirport: "",
-                                arrivalDate: segment.arrival.at,
-                                duration: segment.duration
-                            };
+                        try {
+                            oferta.nombreAerolinea = await BuscarNombreAerolinea(oferta.codigoAerolinea);
 
-                            const escalaCompleta = await BuscarAerolineasEscala(escala.departure, escala.arrival);
+                            const escala = oferta.intinerario[0].segments.map(async (segment) => {
+                                const escala = {
+                                    departure: segment.departure.iataCode,
+                                    departureDate: segment.departure.at,
+                                    departureAirport: "",
+                                    arrival: segment.arrival.iataCode,
+                                    arrivalAirport: "",
+                                    arrivalDate: segment.arrival.at,
+                                    duration: segment.duration
+                                };
 
-                            escala.departureAirport = escalaCompleta.departure;
-                            escala.arrivalAirport = escalaCompleta.arrival;
+                                const escalaCompleta = await BuscarAerolineasEscala(escala.departure, escala.arrival);
+    
+                                escala.departureAirport = escalaCompleta.departure;
+                                escala.arrivalAirport = escalaCompleta.arrival;
+                                
+                                return escala;
+                            });
 
-                            return escala;
-                        });
+                            oferta.escalas = await Promise.all(escala);
 
-                        //Una vez que obtiene la respuesta de todas las llamadas a BuscarAerolineaEscala sigue.
-                        oferta.escalasIda = await Promise.all(escalasIda);
+                            // Completar con la cantidad de escalas
+                            oferta.cantEscalas = oferta.intinerario[0].segments.length - 1;
 
-                        // Obtener escalas de vuelta
-                        const escalasVuelta = oferta.intinerario[1].segments.map(async (segment) => {
-                            const escala = {
-                                departure: segment.departure.iataCode,
-                                departureDate: segment.departure.at,
-                                departureAirport: "",
-                                arrival: segment.arrival.iataCode,
-                                arrivalAirport: "",
-                                arrivalDate: segment.arrival.at,
-                                duration: segment.duration
-                            };
+                            console.log(oferta)
 
-                            const escalaCompleta = await BuscarAerolineasEscala(escala.departure, escala.arrival);
-                            escala.departureAirport = escalaCompleta.departure;
-                            escala.arrivalAirport = escalaCompleta.arrival;
+                            //Para poder pasarlo como atributo del elemento a.
+                            let ofertaJson = JSON.stringify(oferta); 
 
-                            return escala;
-                        });
+                            //Crear HTML para mostrar escalas del vuelo de ida.
+                            let escalasHTML = ``;
+                            $.each(oferta.escalas, function(index, escala){
+                                escalasHTML += `
+                                    <div class="accordion-body d-flex justify-content-center itinerarioAccordion">
+                                        <div class="d-flex flex-column align-items-center justify-content-around">
+                                            <span><b>${formatoFechaMostrar(escala.departureDate)} - ${formatoFechaSinFechaMostrar(escala.departureDate)}</b></span>
+                                            <span>${escala.departure} - ${
+                                                escala.departureAirport.ciudad !== null? escala.departureAirport.ciudad : "Sin Nombre"
+                                            }</span>
+                                        </div>
+                                        <div>
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </div>
+                                        <div class="d-flex flex-column align-items-center">
+                                            <span><b>${formatoFechaMostrar(escala.arrivalDate)} - ${formatoFechaSinFechaMostrar(escala.arrivalDate)}</b></span>
+                                            <span>${escala.arrival} - ${
+                                                escala.arrivalAirport.ciudad !== null? escala.arrivalAirport.ciudad : "Sin Nombre"
+                                            }</span>
+                                        </div> 
+                                    </div>                              
+                                `
+                            });
 
-                        oferta.escalasVuelta = await Promise.all(escalasVuelta);
-
-                        // Completar con la cantidad de escalas
-                        oferta.cantEscalasIda = oferta.intinerario[0].segments.length - 1;
-                        oferta.cantEscalasVuelta = oferta.intinerario[1].segments.length - 1;
-
-                        //Para poder pasarlo como atributo del elemento a.
-                        let ofertaJson = JSON.stringify(oferta); 
-                        
-                        //Crear HTML para mostrar escalas del vuelo de ida.
-                        let escalasIdaHTML = ``;
-                        $.each(oferta.escalasIda, function(index, escalaIda){
-                            escalasIdaHTML += `
-                                <div class="accordion-body d-flex justify-content-center itinerarioAccordion">
-                                    <div class="d-flex flex-column align-items-center justify-content-around">
-                                        <span><b>${formatoFechaMostrar(escalaIda.departureDate)} - ${formatoFechaSinFechaMostrar(escalaIda.departureDate)}</b></span>
-                                        <span>${escalaIda.departure} - ${escalaIda.departureAirport.ciudad}</span>
-                                    </div>
-                                    <div>
-                                        <i class="fa-solid fa-arrow-right"></i>
-                                    </div>
-                                    <div class="d-flex flex-column align-items-center">
-                                        <span><b>${formatoFechaMostrar(escalaIda.arrivalDate)} - ${formatoFechaSinFechaMostrar(escalaIda.arrivalDate)}</b></span>
-                                        <span>${escalaIda.arrival} - ${escalaIda.arrivalAirport.ciudad}</span>
-                                    </div> 
-                                </div>                              
-                            `
-                        })
-
-
-                        //Crear HTML para mostrar escalas del vuelo de regreso.
-                        let escalasVueltaHTML = ``;
-                        $.each(oferta.escalasVuelta, function(index, escalaVuelta){
-                            escalasVueltaHTML += `
-                                <div class="accordion-body d-flex justify-content-center itinerarioAccordion">
-                                    <div class="d-flex flex-column align-items-center justify-content-around">
-                                        <span><b>${formatoFechaMostrar(escalaVuelta.departureDate)} - ${formatoFechaSinFechaMostrar(escalaVuelta.departureDate)}</b></span>
-                                        <span>${escalaVuelta.departure} - ${escalaVuelta.departureAirport.ciudad}</span>
-                                    </div>
-                                    <div>
-                                        <i class="fa-solid fa-arrow-right"></i>
-                                    </div>
-                                    <div class="d-flex flex-column align-items-center">
-                                        <span><b>${formatoFechaMostrar(escalaVuelta.arrivalDate)} - ${formatoFechaSinFechaMostrar(escalaVuelta.arrivalDate)}</b></span>
-                                        <span>${escalaVuelta.arrival} - ${escalaVuelta.arrivalAirport.ciudad}</span>
-                                    </div> 
-                                </div>
-                            `
-                        })
-                             
-                        // Generar el HTML para la oferta
-                        $('#listaOfertas').append(`
-                            <div class="card mt-4 animate__animated animate__fadeIn">
-                                <h5 class="card-title"><i class="fa-solid fa-plane"></i> ${oferta.intinerario[0].segments[0].carrierCode} - ${oferta.nombreAerolinea}</h5>
-                                <div class="divItinerario">
-                                    <div class="card-body d-flex align-items-center justify-content-between divContenidoOferta">
-                                        <div class="divItinerarioCompleto">
-                                            <p class="card-text"><i class="fa-solid fa-plane-departure"></i><b> Partida: </b> ${formatoFechaMostrar(oferta.intinerario[0].segments[0].departure.at)} | <span><b>${result.ida.ciudad} - ${result.vuelta.ciudad}</b></span></p>
-                                            <div class="accordion-item itinerario">
-                                                <div class="accordion-button collapsed d-flex justify-content-around align-items-center" data-bs-toggle="collapse" data-bs-target="#ov-${oferta.idOferta}-0" aria-expanded="false" aria-controls="flush-collapseOne">
-                                                    <div class="d-flex flex-column align-items-center">
-                                                        <span>${formatoFechaSinFechaMostrar(oferta.intinerario[0].segments[0].departure.at)}hs.</span>
-                                                        <span>${result.ida.aeropuertoID}</span>
+                            // Generar el HTML para la oferta
+                            $('#listaOfertas').append(`
+                                <div class="card mt-4 animate__animated animate__fadeIn">
+                                    <h5 class="card-title"><i class="fa-solid fa-plane"></i> ${oferta.intinerario[0].segments[0].carrierCode} - ${oferta.nombreAerolinea}</h5>
+                                    <div class="divItinerario">
+                                        <div class="card-body d-flex align-items-center justify-content-between divContenidoOferta">
+                                            <div class="divItinerarioCompleto">
+                                                <p class="card-text"><i class="fa-solid fa-plane-departure"></i><b> Vuelo: </b> ${formatoFechaMostrar(oferta.intinerario[0].segments[0].departure.at)} | <span><b>${result.ida.ciudad} - ${result.vuelta.ciudad}</b></span></p>
+                                                <div class="accordion-item itinerario">
+                                                    <div class="accordion-button collapsed d-flex justify-content-around align-items-center" data-bs-toggle="collapse" data-bs-target="#ov-${oferta.idOferta}-0" aria-expanded="false" aria-controls="flush-collapseOne">
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <span>${formatoFechaSinFechaMostrar(oferta.intinerario[0].segments[0].departure.at)}hs.</span>
+                                                            <span>${result.ida.aeropuertoID}</span>
+                                                        </div>
+                                                        <div>
+                                                            <i class="fa-solid fa-arrow-right"></i>
+                                                        </div>
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <span>${formatoFechaSinFechaMostrar(oferta.intinerario[0].segments[oferta.cantEscalas].arrival.at)}hs.</span>
+                                                            <span>${result.vuelta.aeropuertoID}</span>
+                                                        </div>
                                                     </div>
+    
+                                                    <div id="ov-${oferta.idOferta}-0" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">                                                
+                                                        ${escalasHTML}
+                                                    </div>
+    
                                                     <div>
-                                                        <i class="fa-solid fa-arrow-right"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column align-items-center">
-                                                        <span>${formatoFechaSinFechaMostrar(oferta.intinerario[0].segments[oferta.cantEscalasIda].arrival.at)}hs.</span>
-                                                        <span>${result.vuelta.aeropuertoID}</span>
-                                                    </div>
-                                                </div>
-
-                                                <div id="ov-${oferta.idOferta}-0" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">                                                
-                                                    ${escalasIdaHTML}
-                                                </div>
-
-                                                <div>
-                                                    <div class="d-flex flex-column align-items-center divDuracion">
-                                                        <p class="card-text"><i class="fa-regular fa-clock"></i><b> Duración: </b> ${convertirAHorayMinutos(oferta.intinerario[0].duration)}.</p>
-                                                        <p class="card-text">
-                                                            <i class="fa-regular fa-hand"></i> ${
-                                                                oferta.cantEscalasIda === 0? "Directo" : `${oferta.cantEscalasIda} Paradas.`
-                                                            }
-                                                        </p>
+                                                        <div class="d-flex flex-column align-items-center divDuracion">
+                                                            <p class="card-text"><i class="fa-regular fa-clock"></i><b> Duración: </b> ${convertirAHorayMinutos(oferta.intinerario[0].duration)}.</p>
+                                                            <p class="card-text">
+                                                                <i class="fa-regular fa-hand"></i> ${
+                                                                    oferta.cantEscalas === 0? "Directo" : `${oferta.cantEscalas} Paradas.`
+                                                                }
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <p class="card-text"><i class="fa-solid fa-plane-arrival"></i><b>Regreso: </b>${formatoFechaMostrar(oferta.intinerario[1].segments[0].departure.at)} | <span><b>${result.vuelta.ciudad} - ${result.ida.ciudad}</b></span></p>
-                                            <div class="accordion-item itinerario">
-                                                <div class="accordion-button collapsed d-flex justify-content-around align-items-center" data-bs-toggle="collapse" data-bs-target="#ov-${oferta.idOferta}-1" aria-expanded="false" aria-controls="flush-collapseOne">
-                                                    <div class="d-flex flex-column align-items-center">
-                                                        <span>${formatoFechaSinFechaMostrar(oferta.intinerario[1].segments[0].departure.at)}hs.</span>
-                                                        <span>${result.vuelta.aeropuertoID}</span>
-                                                    </div>
-                                                    <div>
-                                                        <i class="fa-solid fa-arrow-right"></i>
-                                                    </div>
-                                                    <div class="d-flex flex-column align-items-center">
-                                                        <span>${formatoFechaSinFechaMostrar(oferta.intinerario[1].segments[oferta.cantEscalasVuelta].arrival.at)}hs.</span>
-                                                        <span>${result.ida.aeropuertoID}</span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div id="ov-${oferta.idOferta}-1" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">                                                                                           
-                                                    ${escalasVueltaHTML}
-                                                </div>
-
-                                                <div>
-                                                    <div class="d-flex flex-column align-items-center divDuracion">
-                                                        <p class="card-text"><i class="fa-regular fa-clock"></i><b> Duración: </b> ${convertirAHorayMinutos(oferta.intinerario[1].duration)}.</p>
-                                                        <p class="card-text">
-                                                            <i class="fa-regular fa-hand"></i> ${
-                                                                oferta.cantEscalasVuelta === 0? "Directo" : `${oferta.cantEscalasVuelta} Paradas.`
-                                                            }
-                                                        </p>
-                                                    </div>                                          
-                                                </div>
+                                            <div class="d-flex flex-column align-items-center justify-content-between">
+                                                <p class="card-text"><b>Precio Final: </b> $${oferta.precio.total}</p>
+                                                <button class="buttonReserva mt-3" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+                                                    </svg>
+                                                    <div class="text">Reservar Vuelo</div>
+                                                </button>
                                             </div>
                                         </div>
-                                        <div class="d-flex flex-column align-items-center justify-content-between">
-                                            <p class="card-text"><b>Precio Final: </b> $${oferta.precio.total}</p>
-                                            <button class="buttonReserva mt-3" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
-                                                </svg>
-                                                <div class="text">Reservar Vuelo</div>
-                                            </button>
-                                        </div>
                                     </div>
-                                </div>
-                            </div>    
-                        `);
-                    } catch (error) {
-                        console.error('Error obteniendo datos para la oferta:', error);
+                                </div>    
+                            `);
+
+                        }catch (error) {
+                            console.error('Error obteniendo datos para la oferta:', error);
+                        }
                     }
+                }
+                //Si set trata de un vuelo de ida-vuelta, creo el html acorde a la respuesta de amadeus.
+                else
+                {
+                    //De cada oferta que me devuelve Amadeus queremos solo obtener la info que necesitamos. Se crea un objeto anónimo.
+                    for (const ofertaVuelo of ofertasVuelo) {
+                        let oferta = {
+                            idOferta: ofertaVuelo.id,
+                            intinerario: ofertaVuelo.itineraries,
+                            directo: ofertaVuelo.oneWay,
+                            asientosDisponibles: ofertaVuelo.numberOfBookableSeats,
+                            precio: ofertaVuelo.price,
+                            adicionales: ofertaVuelo.pricingOptions,
+                            codigoAerolinea: ofertaVuelo.validatingAirlineCodes[0],
+                            nombreAerolinea: '',
+                            cantEscalasIda: 1,
+                            escalasIda: [],
+                            cantEscalasVuelta: 1,
+                            escalasVuelta: []
+                        };
+    
+                        try {
+                            // Obtener nombre de la aerolínea.
+                            oferta.nombreAerolinea = await BuscarNombreAerolinea(oferta.codigoAerolinea);
+    
+                            // Obtener escalas de ida.
+                            const escalasIda = oferta.intinerario[0].segments.map(async (segment) => {
+                                const escala = {
+                                    departure: segment.departure.iataCode,
+                                    departureDate: segment.departure.at,
+                                    departureAirport: "",
+                                    arrival: segment.arrival.iataCode,
+                                    arrivalAirport: "",
+                                    arrivalDate: segment.arrival.at,
+                                    duration: segment.duration
+                                };
+    
+                                const escalaCompleta = await BuscarAerolineasEscala(escala.departure, escala.arrival);
+    
+                                escala.departureAirport = escalaCompleta.departure;
+                                escala.arrivalAirport = escalaCompleta.arrival;
+    
+                                return escala;
+                            });
+    
+                            //Una vez que obtiene la respuesta de todas las llamadas a BuscarAerolineaEscala sigue.
+                            oferta.escalasIda = await Promise.all(escalasIda);
+    
+                            // Obtener escalas de vuelta
+                            const escalasVuelta = oferta.intinerario[1].segments.map(async (segment) => {
+                                const escala = {
+                                    departure: segment.departure.iataCode,
+                                    departureDate: segment.departure.at,
+                                    departureAirport: "",
+                                    arrival: segment.arrival.iataCode,
+                                    arrivalAirport: "",
+                                    arrivalDate: segment.arrival.at,
+                                    duration: segment.duration
+                                };
+    
+                                const escalaCompleta = await BuscarAerolineasEscala(escala.departure, escala.arrival);
+                                escala.departureAirport = escalaCompleta.departure;
+                                escala.arrivalAirport = escalaCompleta.arrival;
+    
+                                return escala;
+                            });
+    
+                            oferta.escalasVuelta = await Promise.all(escalasVuelta);
+    
+                            // Completar con la cantidad de escalas
+                            oferta.cantEscalasIda = oferta.intinerario[0].segments.length - 1;
+                            oferta.cantEscalasVuelta = oferta.intinerario[1].segments.length - 1;
+    
+                            //Para poder pasarlo como atributo del elemento a.
+                            let ofertaJson = JSON.stringify(oferta); 
+                            
+                            //Crear HTML para mostrar escalas del vuelo de ida.
+                            let escalasIdaHTML = ``;
+                            $.each(oferta.escalasIda, function(index, escalaIda){
+                                escalasIdaHTML += `
+                                    <div class="accordion-body d-flex justify-content-center itinerarioAccordion">
+                                        <div class="d-flex flex-column align-items-center justify-content-around">
+                                            <span><b>${formatoFechaMostrar(escalaIda.departureDate)} - ${formatoFechaSinFechaMostrar(escalaIda.departureDate)}</b></span>
+                                            <span>${escalaIda.departure} - ${escalaIda.departureAirport.ciudad}</span>
+                                        </div>
+                                        <div>
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </div>
+                                        <div class="d-flex flex-column align-items-center">
+                                            <span><b>${formatoFechaMostrar(escalaIda.arrivalDate)} - ${formatoFechaSinFechaMostrar(escalaIda.arrivalDate)}</b></span>
+                                            <span>${escalaIda.arrival} - ${escalaIda.arrivalAirport.ciudad}</span>
+                                        </div> 
+                                    </div>                              
+                                `
+                            });
+    
+                            //Crear HTML para mostrar escalas del vuelo de regreso.
+                            let escalasVueltaHTML = ``;
+                            $.each(oferta.escalasVuelta, function(index, escalaVuelta){
+                                escalasVueltaHTML += `
+                                    <div class="accordion-body d-flex justify-content-center itinerarioAccordion">
+                                        <div class="d-flex flex-column align-items-center justify-content-around">
+                                            <span><b>${formatoFechaMostrar(escalaVuelta.departureDate)} - ${formatoFechaSinFechaMostrar(escalaVuelta.departureDate)}</b></span>
+                                            <span>${escalaVuelta.departure} - ${escalaVuelta.departureAirport.ciudad}</span>
+                                        </div>
+                                        <div>
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </div>
+                                        <div class="d-flex flex-column align-items-center">
+                                            <span><b>${formatoFechaMostrar(escalaVuelta.arrivalDate)} - ${formatoFechaSinFechaMostrar(escalaVuelta.arrivalDate)}</b></span>
+                                            <span>${escalaVuelta.arrival} - ${escalaVuelta.arrivalAirport.ciudad}</span>
+                                        </div> 
+                                    </div>
+                                `
+                            });
+                                    
+                            // Generar el HTML para la oferta
+                            $('#listaOfertas').append(`
+                                <div class="card mt-4 animate__animated animate__fadeIn">
+                                    <h5 class="card-title"><i class="fa-solid fa-plane"></i> ${oferta.intinerario[0].segments[0].carrierCode} - ${oferta.nombreAerolinea}</h5>
+                                    <div class="divItinerario">
+                                        <div class="card-body d-flex align-items-center justify-content-between divContenidoOferta">
+                                            <div class="divItinerarioCompleto">
+                                                <p class="card-text"><i class="fa-solid fa-plane-departure"></i><b> Partida: </b> ${formatoFechaMostrar(oferta.intinerario[0].segments[0].departure.at)} | <span><b>${result.ida.ciudad} - ${result.vuelta.ciudad}</b></span></p>
+                                                <div class="accordion-item itinerario">
+                                                    <div class="accordion-button collapsed d-flex justify-content-around align-items-center" data-bs-toggle="collapse" data-bs-target="#ov-${oferta.idOferta}-0" aria-expanded="false" aria-controls="flush-collapseOne">
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <span>${formatoFechaSinFechaMostrar(oferta.intinerario[0].segments[0].departure.at)}hs.</span>
+                                                            <span>${result.ida.aeropuertoID}</span>
+                                                        </div>
+                                                        <div>
+                                                            <i class="fa-solid fa-arrow-right"></i>
+                                                        </div>
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <span>${formatoFechaSinFechaMostrar(oferta.intinerario[0].segments[oferta.cantEscalasIda].arrival.at)}hs.</span>
+                                                            <span>${result.vuelta.aeropuertoID}</span>
+                                                        </div>
+                                                    </div>
+    
+                                                    <div id="ov-${oferta.idOferta}-0" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">                                                
+                                                        ${escalasIdaHTML}
+                                                    </div>
+    
+                                                    <div>
+                                                        <div class="d-flex flex-column align-items-center divDuracion">
+                                                            <p class="card-text"><i class="fa-regular fa-clock"></i><b> Duración: </b> ${convertirAHorayMinutos(oferta.intinerario[0].duration)}.</p>
+                                                            <p class="card-text">
+                                                                <i class="fa-regular fa-hand"></i> ${
+                                                                    oferta.cantEscalasIda === 0? "Directo" : `${oferta.cantEscalasIda} Paradas.`
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                                <p class="card-text"><i class="fa-solid fa-plane-arrival"></i><b>Regreso: </b>${formatoFechaMostrar(oferta.intinerario[1].segments[0].departure.at)} | <span><b>${result.vuelta.ciudad} - ${result.ida.ciudad}</b></span></p>
+                                                <div class="accordion-item itinerario">
+                                                    <div class="accordion-button collapsed d-flex justify-content-around align-items-center" data-bs-toggle="collapse" data-bs-target="#ov-${oferta.idOferta}-1" aria-expanded="false" aria-controls="flush-collapseOne">
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <span>${formatoFechaSinFechaMostrar(oferta.intinerario[1].segments[0].departure.at)}hs.</span>
+                                                            <span>${result.vuelta.aeropuertoID}</span>
+                                                        </div>
+                                                        <div>
+                                                            <i class="fa-solid fa-arrow-right"></i>
+                                                        </div>
+                                                        <div class="d-flex flex-column align-items-center">
+                                                            <span>${formatoFechaSinFechaMostrar(oferta.intinerario[1].segments[oferta.cantEscalasVuelta].arrival.at)}hs.</span>
+                                                            <span>${result.ida.aeropuertoID}</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div id="ov-${oferta.idOferta}-1" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">                                                                                           
+                                                        ${escalasVueltaHTML}
+                                                    </div>
+    
+                                                    <div>
+                                                        <div class="d-flex flex-column align-items-center divDuracion">
+                                                            <p class="card-text"><i class="fa-regular fa-clock"></i><b> Duración: </b> ${convertirAHorayMinutos(oferta.intinerario[1].duration)}.</p>
+                                                            <p class="card-text">
+                                                                <i class="fa-regular fa-hand"></i> ${
+                                                                    oferta.cantEscalasVuelta === 0? "Directo" : `${oferta.cantEscalasVuelta} Paradas.`
+                                                                }
+                                                            </p>
+                                                        </div>                                          
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column align-items-center justify-content-between">
+                                                <p class="card-text"><b>Precio Final: </b> $${oferta.precio.total}</p>
+                                                <button class="buttonReserva mt-3" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+                                                    </svg>
+                                                    <div class="text">Reservar Vuelo</div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            `);
+                        } catch (error) {
+                            console.error('Error obteniendo datos para la oferta:', error);
+                        }
+                }
+
                 }
             },
             error: function(error) {
@@ -346,6 +491,19 @@ function convertirAHorayMinutos(duracion) {
     
 // Función para asignar true o false al check de vuelos (ida e idaVuelta) según selecciona el usuario.
 function checkSeleccionado(id) {
+    const divIda = document.getElementById('campoIda');
+    const divIdaVuelta = document.getElementById('camposIdayVuelta')
+
+    if(id == "ida"){
+        divIdaVuelta.style.setProperty('display', 'none', 'important');
+        divIda.style.setProperty('display', 'flex', 'important');
+
+    }else{
+        divIdaVuelta.style.setProperty('display', 'flex', 'important');
+        divIda.style.setProperty('display', 'none', 'important');
+    }
+    
+    //Permite que solo este seleccionada 1 de los elementos y no ambos.
     var checkboxes = document.querySelectorAll('.btn-check');
     checkboxes.forEach(function(checkbox) {
         if (checkbox.id !== id) {

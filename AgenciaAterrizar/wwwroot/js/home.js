@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         let fechaHasta = document.getElementById('fechaHasta').value;
         let fechaDesde = document.getElementById('fechaDesde').value;
         let pasajeros = document.getElementById('pasajeros').value;
+        let checkIdaVuelta = document.getElementById('idaVuelta').checked;
         
         //Verificar si se trata de un vuelo de ida-vuelta o solo de ida.
         if(document.getElementById('ida').checked){
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         $.ajax({
             url: '../../Home/ObtenerVuelos',
             //data: { VueloIda: 'EZE', VueloRegreso: 'SCL', FechaDesde: '2024-08-22', FechaHasta: '2024-08-29', CantPasajeros: 1 },
-            data: { VueloIda: ida, VueloRegreso: vuelta, FechaDesde: fechaDesde, FechaHasta: fechaHasta, CantPasajeros: pasajeros },
+            data: { VueloIda: ida, VueloRegreso: vuelta, FechaDesde: fechaDesde, FechaHasta: fechaHasta, CantPasajeros: pasajeros, EsVueloIdaVuelta: checkIdaVuelta },
             type: 'GET',
             dataType: 'json',
             beforeSend: function() {
@@ -76,7 +77,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         let oferta = {
                             idOferta: ofertaVuelo.id,
                             intinerario: ofertaVuelo.itineraries,
-                            directo: ofertaVuelo.oneWay,
+                            equipaje: ofertaVuelo.travelerPricings[0].fareDetailsBySegment[0].includedCheckedBags.quantity,
                             asientosDisponibles: ofertaVuelo.numberOfBookableSeats,
                             precio: ofertaVuelo.price,
                             adicionales: ofertaVuelo.pricingOptions,
@@ -208,7 +209,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         let oferta = {
                             idOferta: ofertaVuelo.id,
                             intinerario: ofertaVuelo.itineraries,
-                            directo: ofertaVuelo.oneWay,
+                            equipaje: ofertaVuelo.travelerPricings[0].fareDetailsBySegment[0].includedCheckedBags.quantity,
                             asientosDisponibles: ofertaVuelo.numberOfBookableSeats,
                             precio: ofertaVuelo.price,
                             adicionales: ofertaVuelo.pricingOptions,
@@ -271,6 +272,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             // Completar con la cantidad de escalas
                             oferta.cantEscalasIda = oferta.intinerario[0].segments.length - 1;
                             oferta.cantEscalasVuelta = oferta.intinerario[1].segments.length - 1;
+
+                            console.log(oferta)
     
                             //Para poder pasarlo como atributo del elemento a.
                             let ofertaJson = JSON.stringify(oferta); 

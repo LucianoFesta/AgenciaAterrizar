@@ -53,15 +53,20 @@ public class HomeController : Controller
         return Json(listaFiltradaAeropuertos);
     }
 
-    public async Task<IActionResult> ObtenerVuelos( string VueloIda,  string VueloRegreso, string FechaDesde, string? FechaHasta, int CantPasajeros  )
+    public async Task<IActionResult> ObtenerVuelos( string VueloIda,  string VueloRegreso, string FechaDesde, string? FechaHasta, int CantPasajeros, bool EsVueloIdaVuelta  )
     {
         if(string.IsNullOrEmpty(VueloIda) || string.IsNullOrEmpty(VueloRegreso) || string.IsNullOrEmpty(FechaDesde) || CantPasajeros <= 0)
         {
             return Ok(new { success = false, message = "Por favor, verificar los campos ingresados en el buscador." });
         }
 
-        if( !string.IsNullOrEmpty(FechaHasta) )
+        if( EsVueloIdaVuelta )
         {
+            if(string.IsNullOrEmpty(FechaHasta))
+            {
+                return Ok(new { success = false, message = "Por favor, completa la fecha de regreso de tu vuelo." });
+            }
+            
             DateTime fechaDesdeParsed;
             DateTime fechaHastaParsed;
             string formatoFecha = "yyyy-MM-dd"; // Formato de fecha específico

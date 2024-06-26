@@ -168,25 +168,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                             <p><b>Equipaje</b></p>
                                                             ${
                                                                 oferta.equipaje === 0 ? `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Sin equipaje incluido.">
                                                                         <img src="${appUrl}images/bagNoInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
                                                                     </div>
                                                                 ` : oferta.equipaje === 1 ? `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo bolso de mano.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
                                                                     </div>                                                               
                                                                 ` : oferta.equipaje === 2 ? `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Bolso de mano y Carry On.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
                                                                     </div>                                                               
                                                                 ` : `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-placement="top" title="Bolso de mano, Carry On y Equipaje a despachar.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageInclude.svg" alt="Icon">
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                             <p class="card-text"><i class="fa-regular fa-clock"></i><b> Duración: </b> ${convertirAHorayMinutos(oferta.intinerario[0].duration)}.</p>
                                                             <p class="card-text">
                                                                 <i class="fa-regular fa-hand"></i> ${
-                                                                    oferta.cantEscalas === 0? "Directo" : `${oferta.cantEscalas} Paradas.`
+                                                                    oferta.cantEscalas === 0? "Directo" : `${oferta.cantEscalas} Escalas.`
                                                                 }
                                                             </p>
                                                         </div>
@@ -397,25 +397,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                             <p><b>Equipaje</b></p>
                                                             ${
                                                                 oferta.equipaje === 0 ? `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Sin equipaje incluido.">
                                                                         <img src="${appUrl}images/bagNoInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
                                                                     </div>
                                                                 ` : oferta.equipaje === 1 ? `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo bolso de mano.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
                                                                     </div>                                                               
                                                                 ` : oferta.equipaje === 2 ? `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Bolso de mano y Carry On.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
                                                                     </div>                                                               
                                                                 ` : `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-placement="top" title="Bolso de mano, Carry On y Equipaje a despachar.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageInclude.svg" alt="Icon">
@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                             <p class="card-text"><i class="fa-regular fa-clock"></i><b> Duración: </b> ${convertirAHorayMinutos(oferta.intinerario[0].duration)}.</p>
                                                             <p class="card-text">
                                                                 <i class="fa-regular fa-hand"></i> ${
-                                                                    oferta.cantEscalasIda === 0? "Directo" : `${oferta.cantEscalasIda} Paradas.`
+                                                                    oferta.cantEscalasIda === 0? "Directo" : `${oferta.cantEscalasIda} Escalas.`
                                                                 }
                                                             </p>
                                                         </div>
@@ -456,28 +456,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                             <span>${result.ida.aeropuertoID}</span>
                                                         </div>
                                                         <div class="equipaje">
-                                                            <p><b>Equipaje</b></p>
                                                             ${
                                                                 oferta.equipaje === 0 ? `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Sin equipaje incluido.">
                                                                         <img src="${appUrl}images/bagNoInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
                                                                     </div>
                                                                 ` : oferta.equipaje === 1 ? `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo bolso de mano.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
                                                                     </div>                                                               
                                                                 ` : oferta.equipaje === 2 ? `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Bolso de mano y Carry On.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
                                                                     </div>                                                               
                                                                 ` : `
-                                                                    <div class="d-flex">
+                                                                    <div class="d-flex" data-bs-placement="top" title="Bolso de mano, Carry On y Equipaje a despachar.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageInclude.svg" alt="Icon">
@@ -496,7 +495,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                             <p class="card-text"><i class="fa-regular fa-clock"></i><b> Duración: </b> ${convertirAHorayMinutos(oferta.intinerario[1].duration)}.</p>
                                                             <p class="card-text">
                                                                 <i class="fa-regular fa-hand"></i> ${
-                                                                    oferta.cantEscalasVuelta === 0? "Directo" : `${oferta.cantEscalasVuelta} Paradas.`
+                                                                    oferta.cantEscalasVuelta === 0? "Directo" : `${oferta.cantEscalasVuelta} Escalas.`
                                                                 }
                                                             </p>
                                                         </div>                                          

@@ -164,6 +164,36 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                             <span>${formatoFechaSinFechaMostrar(oferta.intinerario[0].segments[oferta.cantEscalas].arrival.at)}hs.</span>
                                                             <span>${result.vuelta.aeropuertoID}</span>
                                                         </div>
+                                                        <div class="equipaje">
+                                                            <p><b>Equipaje</b></p>
+                                                            ${
+                                                                oferta.equipaje === 0 ? `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagNoInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
+                                                                    </div>
+                                                                ` : oferta.equipaje === 1 ? `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
+                                                                    </div>                                                               
+                                                                ` : oferta.equipaje === 2 ? `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
+                                                                    </div>                                                               
+                                                                ` : `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageInclude.svg" alt="Icon">
+                                                                    </div>                                                                
+                                                                `
+                                                            }
+                                                        </div>
                                                     </div>
     
                                                     <div id="ov-${oferta.idOferta}-0" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">                                                
@@ -285,14 +315,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     <div class="accordion-body d-flex justify-content-center itinerarioAccordion">
                                         <div class="d-flex flex-column align-items-center justify-content-around">
                                             <span><b>${formatoFechaMostrar(escalaIda.departureDate)} - ${formatoFechaSinFechaMostrar(escalaIda.departureDate)}</b></span>
-                                            <span>${escalaIda.departure} - ${escalaIda.departureAirport.ciudad}</span>
+                                            ${
+                                                escalaIda.departureAirport !== null ? `
+                                                    <span>${escalaIda.departure} - ${escalaIda.departureAirport.ciudad}</span>
+                                                ` : `
+                                                    <span>${escalaIda.departure} - ${escalaIda.departure}</span>
+                                                `
+                                            }
                                         </div>
                                         <div>
                                             <i class="fa-solid fa-arrow-right"></i>
                                         </div>
                                         <div class="d-flex flex-column align-items-center">
                                             <span><b>${formatoFechaMostrar(escalaIda.arrivalDate)} - ${formatoFechaSinFechaMostrar(escalaIda.arrivalDate)}</b></span>
-                                            <span>${escalaIda.arrival} - ${escalaIda.arrivalAirport.ciudad}</span>
+                                            ${
+                                                escalaIda.arrivalAirport !== null ? `
+                                                    <span>${escalaIda.arrival} - ${escalaIda.arrivalAirport.ciudad}</span>
+                                                ` : `
+                                                    <span>${escalaIda.arrival} - ${escalaIda.arrival}</span>
+                                                `
+                                            }
                                         </div> 
                                     </div>                              
                                 `
@@ -305,14 +347,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     <div class="accordion-body d-flex justify-content-center itinerarioAccordion">
                                         <div class="d-flex flex-column align-items-center justify-content-around">
                                             <span><b>${formatoFechaMostrar(escalaVuelta.departureDate)} - ${formatoFechaSinFechaMostrar(escalaVuelta.departureDate)}</b></span>
-                                            <span>${escalaVuelta.departure} - ${escalaVuelta.departureAirport.ciudad}</span>
+                                            ${
+                                                escalaVuelta.departureAirport !== null ? `
+                                                    <span>${escalaVuelta.departure} - ${escalaVuelta.departureAirport.ciudad}</span>
+                                                ` : `
+                                                    <span>${escalaVuelta.departure} - ${escalaVuelta.departure}</span>
+                                                `
+                                            }
                                         </div>
                                         <div>
                                             <i class="fa-solid fa-arrow-right"></i>
                                         </div>
                                         <div class="d-flex flex-column align-items-center">
                                             <span><b>${formatoFechaMostrar(escalaVuelta.arrivalDate)} - ${formatoFechaSinFechaMostrar(escalaVuelta.arrivalDate)}</b></span>
-                                            <span>${escalaVuelta.arrival} - ${escalaVuelta.arrivalAirport.ciudad}</span>
+                                            ${
+                                                escalaVuelta.arrivalAirport !== null ? `
+                                                    <span>${escalaVuelta.arrival} - ${escalaVuelta.arrivalAirport.ciudad}</span>
+                                                ` : `
+                                                    <span>${escalaVuelta.arrival} - ${escalaVuelta.arrival}</span>
+                                                `
+                                            }
                                         </div> 
                                     </div>
                                 `
@@ -338,6 +392,36 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                         <div class="d-flex flex-column align-items-center">
                                                             <span>${formatoFechaSinFechaMostrar(oferta.intinerario[0].segments[oferta.cantEscalasIda].arrival.at)}hs.</span>
                                                             <span>${result.vuelta.aeropuertoID}</span>
+                                                        </div>
+                                                        <div class="equipaje">
+                                                            <p><b>Equipaje</b></p>
+                                                            ${
+                                                                oferta.equipaje === 0 ? `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagNoInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
+                                                                    </div>
+                                                                ` : oferta.equipaje === 1 ? `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
+                                                                    </div>                                                               
+                                                                ` : oferta.equipaje === 2 ? `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
+                                                                    </div>                                                               
+                                                                ` : `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageInclude.svg" alt="Icon">
+                                                                    </div>                                                                
+                                                                `
+                                                            }
                                                         </div>
                                                     </div>
     
@@ -370,6 +454,36 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                         <div class="d-flex flex-column align-items-center">
                                                             <span>${formatoFechaSinFechaMostrar(oferta.intinerario[1].segments[oferta.cantEscalasVuelta].arrival.at)}hs.</span>
                                                             <span>${result.ida.aeropuertoID}</span>
+                                                        </div>
+                                                        <div class="equipaje">
+                                                            <p><b>Equipaje</b></p>
+                                                            ${
+                                                                oferta.equipaje === 0 ? `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagNoInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
+                                                                    </div>
+                                                                ` : oferta.equipaje === 1 ? `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
+                                                                    </div>                                                               
+                                                                ` : oferta.equipaje === 2 ? `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
+                                                                    </div>                                                               
+                                                                ` : `
+                                                                    <div class="d-flex">
+                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
+                                                                        <img src="${appUrl}images/baggageInclude.svg" alt="Icon">
+                                                                    </div>                                                                
+                                                                `
+                                                            }
                                                         </div>
                                                     </div>
                                                     

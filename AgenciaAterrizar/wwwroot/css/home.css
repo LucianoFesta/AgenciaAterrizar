@@ -179,9 +179,26 @@ label{
     box-shadow: none; 
 }
 
-.accordion-button div{
-    padding-left: 6vw !important;
+.accordion-button::after {
+    margin-left: -30px;
+}
 
+.accordion-button div{
+    padding-left: 2vw !important;
+}
+
+.equipaje{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.equipaje div svg{
+    padding: 1px;
+}
+
+.equipaje p{
+    padding-left: 10px;
 }
 
 .divItinerario{
@@ -237,7 +254,7 @@ h5{
     justify-content: center; 
     align-items: center; 
     flex-direction: column;
-    color: rgb(238, 153, 57);
+    color: #ee9939;
     font-size: 20px;
     font-weight: bold;
     z-index: 9999; 
@@ -544,27 +561,27 @@ h5{
         margin-top: 20px;
     }
 
-        /*RESULTADOS*/
+    /*RESULTADOS*/
 
-        .divOpciones{
-            padding: 0px;
-        }
-    
-        .divItinerario{
-            padding: 0;
-        }
-    
-        .card{
-            width: 80vw;
-        }
-    
-        .divContenidoOferta{
-            flex-direction: column;
-        }
-    
-        .divItinerarioCompleto {
-            width: 100%;
-        }
+    .divOpciones{
+        padding: 0px;
+    }
+
+    .divItinerario{
+        padding: 0;
+    }
+
+    .card{
+        width: 95vw;
+    }
+
+    .divContenidoOferta{
+        flex-direction: column;
+    }
+
+    .divItinerarioCompleto {
+        width: 100%;
+    }
     
 }
 

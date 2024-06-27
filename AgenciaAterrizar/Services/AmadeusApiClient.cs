@@ -14,7 +14,13 @@ public class AmadeusApiCliente
         var tokenUser = await _authenticator.ObtenerTokenAmadeus();
 
         _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokenUser);
-        _httpClient.BaseAddress = new Uri($"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={VueloIda}&destinationLocationCode={VueloRegreso}&departureDate={FechaDesde}&returnDate={FechaHasta}&adults={CantPasajeros}&max=5&currencyCode=ARS");
+        
+        //Determinar si es un vuelo ida y vuelta o solo un vuelo de ida.
+        if(!string.IsNullOrEmpty(FechaHasta)){
+            _httpClient.BaseAddress = new Uri($"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={VueloIda}&destinationLocationCode={VueloRegreso}&departureDate={FechaDesde}&returnDate={FechaHasta}&adults={CantPasajeros}&max=10&currencyCode=ARS");
+        }else{
+            _httpClient.BaseAddress = new Uri($"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={VueloIda}&destinationLocationCode={VueloRegreso}&departureDate={FechaDesde}&adults={CantPasajeros}&max=5&currencyCode=ARS");
+        }
     
         var response = await _httpClient.GetAsync("");
         

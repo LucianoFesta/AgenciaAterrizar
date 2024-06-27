@@ -1,90 +1,10 @@
-.navBar{
-    background-color: #04001c !important;
-    color: white !important;
-    padding: 10px;
-    margin-bottom: 30px !important;
-}
-
-footer{
-    background-color: #04001c !important;
-    color: white !important;
-    padding: 0;
-    margin: 0;
-}
-
-.navBar a{
-    color: white !important;
-}
-
-.btnNav {
-    all: unset;
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding: 10px;
-    border-radius: 25px;
-    color: rgb(238, 153, 57);
-    font-size: 17px;
-    font-weight: 600;
-    cursor: pointer;
-    overflow: hidden;
-    transition: border 300ms, color 300ms;
-    user-select: none;
-}
-
-li a p {
-    margin: 0;
-}
-
-.btnNav:hover {
-    color: black;
-}
-
-.btnNav:active {
-    border-color: white;
-}
-
-.btnNav::after, .btnNav::before {
-    content: "";
-    position: absolute;
-    width: 100px;
-    aspect-ratio: 1;
-    background: rgb(238, 153, 57);
-    opacity: 25%;
-    border-radius: 50%;
-    transition: transform 500ms, background 300ms;
-}
-
-.btnNav::before {
-    left: 0;
-    transform: translateX(-8em);
-}
-
-.btnNav::after {
-    right: 0;
-    transform: translateX(8em);
-}
-
-.btnNav:hover:before {
-    transform: translateX(-1em);
-}
-
-.btnNav:hover:after {
-    transform: translateX(1em);
-}
-
-.btnNav:active:before,
-.btnNav:active:after {
-    background: white;
-}
-
 .btnSearch {
-    font-size: 18px;
+    font-size: 17px;
     background-color: #fcd45a53;
     color: rgba(32, 31, 31, 0.895);
     font-weight: bold;
     width: 100%;
-    height: 2.9em;
+    height: 40px;
     border: rgb(238, 153, 57) 2px solid;
     border-radius: 11px;
     transition: all 0.6s ease;
@@ -99,8 +19,16 @@ h3{
     color: rgb(241, 140, 25);
 }
 
+#tituloDeBusqueda h3{
+    margin-top: 40px;
+}
+
 .card-title{
     margin-bottom: 30px;
+}
+
+.mostrar{
+    display: flex;
 }
 
 i{
@@ -112,6 +40,7 @@ i{
 }
 
 .divBuscador{
+    position: relative;
     background-color: #3127643f;
     padding: 20px 15px;
     width: 80vw;
@@ -155,7 +84,7 @@ span .selection{
     width: 20vw !important; 
 }
 
-.inputFecha{
+.inputFecha, .divInputFecha{
     height: 40px;
     width: 32vw;
 }
@@ -250,9 +179,26 @@ label{
     box-shadow: none; 
 }
 
-.accordion-button div{
-    padding-left: 6vw !important;
+.accordion-button::after {
+    margin-left: -30px;
+}
 
+.accordion-button div{
+    padding-left: 2vw !important;
+}
+
+.equipaje{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.equipaje div svg{
+    padding: 1px;
+}
+
+.equipaje p{
+    padding-left: 10px;
 }
 
 .divItinerario{
@@ -296,3 +242,348 @@ h5{
     border-radius: 8px;
     margin-top: 20px;
 }
+
+.divLoading{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.747);
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+    color: #ee9939;
+    font-size: 20px;
+    font-weight: bold;
+    z-index: 9999; 
+    pointer-events: none;
+}
+
+.divLoading div{
+    margin: 20px;
+}
+
+#loading{
+    pointer-events: none !important; 
+}
+
+
+/*****************************************************************************************************/
+/********************************************** LOADER ***********************************************/
+/*****************************************************************************************************/
+
+.loader {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    background: #212121;
+    border-radius: 50%;
+    box-shadow: inset 0px 0px 7px rgb(238, 153, 57);
+    border: 1px solid rgb(238, 153, 57);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.loader::before {
+    content: "";
+    position: absolute;
+    inset: 20px;
+    background: transparent;
+    border: 1px solid rgb(238, 153, 57);
+    border-radius: 50%;
+    box-shadow: inset 0px 0px 5px rgb(238, 153, 57);
+}
+
+.loader::after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgb(238, 153, 57);
+    box-shadow: inset 0px 0px 3px rgb(238, 153, 57);
+}
+
+.loader span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    transform-origin: top left;
+    animation: radar81 2s linear infinite;
+    box-shadow: -25px -75px 30px -50px rgb(238, 153, 57);
+    border-top: 2px solid rgb(238, 153, 57);
+}
+
+.loader span::before {
+    display: none;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15%;
+    height: 100%;
+    background: rgb(238, 153, 57);
+    transform-origin: top left;
+    transform: rotate(-90deg);
+    filter: blur(15px) drop-shadow(10px 0px 10px rgb(238, 153, 57));
+}
+
+@keyframes radar81 {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#dot-1 {
+    --dot-start-top: 100px;
+    --dot-start-left: 140px;
+    --dot-end-top: 130px;
+    --dot-end-left: 20px;
+    --delay: 0s;
+}
+
+#dot-2 {
+    --dot-start-top: 100px;
+    --dot-start-left: 0px;
+    --dot-end-top: -3px;
+    --dot-end-left: 90px;
+    --delay: 0s;
+}
+
+#dot-3 {
+    --dot-start-top: 100px;
+    --dot-start-left: 105px;
+    --dot-end-top: 18px;
+    --dot-end-left: 18px;
+    --delay: 0s;
+}
+
+#dot-4 {
+    --dot-start-top: 110px;
+    --dot-start-left: 150px;
+    --dot-end-top: 140px;
+    --dot-end-left: 30px;
+    --delay: 0s;
+}
+
+#dot-5 {
+    --dot-start-top: -5px;
+    --dot-start-left: 85px;
+    --dot-end-top: 125px;
+    --dot-end-left: 120px;
+    --delay: 4s;
+}
+
+.dot {
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: var(--dot-start-top);
+    left: var(--dot-start-left);
+    border-radius: 9999px;
+    background: rgba(255, 255, 255);
+    box-shadow: inset 0px 0px 10px 2px rgba(238, 153, 57, 0.329),
+        0px 0px 10px 2px rgba(238, 153, 57, 0.329);
+    -webkit-animation: fly 32s linear infinite;
+    animation-delay: var(--delay);
+    -moz-animation: fly 32s linear infinite;
+}
+
+@keyframes fly {
+    0% {
+        top: var(--dot-start-top);
+        left: var(--dot-start-left);
+    }
+
+    100% {
+        top: var(--dot-end-top);
+        left: var(--dot-end-left);
+    }
+
+    5%,
+    15%,
+    25%,
+    35%,
+    45%,
+    55%,
+    65%,
+    75%,
+    85%,
+    95% {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: inset 0 0 10px 2px rgba(238, 153, 57, 0.5),
+        0 0 15px 2px rgba(238, 153, 57, 1);
+    }
+
+    0%,
+    10%,
+    20%,
+    30%,
+    40%,
+    50%,
+    60%,
+    70%,
+    80%,
+    90% {
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: inset 0 0 10px 2px rgba(238, 153, 57, 0.5),
+        0 0 5px 2px rgba(238, 153, 57, 1);
+    }
+}
+
+.loaderText {
+    position: relative;
+    overflow: hidden;
+    border-right: 3px solid;
+    width: 0px;
+    animation: typewriter 2s steps(11)  infinite alternate , blink 0.5s steps(11) infinite;
+}
+
+.loader-text {
+    font-size: 25px;
+    font-weight: bold;
+    font-family: "Montserrat", sans-serif;
+    background: linear-gradient(to right,rgba(238, 153, 57, 1), white);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+  
+@keyframes typewriter {
+    0% {
+        width: 0px;
+    }
+
+    100% {
+        width: 240px;
+    }
+}
+  
+@keyframes blink {
+    0% {
+        border-right-color: rgba(255,255,255,.75);
+        ;
+    }
+
+    100% {
+        border-right-color: transparent;
+    }
+}
+  
+
+@media (max-width: 480px) {
+    /*RESULTADOS*/
+
+    .divOpciones{
+        padding: 10px;
+    }
+
+    .divItinerario{
+        padding: 0;
+    }
+
+    .card{
+        width: 90vw;
+    }
+
+    .divContenidoOferta{
+        flex-direction: column;
+    }
+
+    .divItinerarioCompleto {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 1024px) {
+    /* BUSCADOR */
+
+    .titleSearch{
+        justify-content: center;
+    }
+
+    .btn-group label{
+        font-size: 12px;
+        padding: 2px 4px;
+    }
+
+    .selectDestinos{
+        flex-direction: column !important;
+        width: 70vw;
+        margin: auto;
+    }
+
+    .select2-container .select2-selection--single{
+        width: 60vw;
+    }
+
+    .select2-search--dropdown .select2-search__field, 
+    .select2-results__option, 
+    .select2-container--default .select2-results>.select2-results__options, 
+    .select2-container--open .select2-dropdown--below, 
+    .select2-container--default .select2-selection--single 
+    .select2-selection__rendered,
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        width: 60vw !important;
+    }
+
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        width: 58vw !important;
+    }
+
+    .selectDates{
+        flex-direction: column;
+        width: 63vw;
+    }
+
+    .inputFecha{
+        width: 63vw;
+    }
+
+    .divInputFecha{
+        height: 60px;
+    }
+
+    .divInputPasajeros{
+        width: 10vw;
+        margin-top: 20px;
+    }
+
+    /*RESULTADOS*/
+
+    .divOpciones{
+        padding: 0px;
+    }
+
+    .divItinerario{
+        padding: 0;
+    }
+
+    .card{
+        width: 95vw;
+    }
+
+    .divContenidoOferta{
+        flex-direction: column;
+    }
+
+    .divItinerarioCompleto {
+        width: 100%;
+    }
+    
+}
+
+  
+   

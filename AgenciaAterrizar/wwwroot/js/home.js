@@ -90,14 +90,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         try {
                             oferta.nombreAerolinea = await BuscarNombreAerolinea(oferta.codigoAerolinea);
 
-                            const escala = oferta.intinerario[0].segments.map(async (segment) => {
+                            const escala = oferta.intinerario[0].segments.map(async (segment, index) => {
                                 const escala = {
                                     departure: segment.departure.iataCode,
+                                    arrival: segment.arrival.iataCode,
+                                    airline: segment.carrierCode,
+                                    escalaNumber: index + 1,
+                                    ida: true,
+                                    vuelta: false,
                                     departureDate: segment.departure.at,
                                     departureAirport: "",
-                                    arrival: segment.arrival.iataCode,
                                     arrivalAirport: "",
                                     arrivalDate: segment.arrival.at,
+                                    fligthNumber: segment.number,
                                     duration: segment.duration
                                 };
 
@@ -256,14 +261,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             oferta.nombreAerolinea = await BuscarNombreAerolinea(oferta.codigoAerolinea);
     
                             // Obtener escalas de ida.
-                            const escalasIda = oferta.intinerario[0].segments.map(async (segment) => {
+                            const escalasIda = oferta.intinerario[0].segments.map(async (segment, index) => {
                                 const escala = {
                                     departure: segment.departure.iataCode,
+                                    arrival: segment.arrival.iataCode,
+                                    airline: segment.carrierCode,
+                                    escalaNumber: index + 1,
+                                    ida: true,
+                                    vuelta: false,
                                     departureDate: segment.departure.at,
                                     departureAirport: "",
-                                    arrival: segment.arrival.iataCode,
                                     arrivalAirport: "",
                                     arrivalDate: segment.arrival.at,
+                                    fligthNumber: segment.number,
                                     duration: segment.duration
                                 };
     
@@ -279,14 +289,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             oferta.escalasIda = await Promise.all(escalasIda);
     
                             // Obtener escalas de vuelta
-                            const escalasVuelta = oferta.intinerario[1].segments.map(async (segment) => {
+                            const escalasVuelta = oferta.intinerario[1].segments.map(async (segment, index) => {
                                 const escala = {
                                     departure: segment.departure.iataCode,
+                                    arrival: segment.arrival.iataCode,
+                                    airline: segment.carrierCode,
+                                    escalaNumber: index + 1,
+                                    ida: false,
+                                    vuelta: true,
                                     departureDate: segment.departure.at,
                                     departureAirport: "",
-                                    arrival: segment.arrival.iataCode,
                                     arrivalAirport: "",
                                     arrivalDate: segment.arrival.at,
+                                    fligthNumber: segment.number,
                                     duration: segment.duration
                                 };
     

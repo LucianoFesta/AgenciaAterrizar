@@ -19,7 +19,7 @@ public class AmadeusApiCliente
         if(!string.IsNullOrEmpty(FechaHasta)){
             _httpClient.BaseAddress = new Uri($"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={VueloIda}&destinationLocationCode={VueloRegreso}&departureDate={FechaDesde}&returnDate={FechaHasta}&adults={CantPasajeros}&max=10&currencyCode=ARS");
         }else{
-            _httpClient.BaseAddress = new Uri($"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={VueloIda}&destinationLocationCode={VueloRegreso}&departureDate={FechaDesde}&adults={CantPasajeros}&max=5&currencyCode=ARS");
+            _httpClient.BaseAddress = new Uri($"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={VueloIda}&destinationLocationCode={VueloRegreso}&departureDate={FechaDesde}&adults={CantPasajeros}&max=10&currencyCode=ARS");
         }
     
         var response = await _httpClient.GetAsync("");

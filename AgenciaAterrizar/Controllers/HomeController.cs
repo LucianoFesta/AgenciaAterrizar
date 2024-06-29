@@ -116,7 +116,16 @@ public class HomeController : Controller
     public JsonResult BuscarAeropuertosEscalas(string Departure, string Arrival)
     {
         var aeropuertos = _context.Aeropuertos.ToList();
-
+        var paises = _context.Paises.Select(p => 
+            new Pais{ 
+                PaisID = p.PaisID, 
+                Nombre = p.Nombre }).ToList();
+                
+        foreach (var aeropuerto in aeropuertos)
+        {
+            aeropuerto.PaisNombre = paises.Where(p => p.PaisID == aeropuerto.PaisID).Select(p => p.Nombre).SingleOrDefault();
+        }
+        
         var aeropuertoIda = aeropuertos.Where(a => a.AeropuertoID == Departure).FirstOrDefault();
         var aeropuertoVuelta = aeropuertos.Where(a => a.AeropuertoID == Arrival).FirstOrDefault();
 

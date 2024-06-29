@@ -131,18 +131,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     <div class="accordion-body d-flex justify-content-center itinerarioAccordion">
                                         <div class="d-flex flex-column align-items-center justify-content-around">
                                             <span><b>${formatoFechaMostrar(escala.departureDate)} - ${formatoFechaSinFechaMostrar(escala.departureDate)}</b></span>
-                                            <span>${escala.departure} - ${
-                                                escala.departureAirport.ciudad !== null? escala.departureAirport.ciudad : "Sin Nombre"
-                                            }</span>
+                                            ${
+                                                escala.departureAirport !== null ? `
+                                                    <span>${escala.departure} - ${escala.departureAirport.ciudad}, ${escala.departureAirport.paisNombre}</span>
+                                                ` : `
+                                                    <span>${escala.departure} - ${escala.departure}</span>
+                                                `
+                                            }
                                         </div>
                                         <div>
                                             <i class="fa-solid fa-arrow-right"></i>
                                         </div>
                                         <div class="d-flex flex-column align-items-center">
                                             <span><b>${formatoFechaMostrar(escala.arrivalDate)} - ${formatoFechaSinFechaMostrar(escala.arrivalDate)}</b></span>
-                                            <span>${escala.arrival} - ${
-                                                escala.arrivalAirport.ciudad !== null? escala.arrivalAirport.ciudad : "Sin Nombre"
-                                            }</span>
+                                            ${
+                                                escala.arrivalAirport !== null ? `
+                                                    <span>${escala.arrival} - ${escala.arrivalAirport.ciudad}, ${escala.arrivalAirport.paisNombre}</span>
+                                                ` : `
+                                                    <span>${escala.arrival} - ${escala.arrival}</span>
+                                                `
+                                            }
                                         </div> 
                                     </div>                              
                                 `
@@ -259,9 +267,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         try {
                             // Obtener nombre de la aerolínea.
                             oferta.nombreAerolinea = await BuscarNombreAerolinea(oferta.codigoAerolinea);
-    
+                            console.log(oferta, "Antes de escala")
                             // Obtener escalas de ida.
                             const escalasIda = oferta.intinerario[0].segments.map(async (segment, index) => {
+                                console.log(segment, "segmento escala ida")
                                 const escala = {
                                     departure: segment.departure.iataCode,
                                     arrival: segment.arrival.iataCode,
@@ -281,7 +290,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
                                 escala.departureAirport = escalaCompleta.departure;
                                 escala.arrivalAirport = escalaCompleta.arrival;
-    
+                                
+                                console.log(escala, "escala desp de completarla")
                                 return escala;
                             });
     
@@ -332,7 +342,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                             <span><b>${formatoFechaMostrar(escalaIda.departureDate)} - ${formatoFechaSinFechaMostrar(escalaIda.departureDate)}</b></span>
                                             ${
                                                 escalaIda.departureAirport !== null ? `
-                                                    <span>${escalaIda.departure} - ${escalaIda.departureAirport.ciudad}</span>
+                                                    <span>${escalaIda.departure} - ${escalaIda.departureAirport.ciudad}, ${escalaIda.departureAirport.paisNombre}</span>
                                                 ` : `
                                                     <span>${escalaIda.departure} - ${escalaIda.departure}</span>
                                                 `
@@ -345,7 +355,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                             <span><b>${formatoFechaMostrar(escalaIda.arrivalDate)} - ${formatoFechaSinFechaMostrar(escalaIda.arrivalDate)}</b></span>
                                             ${
                                                 escalaIda.arrivalAirport !== null ? `
-                                                    <span>${escalaIda.arrival} - ${escalaIda.arrivalAirport.ciudad}</span>
+                                                    <span>${escalaIda.arrival} - ${escalaIda.arrivalAirport.ciudad}, ${escalaIda.arrivalAirport.paisNombre}</span>
                                                 ` : `
                                                     <span>${escalaIda.arrival} - ${escalaIda.arrival}</span>
                                                 `
@@ -364,7 +374,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                             <span><b>${formatoFechaMostrar(escalaVuelta.departureDate)} - ${formatoFechaSinFechaMostrar(escalaVuelta.departureDate)}</b></span>
                                             ${
                                                 escalaVuelta.departureAirport !== null ? `
-                                                    <span>${escalaVuelta.departure} - ${escalaVuelta.departureAirport.ciudad}</span>
+                                                    <span>${escalaVuelta.departure} - ${escalaVuelta.departureAirport.ciudad}, ${escalaVuelta.departureAirport.paisNombre}</span>
                                                 ` : `
                                                     <span>${escalaVuelta.departure} - ${escalaVuelta.departure}</span>
                                                 `
@@ -377,7 +387,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                             <span><b>${formatoFechaMostrar(escalaVuelta.arrivalDate)} - ${formatoFechaSinFechaMostrar(escalaVuelta.arrivalDate)}</b></span>
                                             ${
                                                 escalaVuelta.arrivalAirport !== null ? `
-                                                    <span>${escalaVuelta.arrival} - ${escalaVuelta.arrivalAirport.ciudad}</span>
+                                                    <span>${escalaVuelta.arrival} - ${escalaVuelta.arrivalAirport.ciudad}, ${escalaVuelta.arrivalAirport.paisNombre}</span>
                                                 ` : `
                                                     <span>${escalaVuelta.arrival} - ${escalaVuelta.arrival}</span>
                                                 `

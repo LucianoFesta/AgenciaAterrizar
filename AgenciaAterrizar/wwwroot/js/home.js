@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         $.ajax({
             url: '../../Home/ObtenerVuelos',
-            //data: { VueloIda: 'EZE', VueloRegreso: 'SCL', FechaDesde: '2024-08-22', FechaHasta: '2024-08-29', CantPasajeros: 1 },
-            data: { VueloIda: ida, VueloRegreso: vuelta, FechaDesde: fechaDesde, FechaHasta: fechaHasta, CantPasajeros: pasajeros, EsVueloIdaVuelta: checkIdaVuelta },
+            data: { VueloIda: 'EZE', VueloRegreso: 'SCL', FechaDesde: '2024-08-22', FechaHasta: '2024-08-29', CantPasajeros: 1 },
+            //data: { VueloIda: ida, VueloRegreso: vuelta, FechaDesde: fechaDesde, FechaHasta: fechaHasta, CantPasajeros: pasajeros, EsVueloIdaVuelta: checkIdaVuelta },
             type: 'GET',
             dataType: 'json',
             beforeSend: function() {
@@ -657,6 +657,13 @@ function checkSeleccionado(id) {
 function reservarVuelo(element) {
     const ofertaJson = element.getAttribute('data-oferta');
     const oferta = JSON.parse(ofertaJson);
+
     console.log(oferta);
+
+    // Convertir el objeto JSON a una cadena
+    const ofertaString = encodeURIComponent(JSON.stringify(oferta));
+
+    // Agregar el JSON como un parámetro de consulta en la URL
+    window.location.href = `/ReservaVuelo?oferta=${ofertaString}`;
 }
 

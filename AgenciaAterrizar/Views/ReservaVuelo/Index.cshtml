@@ -1,1 +1,67 @@
-<h3>Estás a un solo paso de concretar tu viaje!</h3>
+@model OfertaVueloApi
+
+<link rel="stylesheet" href="~/css/reservaVuelo.css" asp-append-version="true" />
+
+<div class="divReserva">
+    <div>
+        <h3>¡Estás a un solo paso de concretar tu viaje!</h3>
+    </div>
+    <div class="detalleCompra">
+        <h4 class="text-center">Detalle de la compra</h4>
+
+        <div class="mt-4">
+            <div class="text-center">
+                <p class="m-0"><b>Aerolínea:</b> @Model.nombreAerolinea.</p>
+                <p><b>Pasajeros:</b> @Model.pasajeros.</p>
+            </div>
+            <div>
+                <p><i class="fa-solid fa-plane-departure"></i> <b>IDA:</b> @Model.escalasIda[0].departureAirport.ciudad - @Model.escalasIda[@Model.cantEscalasIda].arrivalAirport.ciudad </p>
+                
+                <div class="container">
+                    <p class="m-2"><b>Salida: </b> @Model.escalasIda[0].fechaDepartureFormateada hs.</p>
+                    <p class="m-2"><b>Llegada: </b>@Model.escalasIda[@Model.cantEscalasIda].fechaArrivalFormateada hs.</p>
+                    <p class="m-2"><b>Escalas:</b> @Model.cantEscalasIda</p>
+                    @if(@Model.equipaje == 0){
+                        <p class="m-2"><b>Equipaje:</b> No incluye equipaje.</p>
+                    }
+                    @if(@Model.equipaje == 1){
+                        <p class="m-2"><b>Equipaje:</b> Solo bolso de mano.</p>
+                    }
+                    @if(@Model.equipaje == 2){
+                        <p class="m-2"><b>Equipaje:</b> Carry On.</p>
+                    }
+                    @if(@Model.equipaje > 2){
+                        <p class="m-2"><b>Equipaje:</b> Incluye euipaje de 23kg a despachar.</p>
+                    }
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <p><i class="fa-solid fa-plane-arrival"></i><b> VUELTA:</b>  @Model.escalasVuelta[0].departureAirport.ciudad - @Model.escalasVuelta[@Model.cantEscalasVuelta].arrivalAirport.ciudad </p>
+                
+                <div class="container">
+                    <p class="m-2"><b>Salida: </b> @Model.escalasVuelta[0].fechaDepartureFormateada hs. </p>
+                    <p class="m-2"><b>Llegada:</b> @Model.escalasVuelta[@Model.cantEscalasVuelta].fechaArrivalFormateada hs. </p>
+                    <p class="m-2"><b>Escalas:</b> @Model.cantEscalasVuelta</p>
+                    @if(@Model.equipaje == 0){
+                        <p class="m-2"><b>Equipaje:</b> No incluye equipaje.</p>
+                    }
+                    @if(@Model.equipaje == 1){
+                        <p class="m-2"><b>Equipaje:</b> Solo bolso de mano.</p>
+                    }
+                    @if(@Model.equipaje == 2){
+                        <p class="m-2"><b>Equipaje:</b> Carry On.</p>
+                    }
+                    @if(@Model.equipaje > 2){
+                        <p class="m-2"><b>Equipaje:</b> Incluye euipaje de 23kg a despachar.</p>
+                    }
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <span><b>Precio:</b> $ @Model.precio.total</span>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,20 @@
+.divReserva{
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+}
+
+h4{
+    background-color: aliceblue;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.detalleCompra{
+    width: 35vw;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #3127643f;
+}

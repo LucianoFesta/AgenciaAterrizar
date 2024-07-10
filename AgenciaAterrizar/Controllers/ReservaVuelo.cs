@@ -1,4 +1,5 @@
 using AgenciaAterrizar.Data;
+using AgenciaAterrizar.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -15,8 +16,8 @@ public class ReservaVueloController : Controller
 
     public IActionResult Index(string oferta)
     {
-        //var ofertaObjeto = JsonConvert.DeserializeObject(OfertaTipo>(oferta));
+        var ofertaObjeto = JsonConvert.DeserializeObject<OfertaVueloApi> (oferta);
         
-        return View();
+        return View(ofertaObjeto);
     }
 }

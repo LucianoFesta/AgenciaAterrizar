@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         $.ajax({
             url: '../../Home/ObtenerVuelos',
-            data: { VueloIda: 'EZE', VueloRegreso: 'SCL', FechaDesde: '2024-08-22', FechaHasta: '2024-08-29', CantPasajeros: 1 },
-            //data: { VueloIda: ida, VueloRegreso: vuelta, FechaDesde: fechaDesde, FechaHasta: fechaHasta, CantPasajeros: pasajeros, EsVueloIdaVuelta: checkIdaVuelta },
+            //data: { VueloIda: 'EZE', VueloRegreso: 'BKK', FechaDesde: '2024-08-10', FechaHasta: '2024-08-31', CantPasajeros: 2 },
+            data: { VueloIda: ida, VueloRegreso: vuelta, FechaDesde: fechaDesde, FechaHasta: fechaHasta, CantPasajeros: pasajeros, EsVueloIdaVuelta: checkIdaVuelta },
             type: 'GET',
             dataType: 'json',
             beforeSend: function() {
@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 $('#loading').show();
             },
             success: async function(result) {
+                console.log(result)
                 if(!result.success)
                 {   
                     if(result.error){
@@ -76,11 +77,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                         let oferta = {
                             idOferta: ofertaVuelo.id,
+                            pasajeros: pasajeros,
                             intinerario: ofertaVuelo.itineraries,
                             equipaje: ofertaVuelo.travelerPricings[0].fareDetailsBySegment[0].includedCheckedBags.quantity,
                             asientosDisponibles: ofertaVuelo.numberOfBookableSeats,
                             precio: ofertaVuelo.price,
-                            adicionales: ofertaVuelo.pricingOptions,
                             codigoAerolinea: ofertaVuelo.validatingAirlineCodes[0],
                             nombreAerolinea: '',
                             cantEscalas: 1,
@@ -251,11 +252,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     for (const ofertaVuelo of ofertasVuelo) {
                         let oferta = {
                             idOferta: ofertaVuelo.id,
+                            pasajeros: pasajeros,
                             intinerario: ofertaVuelo.itineraries,
                             equipaje: ofertaVuelo.travelerPricings[0].fareDetailsBySegment[0].includedCheckedBags.quantity,
                             asientosDisponibles: ofertaVuelo.numberOfBookableSeats,
                             precio: ofertaVuelo.price,
-                            adicionales: ofertaVuelo.pricingOptions,
                             codigoAerolinea: ofertaVuelo.validatingAirlineCodes[0],
                             nombreAerolinea: '',
                             cantEscalasIda: 1,
@@ -267,10 +268,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         try {
                             // Obtener nombre de la aerolínea.
                             oferta.nombreAerolinea = await BuscarNombreAerolinea(oferta.codigoAerolinea);
-                            console.log(oferta, "Antes de escala")
+
                             // Obtener escalas de ida.
                             const escalasIda = oferta.intinerario[0].segments.map(async (segment, index) => {
-                                console.log(segment, "segmento escala ida")
+
                                 const escala = {
                                     departure: segment.departure.iataCode,
                                     arrival: segment.arrival.iataCode,
@@ -291,7 +292,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 escala.departureAirport = escalaCompleta.departure;
                                 escala.arrivalAirport = escalaCompleta.arrival;
                                 
-                                console.log(escala, "escala desp de completarla")
                                 return escala;
                             });
     

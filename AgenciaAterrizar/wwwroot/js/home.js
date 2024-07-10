@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                         let oferta = {
                             idOferta: ofertaVuelo.id,
+                            idaYvuelta: false,
                             pasajeros: pasajeros,
                             intinerario: ofertaVuelo.itineraries,
                             equipaje: ofertaVuelo.travelerPricings[0].fareDetailsBySegment[0].includedCheckedBags.quantity,
@@ -84,8 +85,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             precio: ofertaVuelo.price,
                             codigoAerolinea: ofertaVuelo.validatingAirlineCodes[0],
                             nombreAerolinea: '',
-                            cantEscalas: 1,
-                            escalas: [],
+                            cantEscalasIda: 1,
+                            escalasIda: [],
+                            cantEscalasVuelta: 0,
+                            escalasVuelta: []
                         };
 
                         try {
@@ -115,10 +118,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 return escala;
                             });
 
-                            oferta.escalas = await Promise.all(escala);
+                            oferta.escalasIda = await Promise.all(escala);
 
                             // Completar con la cantidad de escalas
-                            oferta.cantEscalas = oferta.intinerario[0].segments.length - 1;
+                            oferta.cantEscalasIda = oferta.intinerario[0].segments.length - 1;
 
                             console.log(oferta)
 
@@ -127,7 +130,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                             //Crear HTML para mostrar escalas del vuelo de ida.
                             let escalasHTML = ``;
-                            $.each(oferta.escalas, function(index, escala){
+                            $.each(oferta.escalasIda, function(index, escala){
                                 escalasHTML += `
                                     <div class="accordion-body d-flex justify-content-center itinerarioAccordion">
                                         <div class="d-flex flex-column align-items-center justify-content-around">
@@ -175,25 +178,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                             <i class="fa-solid fa-arrow-right"></i>
                                                         </div>
                                                         <div class="d-flex flex-column align-items-center">
-                                                            <span>${formatoFechaSinFechaMostrar(oferta.intinerario[0].segments[oferta.cantEscalas].arrival.at)}hs.</span>
+                                                            <span>${formatoFechaSinFechaMostrar(oferta.intinerario[0].segments[oferta.cantEscalasIda].arrival.at)}hs.</span>
                                                             <span>${result.vuelta.aeropuertoID}</span>
                                                         </div>
                                                         <div class="equipaje">
                                                             <p><b>Equipaje</b></p>
                                                             ${
                                                                 oferta.equipaje === 0 ? `
-                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Sin equipaje incluido.">
-                                                                        <img src="${appUrl}images/bagNoInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
-                                                                    </div>
-                                                                ` : oferta.equipaje === 1 ? `
                                                                     <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo bolso de mano.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
                                                                     </div>                                                               
-                                                                ` : oferta.equipaje === 2 ? `
+                                                                ` : oferta.equipaje === 1 ? `
                                                                     <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Bolso de mano y Carry On.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
@@ -219,7 +216,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                             <p class="card-text"><i class="fa-regular fa-clock"></i><b> Duración: </b> ${convertirAHorayMinutos(oferta.intinerario[0].duration)}.</p>
                                                             <p class="card-text">
                                                                 <i class="fa-regular fa-hand"></i> ${
-                                                                    oferta.cantEscalas === 0? "Directo" : `${oferta.cantEscalas} Escalas.`
+                                                                    oferta.cantEscalasIda === 0? "Directo" : `${oferta.cantEscalasIda} Escalas.`
                                                                 }
                                                             </p>
                                                         </div>
@@ -252,6 +249,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     for (const ofertaVuelo of ofertasVuelo) {
                         let oferta = {
                             idOferta: ofertaVuelo.id,
+                            idaYvuelta: true,
                             pasajeros: pasajeros,
                             intinerario: ofertaVuelo.itineraries,
                             equipaje: ofertaVuelo.travelerPricings[0].fareDetailsBySegment[0].includedCheckedBags.quantity,
@@ -420,33 +418,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                         </div>
                                                         <div class="equipaje">
                                                             <p><b>Equipaje</b></p>
-                                                            ${
-                                                                oferta.equipaje === 0 ? `
-                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Sin equipaje incluido.">
-                                                                        <img src="${appUrl}images/bagNoInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
-                                                                    </div>
-                                                                ` : oferta.equipaje === 1 ? `
-                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo bolso de mano.">
-                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
-                                                                    </div>                                                               
-                                                                ` : oferta.equipaje === 2 ? `
-                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Bolso de mano y Carry On.">
-                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
-                                                                    </div>                                                               
-                                                                ` : `
-                                                                    <div class="d-flex" data-bs-placement="top" title="Bolso de mano, Carry On y Equipaje a despachar.">
-                                                                        <img src="${appUrl}images/bagInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/baggageInclude.svg" alt="Icon">
-                                                                    </div>                                                                
-                                                                `
-                                                            }
+                                                                ${
+                                                                    oferta.equipaje === 0 ? `
+                                                                        <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo bolso de mano.">
+                                                                            <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                            <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
+                                                                            <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
+                                                                        </div>                                                               
+                                                                    ` : oferta.equipaje === 1 ? `
+                                                                        <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Bolso de mano y Carry On.">
+                                                                            <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                            <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
+                                                                            <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
+                                                                        </div>                                                               
+                                                                    ` : `
+                                                                        <div class="d-flex" data-bs-placement="top" title="Bolso de mano, Carry On y Equipaje a despachar.">
+                                                                            <img src="${appUrl}images/bagInclude.svg" alt="Icon">
+                                                                            <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
+                                                                            <img src="${appUrl}images/baggageInclude.svg" alt="Icon">
+                                                                        </div>                                                                
+                                                                    `
+                                                                }
                                                         </div>
                                                     </div>
     
@@ -483,18 +475,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                         <div class="equipaje">
                                                             ${
                                                                 oferta.equipaje === 0 ? `
-                                                                    <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Sin equipaje incluido.">
-                                                                        <img src="${appUrl}images/bagNoInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
-                                                                        <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
-                                                                    </div>
-                                                                ` : oferta.equipaje === 1 ? `
                                                                     <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo bolso de mano.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonNoInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/baggageNoInclude.svg" alt="Icon">
                                                                     </div>                                                               
-                                                                ` : oferta.equipaje === 2 ? `
+                                                                ` : oferta.equipaje === 1 ? `
                                                                     <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Bolso de mano y Carry On.">
                                                                         <img src="${appUrl}images/bagInclude.svg" alt="Icon">
                                                                         <img src="${appUrl}images/carryonInclude.svg" alt="Icon">
@@ -663,7 +649,8 @@ function reservarVuelo(element) {
     // Convertir el objeto JSON a una cadena
     const ofertaString = encodeURIComponent(JSON.stringify(oferta));
 
+    let url = `/ReservaVuelo?oferta=${ofertaString}`;
     // Agregar el JSON como un parámetro de consulta en la URL
-    window.location.href = `/ReservaVuelo?oferta=${ofertaString}`;
+    window.open(url, 'blank'); 
 }
 

@@ -4,6 +4,7 @@ namespace AgenciaAterrizar.Models
     {
         public int idOferta { get; set; }
         public int pasajeros { get; set; }
+        public bool idaYvuelta { get; set; }
         public int asientosDisponibles { get; set; }
         public int cantEscalasIda { get; set; }
         public int cantEscalasVuelta { get; set; }
@@ -47,8 +48,22 @@ namespace AgenciaAterrizar.Models
     public class IntinerarioOferta
     {
         public string duration { get; set; }     
-        public List<SegmentoOferta> segments{ get; set; }   
+        public string durationFormateada {get {return ConvertirAHorayMinutos(duration);}}
+        public List<SegmentoOferta> segments{ get; set; }  
+
+        private static string ConvertirAHorayMinutos(string duracion)
+        {
+            // Expresión regular para capturar horas y opcionalmente minutos.
+            var regex = new System.Text.RegularExpressions.Regex(@"PT(\d+)H(?:(\d+)M)?");
+            var match = regex.Match(duracion);
+
+            int horas = match.Success && match.Groups[1].Success ? int.Parse(match.Groups[1].Value) : 0;
+            int minutos = match.Success && match.Groups[2].Success ? int.Parse(match.Groups[2].Value) : 0;
+
+            return $"{horas} Horas {minutos} Minutos";
+        }
     }
+
 
     public class SegmentoOferta
     {

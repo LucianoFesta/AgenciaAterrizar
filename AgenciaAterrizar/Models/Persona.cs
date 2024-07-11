@@ -25,10 +25,10 @@ namespace AgenciaAterrizar.Models
 
     public enum TipoDocumento
     {
-        DocumentoNacionalDeIdentidad = 1,
-        LibretaCivica,
-        LibretaDeEnrolamiento,
-        DNIExtranjero,
+        DNI = 1,
+        Libreta_Civica,
+        Libreta_Enrolamiento,
+        DNI_Extranjero,
         Pasaporte
     }
 }

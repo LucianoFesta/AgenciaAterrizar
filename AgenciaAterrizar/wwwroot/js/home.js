@@ -223,6 +223,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <form id="reservaForm" method="post" action="/ReservaVuelo/FinalizarCompra" target="_blank">
+                                                <input type="hidden" name="ofertaJson" id="ofertaInput">
+                                            </form>
+
                                             <div class="d-flex flex-column align-items-center justify-content-between">
                                                 <p class="card-text"><b>Precio Final: </b> $${oferta.precio.total}</p>
                                                 <button class="buttonReserva mt-3" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)">
@@ -513,6 +518,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <form id="reservaForm" method="post" action="/ReservaVuelo/FinalizarCompra" target="_blank">
+                                                <input type="hidden" name="ofertaJson" id="ofertaInput">
+                                            </form>
+
                                             <div class="d-flex flex-column align-items-center justify-content-between">
                                                 <p class="card-text"><b>Precio Final: </b> $${oferta.precio.total}</p>
                                                 <button class="buttonReserva mt-3" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)">
@@ -642,15 +652,23 @@ function checkSeleccionado(id) {
 
 function reservarVuelo(element) {
     const ofertaJson = element.getAttribute('data-oferta');
-    const oferta = JSON.parse(ofertaJson);
 
-    console.log(oferta);
+    // Poner la cadena JSON en el input oculto
+    document.getElementById('ofertaInput').value = ofertaJson;
 
-    // Convertir el objeto JSON a una cadena
-    const ofertaString = encodeURIComponent(JSON.stringify(oferta));
+    // Enviar el formulario
+    document.getElementById('reservaForm').submit();
 
-    let url = `/ReservaVuelo?oferta=${ofertaString}`;
-    // Agregar el JSON como un parámetro de consulta en la URL
-    window.open(url, 'blank'); 
+    // const ofertaJson = element.getAttribute('data-oferta');
+    // const oferta = JSON.parse(ofertaJson);
+
+    // console.log(oferta);
+
+    // // Convertir el objeto JSON a una cadena
+    // const ofertaString = encodeURIComponent(JSON.stringify(oferta));
+
+    // let url = `/ReservaVuelo?oferta=${ofertaString}`;
+    // // Agregar el JSON como un parámetro de consulta en la URL
+    // window.open(url, 'blank'); 
 }
 

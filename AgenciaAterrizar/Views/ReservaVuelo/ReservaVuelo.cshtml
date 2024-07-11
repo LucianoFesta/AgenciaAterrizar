@@ -1,0 +1,162 @@
+@{
+    ViewData["Title"] = "Finalizar Compra";
+    var appUrl = Url.Content("~/");
+}
+
+@model OfertaVueloApi
+
+<link rel="stylesheet" href="~/css/reservaVuelo.css" asp-append-version="true" />
+
+<div class="divReserva">
+    <div class="divTitulo">
+        <h3>¡Estás a un solo paso de concretar tu viaje!</h3>
+
+        <form class="mt-5 ps-2 pe-4">
+            <h5>Completá con los datos de los pasajeros:</h5>
+            <div>
+                @for (int i = 1; i <= Model.pasajeros; i++)
+                {
+                    <h6>Pasajero @(i)</h6>
+                    <div class="d-flex justify-content-evenly">
+                        <div class="mb-3 w-50 p-2">
+                            <label for="nombreCompleto_@(i)" class="form-label">Nombre completo</label>
+                            <input type="text" class="form-control" id="nombreCompleto_@(i)" name="Pasajeros[@i].NombreCompleto" aria-describedby="nombreHelp_@(i)" placeholder="Como aparece en tu documento de viaje">
+                        </div>
+                        <div class="mb-3 w-50 p-2">
+                            <label for="apellido_@(i)" class="form-label">Apellido/s</label>
+                            <input type="text" class="form-control" id="apellido_@(i)" name="Pasajeros[@i].Apellido" placeholder="Como aparece en tu documento de viaje">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-evenly">
+                        <div class="mb-3 w-50 p-2">
+                            <label for="pais_@(i)" class="form-label">País de Residencia</label>
+                            <select class="form-control" id="selectPaises_@(i)" name="Pasajeros[@i].Pais">
+                                <option value="">Seleccione un país</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3 w-50 p-2">
+                            <label for="fechaNacimiento_@(i)" class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control" id="fechaNacimiento_@(i)" name="Pasajeros[@i].FechaNacimiento">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-evenly">
+                        <div class="mb-3 w-50 p-2">
+                            <label for="tipoDocumento_@(i)" class="form-label">Tipo de Documento</label>
+                            @Html.DropDownList("tipoDocumento", null, htmlAttributes: new { @class = "form-control", id = "tipoDocumento_@(i)" })
+                        </div>
+
+                        <div class="mb-3 w-50 p-2">
+                            <label for="nroDocumento_@(i)" class="form-label">Número de Documento</label>
+                            <input type="number" class="form-control" id="nroDocumento_@(i)" name="Pasajeros[@i].NroDocumento">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-evenly align-items-center">
+                        <div class="d-flex inputGenero">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="Pasajeros[@i].Genero" id="masculino_@(i)" value="masculino">
+                                <label class="form-check-label" for="masculino_@(i)">
+                                    Masculino
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="Pasajeros[@i].Genero" id="femenino_@(i)" value="femenino" checked>
+                                <label class="form-check-label" for="femenino_@(i)">
+                                    Femenino
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                <hr>
+                }
+            </div>
+            <button type="submit" class="btn btn-primary">Comprar</button>
+        </form>
+    </div>
+    <div class="detalleCompra">
+        <h4 class="text-center">Detalle de la compra:</h4>
+
+        <div class="mt-4">
+            <div class="text-center">
+                <p class="mb-3 aerolinea"><i class="fa-solid fa-plane"></i>Volás con: <b>@Model.nombreAerolinea</b></p>
+                <p><b>Pasajeros:</b> @Model.pasajeros.</p>
+            </div>
+            <div>
+                <p><i class="fa-solid fa-plane-departure"></i> <b>IDA:</b> @Model.escalasIda[0].departureAirport.ciudad - @Model.escalasIda[@Model.cantEscalasIda].arrivalAirport.ciudad </p>
+                
+                <div class="container divVuelo">
+                    <p class="m-2"><b>Salida: </b> @Model.escalasIda[0].fechaDepartureFormateada hs.</p>
+                    <p class="m-2"><b>Llegada: </b>@Model.escalasIda[@Model.cantEscalasIda].fechaArrivalFormateada hs.</p>
+                    <p class="m-2"><b>Escalas:</b> @Model.cantEscalasIda</p>
+                    @if(@Model.equipaje == 0){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Solo bolso de mano.</p>
+                    }
+                    @if(@Model.equipaje == 1){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano y Carry On.</p>
+                    }
+                    @if(@Model.equipaje > 1){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano , Carry On y Equipaje de 23kg.</p>
+                    }
+
+                    <p class="m-2"><i class="fa-regular fa-clock"></i> @Model.intinerario[0].durationFormateada</p>
+                </div>
+            </div>
+
+            @if(@Model.idaYvuelta == true){
+                <div class="mt-4">
+                    <p><i class="fa-solid fa-plane-arrival"></i><b> VUELTA:</b>  @Model.escalasVuelta[0].departureAirport.ciudad - @Model.escalasVuelta[@Model.cantEscalasVuelta].arrivalAirport.ciudad </p>
+                    
+                    <div class="container divVuelo">
+                        <p class="m-2"><b>Salida: </b> @Model.escalasVuelta[0].fechaDepartureFormateada hs. </p>
+                        <p class="m-2"><b>Llegada:</b> @Model.escalasVuelta[@Model.cantEscalasVuelta].fechaArrivalFormateada hs. </p>
+                        <p class="m-2"><b>Escalas:</b> @Model.cantEscalasVuelta</p>
+                    @if(@Model.equipaje == 0){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Solo bolso de mano.</p>
+                    }
+                    @if(@Model.equipaje == 1){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano y Carry On.</p>
+                    }
+                    @if(@Model.equipaje > 1){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano , Carry On y Equipaje de 23kg.</p>
+                    }
+
+                        <p class="m-2"><i class="fa-regular fa-clock"></i> @Model.intinerario[1].durationFormateada</p>
+                    </div>
+                </div>
+            }
+
+
+            <div class="text-center mt-4 precioCompra">
+                <span><b>Precio:</b> $ @Model.precio.total</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Golpeo la api y creo una lista de paises en español.
+        $.getJSON('https://restcountries.com/v3.1/all', function(paises) {
+            var listaPaises = paises.map(function(pais) {
+                return {
+                    nombre: pais.translations.spa.common,
+                };
+            });
+
+            // Ordenar alfabéticamente por nombre de paises
+            listaPaises.sort(function(a, b) {
+                return a.nombre.localeCompare(b.nombre);
+            });
+
+            // Se agrega cada país al select
+            $.each(listaPaises, function(key, pais) {
+                $('#selectPaises').append($('<option></option>').attr('value', pais.nombre).text(pais.nombre));
+            });
+        });
+    });
+</script>

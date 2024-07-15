@@ -170,10 +170,8 @@
             e.preventDefault();
 
             var modeloVuelo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
-            console.log(modeloVuelo);
 
             var pasajeros = [];
-
             for(var i = 1; i <= modeloVuelo.pasajeros; i++)
             {   
                 var pasajero = {
@@ -185,18 +183,12 @@
                     NroDocumento: document.getElementById('nroDocumento_' + i).value,
                     Genero: document.querySelector('input[name="Pasajeros[' + i + '].Genero"]:checked').value
                 };
-
-                pasajeros.push(pasajero)
             }
-            console.log(pasajeros);
 
-            var infoPago = {
-                correo: document.getElementById('email').value,
-                medioDePago: document.getElementById('medioPago').value,
-                nroTarjeta: document.getElementById('nroTarjeta').value
-            };
+            var correo = document.getElementById('email').value;
+            var medioDePago = document.getElementById('medioPago').value;
+            var nroTarjeta = document.getElementById('nroTarjeta').value;
 
-            console.log(infoPago)
         })
 
     </script>

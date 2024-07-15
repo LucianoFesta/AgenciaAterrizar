@@ -1,6 +1,7 @@
 @{
     ViewData["Title"] = "Finalizar Compra";
     var appUrl = Url.Content("~/");
+    var modeloVueloJson = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
 }
 
 @model OfertaVueloApi
@@ -45,12 +46,17 @@
                     <div class="d-flex justify-content-evenly">
                         <div class="mb-3 w-50 p-2">
                             <label for="tipoDocumento_@(i)" class="form-label">Tipo de Documento</label>
-                            @Html.DropDownList("tipoDocumento", null, htmlAttributes: new { @class = "form-control", id = "tipoDocumento_@(i)" })
+                            <select class="form-control" id="tipoDocumento_@(i)" name="Pasajeros[@i].TipoDocumento">
+                                @foreach (var item in ViewBag.tipoDocumento as IEnumerable<SelectListItem>)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
                         </div>
 
                         <div class="mb-3 w-50 p-2">
                             <label for="nroDocumento_@(i)" class="form-label">Número de Documento</label>
-                            <input type="number" class="form-control" id="nroDocumento_@(i)" name="Pasajeros[@i].NroDocumento">
+                            <input type="text" class="form-control" id="nroDocumento_@(i)" name="Pasajeros[@i].NroDocumento">
                         </div>
                     </div>
 
@@ -73,7 +79,25 @@
                 <hr>
                 }
             </div>
-            <button type="submit" class="btn btn-primary">Comprar</button>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email para el envío del voucher</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+            </div>
+
+            <div class="d-flex justify-content-evenly">
+                <div class="mb-3 w-50 p-2">
+                    <label for="medioPago" class="form-label">Medio de Pago</label>
+                    @Html.DropDownList("medioPago", null, htmlAttributes: new { @class = "form-control", id = "medioPago" })
+                </div>
+
+                <div class="mb-3 w-50 p-2">
+                    <label for="nroTarjeta" class="form-label">Número de Tarjeta</label>
+                    <input type="number" class="form-control" id="nroTarjeta" name="nroTarjeta">
+                </div>
+            </div>
+
+            <button class="btn btn-primary" id="finalizarCompra">Comprar</button>
         </form>
     </div>
     <div class="detalleCompra">
@@ -137,26 +161,43 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Golpeo la api y creo una lista de paises en español.
-        $.getJSON('https://restcountries.com/v3.1/all', function(paises) {
-            var listaPaises = paises.map(function(pais) {
-                return {
-                    nombre: pais.translations.spa.common,
+@section Scripts{
+    <script src="~/js/reservaVuelo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+
+        document.getElementById('finalizarCompra').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            var modeloVuelo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+            console.log(modeloVuelo);
+
+            var pasajeros = [];
+
+            for(var i = 1; i <= modeloVuelo.pasajeros; i++)
+            {   
+                var pasajero = {
+                    NombreCompleto : document.getElementById('nombreCompleto_' + i).value,
+                    Apellido: document.getElementById('apellido_' + i).value,
+                    Pais: document.getElementById('selectPaises_' + i).value,
+                    FechaNacimiento: document.getElementById('fechaNacimiento_' + i).value,
+                    TipoDocumento: document.getElementById('tipoDocumento_' + i).value,
+                    NroDocumento: document.getElementById('nroDocumento_' + i).value,
+                    Genero: document.querySelector('input[name="Pasajeros[' + i + '].Genero"]:checked').value
                 };
-            });
 
-            // Ordenar alfabéticamente por nombre de paises
-            listaPaises.sort(function(a, b) {
-                return a.nombre.localeCompare(b.nombre);
-            });
+                pasajeros.push(pasajero)
+            }
+            console.log(pasajeros);
 
-            // Se agrega cada país al select
-            $.each(listaPaises, function(key, pais) {
-                $('#selectPaises').append($('<option></option>').attr('value', pais.nombre).text(pais.nombre));
-            });
-        });
-    });
-</script>
+            var infoPago = {
+                correo: document.getElementById('email').value,
+                medioDePago: document.getElementById('medioPago').value,
+                nroTarjeta: document.getElementById('nroTarjeta').value
+            };
+
+            console.log(infoPago)
+        })
+
+    </script>
+}

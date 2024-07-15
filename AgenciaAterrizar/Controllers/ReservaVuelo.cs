@@ -22,20 +22,35 @@ public class ReservaVueloController : Controller
     public IActionResult ReservaVuelo(string ofertaJson)
     {
         //Pasar a la vista el select con las opciones de tipo de documento.
-        var selectListItem = new List<SelectListItem>
+        var selectListItemTipoDocumento = new List<SelectListItem>
         {
             new SelectListItem{ Value = "0", Text = "[Seleccione..]" }
         };
 
-        var enumValues = Enum.GetValues(typeof(TipoDocumento)).Cast<TipoDocumento>();
+        var enumValuesTipoDocumento = Enum.GetValues(typeof(TipoDocumento)).Cast<TipoDocumento>();
 
-        selectListItem.AddRange(enumValues.Select(e => new SelectListItem
+        selectListItemTipoDocumento.AddRange(enumValuesTipoDocumento.Select(e => new SelectListItem
         {
             Value = e.GetHashCode().ToString(),
             Text = e.ToString()
         }));
 
-        ViewBag.tipoDocumento = selectListItem.OrderBy(t => t.Text).ToList();
+        ViewBag.tipoDocumento = selectListItemTipoDocumento.OrderBy(t => t.Text).ToList();
+
+        var selectListItemMediosPago = new List<SelectListItem>
+        {
+            new SelectListItem{ Value = "0", Text = "[Seleccione..]" }
+        };
+
+        var enumValuesMediosPago = Enum.GetValues(typeof(MedioDePagoEnum)).Cast<MedioDePagoEnum>();
+
+        selectListItemMediosPago.AddRange(enumValuesMediosPago.Select(m => new SelectListItem
+        {
+            Value = m.GetHashCode().ToString(),
+            Text = m.ToString()
+        }));
+
+        ViewBag.medioPago = selectListItemMediosPago.OrderBy(m => m.Text).ToList();
 
 
         //Retornar a la vista el modelo de vista de ofertaVueloApi para mostrar la info del vuelo seleccionado.

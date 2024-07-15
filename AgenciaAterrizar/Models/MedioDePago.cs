@@ -14,8 +14,8 @@ namespace AgenciaAterrizar.Models
 
     public enum MedioDePagoEnum
     {
-        TarjetaDeCredito = 1,
-        TarjetaDeDebito,
+        Tarjeta_Credito = 1,
+        Tarjeta_Debito
 
     }
 }

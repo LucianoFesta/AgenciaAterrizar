@@ -8,7 +8,7 @@ namespace AgenciaAterrizar.Models
         public int PersonaID { get; set; }
         public int UsuarioID { get; set; } // VER DE AGREGAR LA RELACION CON LA TABLA USER.
         public string NombreCompleto { get; set; }
-        public TipoDocumento TipoDocumento { get; set; }
+        public string TipoDocumento { get; set; }
         public int DNI { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public string Pasaporte { get; set; }
@@ -23,12 +23,4 @@ namespace AgenciaAterrizar.Models
 
     }
 
-    public enum TipoDocumento
-    {
-        DNI = 1,
-        Libreta_Civica,
-        Libreta_Enrolamiento,
-        DNI_Extranjero,
-        Pasaporte
-    }
 }

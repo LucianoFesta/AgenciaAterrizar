@@ -47,10 +47,11 @@
                         <div class="mb-3 w-50 p-2">
                             <label for="tipoDocumento_@(i)" class="form-label">Tipo de Documento</label>
                             <select class="form-control" id="tipoDocumento_@(i)" name="Pasajeros[@i].TipoDocumento">
-                                @foreach (var item in ViewBag.tipoDocumento as IEnumerable<SelectListItem>)
-                                {
-                                    <option value="@item.Value">@item.Text</option>
-                                }
+                                <option value="pasaporte">Pasaporte</option>
+                                <option value="dni">Documento Nacional de Identidad</option>
+                                <option value="dniExtranjero">Documento Nacional Extranjero</option>
+                                <option value="libretaCivica">Libreta Civica</option>
+                                <option value="libretaEnrolamiento">Libreta de Enrolamiento</option>
                             </select>
                         </div>
 
@@ -88,7 +89,11 @@
             <div class="d-flex justify-content-evenly">
                 <div class="mb-3 w-50 p-2">
                     <label for="medioPago" class="form-label">Medio de Pago</label>
-                    @Html.DropDownList("medioPago", null, htmlAttributes: new { @class = "form-control", id = "medioPago" })
+                    <select class="form-control" id="medioPago" name="medioPago">
+                        <option value="credito">Tarjeta de Crédito</option>
+                        <option value="debito">Tarjeta de Débito</option>
+                    </select>
+                    @* @Html.DropDownList("medioPago", null, htmlAttributes: new { @class = "form-control", id = "medioPago" }) *@
                 </div>
 
                 <div class="mb-3 w-50 p-2">
@@ -165,16 +170,97 @@
     <script src="~/js/reservaVuelo.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
+        //Genero la variable para obtener la ruta relativa de la aplicación y no tener inconveniente para utilizar el controlador.
+        var appUrl = "@appUrl";
+    </script>
+    <script>
 
         document.getElementById('finalizarCompra').addEventListener('click', function(e) {
             e.preventDefault();
 
+            //Obtengo del modelo que paso al HTML un objeto JSON para poder utilizarlo en un script de JS.
             var modeloVuelo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
 
-            var pasajeros = [];
+            //Verifico si se trata de un vuelo ida y vuelta o solo ida para asignar los aeropuertos de vuelta si existen.
+            var aeropuertoDestinoID;
+            var nombreAeropuertoDestino;
+
+            if (modeloVuelo.intinerario[0].segments.length > 1) {
+                aeropuertoDestinoID = modeloVuelo.escalasIda[modeloVuelo.escalasIda.length - 1].arrival;
+                nombreAeropuertoDestino = modeloVuelo.escalasIda[modeloVuelo.escalasIda.length - 1].arrivalAirport.nombre;
+            } else {
+                aeropuertoDestinoID = modeloVuelo.escalasIda[0].arrival;
+                nombreAeropuertoDestino = modeloVuelo.escalasIda[0].arrivalAirport.nombre;
+            }
+
+            //Genero el objeto que voy a pasar el controlador.
+            var reservaVuelo = {
+                AeropuertoOrigenID: modeloVuelo.escalasIda[0].departure,
+                NombreAeropuertoOrigen: modeloVuelo.escalasIda[0].departureAirport.nombre,
+                FechaSalida: modeloVuelo.escalasIda[0].departureDate,
+                AerolineaID: modeloVuelo.codigoAerolinea,
+                AerolineaNombre: modeloVuelo.nombreAerolinea,
+                DuracionVueloIda: modeloVuelo.intinerario[0].duration,
+                CantidadPasajeros: modeloVuelo.pasajeros,
+                Email: document.getElementById('email').value,
+                MedioDePago: document.getElementById('medioPago').value,
+                NroTarjeta: document.getElementById('nroTarjeta').value,
+                CantidadCuotas: 1,
+                MontoTotalCompra: modeloVuelo.precio.total,
+                AeropuertoDestinoID: aeropuertoDestinoID,
+                NombreAeropuertoDestino: nombreAeropuertoDestino
+            }
+
+            //Creo las escalas del vuelo seleccionado para agregarlas al objeto que paso al controlador.
+            var escalas = [];
+            for(var i = 0; i < modeloVuelo.escalasIda.length; i++)
+            {
+                var escala = {
+                    AerolineaID: modeloVuelo.escalasIda[i].airline,
+                    AeropuertoDestinoID: modeloVuelo.escalasIda[i].arrival,
+                    FechaLlegada: modeloVuelo.escalasIda[i].arrivalDate,
+                    AeropuertoOrigenID: modeloVuelo.escalasIda[i].departure,
+                    FechaSalida: modeloVuelo.escalasIda[i].departureDate,
+                    EscalaIda: modeloVuelo.escalasIda[i].ida,
+                    EscalaVuelta: modeloVuelo.escalasIda[i].vuelta,
+                    NroEscala: modeloVuelo.escalasIda[i].escalaNumber,
+                    DuracionVuelo: modeloVuelo.escalasIda[i].duration,
+                    NumeroVuelo: modeloVuelo.escalasIda[i].fligthNumber
+                }
+
+                escalas.push(escala);
+            }
+
+            if( modeloVuelo.escalasVuelta.length > 0)
+            {
+                reservaVuelo.FechaRegreso = modeloVuelo.escalasVuelta[0].departureDate;
+                reservaVuelo.DuracionVueloRegreso = modeloVuelo.intinerario[1].duration;
+
+                for(var i = 0; i < modeloVuelo.escalasVuelta.length; i++)
+                {
+                    var escala = {
+                        AerolineaID: modeloVuelo.escalasVuelta[i].airline,
+                        AeropuertoDestinoID: modeloVuelo.escalasVuelta[i].arrival,
+                        FechaLlegada: modeloVuelo.escalasVuelta[i].arrivalDate,
+                        AeropuertoOrigenID: modeloVuelo.escalasVuelta[i].departure,
+                        FechaSalida: modeloVuelo.escalasVuelta[i].departureDate,
+                        EscalaIda: modeloVuelo.escalasVuelta[i].ida,
+                        EscalaVuelta: modeloVuelo.escalasVuelta[i].vuelta,
+                        NroEscala: modeloVuelo.escalasVuelta[i].escalaNumber,
+                        DuracionVuelo: modeloVuelo.escalasVuelta[i].duration,
+                        NumeroVuelo: modeloVuelo.escalasVuelta[i].fligthNumber
+                    }
+
+                    escalas.push(escala);
+                }
+            }
+            reservaVuelo.Escalas = escalas;
+
+            //Creo los acompañantes del vuelo seleccionado para agregarlas al objeto que paso al controlador.
+            var acompaniantes = [];
             for(var i = 1; i <= modeloVuelo.pasajeros; i++)
             {   
-                var pasajero = {
+                var acompaniante = {
                     NombreCompleto : document.getElementById('nombreCompleto_' + i).value,
                     Apellido: document.getElementById('apellido_' + i).value,
                     Pais: document.getElementById('selectPaises_' + i).value,
@@ -183,12 +269,52 @@
                     NroDocumento: document.getElementById('nroDocumento_' + i).value,
                     Genero: document.querySelector('input[name="Pasajeros[' + i + '].Genero"]:checked').value
                 };
+
+                acompaniantes.push(acompaniante);
             }
+            
+            //Paso el objeto generado al controlador para proceder a almacenar la reserva, escalas y acompaniantes en la base de datos.
+            $.ajax({
+                url: appUrl + 'ReservaVuelo/GuardarNuevaReserva',
+                data: { ReservaVuelo: reservaVuelo, Acompaniantes: acompaniantes },
+                type: 'POST',
+                dataType: 'json',
+                success: function(result){
+                    console.log(result)
+                    if(!result.success)
+                    {
+                        Swal.fire({
+                            title: 'Ups, existe un inconveniente:',
+                            text: result.message,
+                            icon: 'warning',
+                            confirmButtonText: 'Volver a intentarlo'
+                        });
+                    }else
+                    {
+                        Swal.fire({
+                            title: 'Compra realizada exitosamente.',
+                            text: '¡Felicitaciones, has reservado tu vuelo con éxito!',
+                            icon: 'success',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if(result.isConfirmed){
+                                window.open('/', '_blank');
 
-            var correo = document.getElementById('email').value;
-            var medioDePago = document.getElementById('medioPago').value;
-            var nroTarjeta = document.getElementById('nroTarjeta').value;
-
+                                // Cerrar la ventana actual
+                                window.close();
+                            }
+                        })
+                    }
+                },
+                error: function(kxr, status){
+                    Swal.fire({
+                        title: 'Ups, existe un inconveniente:',
+                        text: 'Ocurrió un error para proceder a reservar el vuelo. Por favor, intente más tarde.',
+                        icon: 'warning',
+                        confirmButtonText: 'Volver a intentarlo'
+                    });
+                }
+            })
         })
 
     </script>

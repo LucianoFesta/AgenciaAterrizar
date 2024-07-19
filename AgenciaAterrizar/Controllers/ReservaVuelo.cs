@@ -21,37 +21,6 @@ public class ReservaVueloController : Controller
     //Se crea un método post para pasar la información de la reserva (sencible) para que no este a la vista del usuario.
     public IActionResult ReservaVuelo(string ofertaJson)
     {
-        //Pasar a la vista el select con las opciones de tipo de documento.
-        var selectListItemTipoDocumento = new List<SelectListItem>
-        {
-            new SelectListItem{ Value = "0", Text = "[Seleccione..]" }
-        };
-
-        var enumValuesTipoDocumento = Enum.GetValues(typeof(TipoDocumento)).Cast<TipoDocumento>();
-
-        selectListItemTipoDocumento.AddRange(enumValuesTipoDocumento.Select(e => new SelectListItem
-        {
-            Value = e.GetHashCode().ToString(),
-            Text = e.ToString()
-        }));
-
-        ViewBag.tipoDocumento = selectListItemTipoDocumento.OrderBy(t => t.Text).ToList();
-
-        var selectListItemMediosPago = new List<SelectListItem>
-        {
-            new SelectListItem{ Value = "0", Text = "[Seleccione..]" }
-        };
-
-        var enumValuesMediosPago = Enum.GetValues(typeof(MedioDePagoEnum)).Cast<MedioDePagoEnum>();
-
-        selectListItemMediosPago.AddRange(enumValuesMediosPago.Select(m => new SelectListItem
-        {
-            Value = m.GetHashCode().ToString(),
-            Text = m.ToString()
-        }));
-
-        ViewBag.medioPago = selectListItemMediosPago.OrderBy(m => m.Text).ToList();
-
 
         //Retornar a la vista el modelo de vista de ofertaVueloApi para mostrar la info del vuelo seleccionado.
         if (string.IsNullOrEmpty(ofertaJson))
@@ -65,4 +34,41 @@ public class ReservaVueloController : Controller
         // Pasar la oferta a la vista
         return View(oferta);
     }
+
+    [HttpPost("GuardarNuevaReserva")]
+    public JsonResult GuardarNuevaReserva(ReservaVuelo ReservaVuelo, List<Acompaniante> Acompaniantes)
+    {
+        //Una transacción se usa para que todas las operaciones SQL se cumplan y se mantenga la integridad. Si una falla, todo falla y nada se almacena.
+        using (var transaction = _context.Database.BeginTransaction())
+        {
+            try
+            {
+                // Guardar la reserva principal
+                _context.ReservaVuelos.Add(ReservaVuelo);
+                _context.SaveChanges();
+
+                // Obtener el ID de la reserva recién insertada
+                int reservaVueloID = ReservaVuelo.ReservaVueloID.Value;
+
+                // Asociar cada acompañante con la reserva recién creada
+                Acompaniantes.ForEach(acompaniante => {
+                    acompaniante.ReservaVueloID = reservaVueloID;
+                    _context.Acompaniantes.Add(acompaniante);
+                });
+
+                _context.SaveChanges();
+                transaction.Commit();
+
+                return Json(new { success = true });
+            }
+            catch(Exception ex)
+            {
+                //Si ocurre algun error se revierte la transacción.
+                transaction.Rollback();
+                
+                return Json(new { success = false, message = "Ocurrió un inconveniente al intentar almacenar la reserva.", error = ex.Message });
+            }
+        }
+    }
+
 }

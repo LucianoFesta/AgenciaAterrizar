@@ -483,6 +483,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                                 <span>${result.ida.aeropuertoID}</span>
                                                             </div>
                                                             <div class="equipaje">
+                                                                <p><b>Equipaje</b></p>
                                                                 ${
                                                                     oferta.equipaje === 0 ? `
                                                                         <div class="d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo bolso de mano.">

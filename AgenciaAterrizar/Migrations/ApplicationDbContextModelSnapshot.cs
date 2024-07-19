@@ -30,52 +30,41 @@ namespace AgenciaAterrizar.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AcompanianteID"));
 
-                    b.Property<int>("AcompanianteReservaID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Documento")
+                    b.Property<string>("Apellido")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Genero")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NombreCompleto")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TipoDocumento")
-                        .HasColumnType("int");
+                    b.Property<string>("NroDocumento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("VencimientoDocumento")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("AcompanianteID");
-
-                    b.ToTable("Acompaniantes");
-                });
-
-            modelBuilder.Entity("AgenciaAterrizar.Models.AcompanianteReserva", b =>
-                {
-                    b.Property<int>("AcompanianteReservaID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AcompanianteReservaID"));
-
-                    b.Property<int>("AcompanianteID")
-                        .HasColumnType("int");
+                    b.Property<string>("Pais")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ReservaVueloID")
                         .HasColumnType("int");
 
-                    b.HasKey("AcompanianteReservaID");
+                    b.Property<string>("TipoDocumento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("AcompanianteID");
+                    b.HasKey("AcompanianteID");
 
                     b.HasIndex("ReservaVueloID");
 
-                    b.ToTable("AcompanianteReservas");
+                    b.ToTable("Acompaniantes");
                 });
 
             modelBuilder.Entity("AgenciaAterrizar.Models.Aerolinea", b =>
@@ -106,6 +95,7 @@ namespace AgenciaAterrizar.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaisID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("AeropuertoID");
@@ -142,22 +132,20 @@ namespace AgenciaAterrizar.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EscalaID"));
 
-                    b.Property<int>("AerolineaID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AerolineaID1")
+                    b.Property<string>("AerolineaID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AeropuertoDestinoID")
-                        .HasColumnType("int");
+                    b.Property<string>("AeropuertoDestinoID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AeropuertoID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AeropuertoOrigenID")
-                        .HasColumnType("int");
+                    b.Property<string>("AeropuertoOrigenID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DuracionVuelo")
                         .IsRequired()
@@ -187,29 +175,13 @@ namespace AgenciaAterrizar.Migrations
 
                     b.HasKey("EscalaID");
 
-                    b.HasIndex("AerolineaID1");
+                    b.HasIndex("AerolineaID");
 
                     b.HasIndex("AeropuertoID");
 
                     b.HasIndex("ReservaVueloID");
 
                     b.ToTable("Escalas");
-                });
-
-            modelBuilder.Entity("AgenciaAterrizar.Models.MedioDePago", b =>
-                {
-                    b.Property<int>("MedioDePagoID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedioDePagoID"));
-
-                    b.Property<int>("Descripcion")
-                        .HasColumnType("int");
-
-                    b.HasKey("MedioDePagoID");
-
-                    b.ToTable("MedioDePagos");
                 });
 
             modelBuilder.Entity("AgenciaAterrizar.Models.Pais", b =>
@@ -264,8 +236,9 @@ namespace AgenciaAterrizar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TipoDocumento")
-                        .HasColumnType("int");
+                    b.Property<string>("TipoDocumento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UsuarioID")
                         .HasColumnType("int");
@@ -321,8 +294,9 @@ namespace AgenciaAterrizar.Migrations
                     b.Property<DateTime>("FechaCheckout")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MedioDePagoID")
-                        .HasColumnType("int");
+                    b.Property<string>("MedioDePago")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("MontoPagado")
                         .HasColumnType("decimal(18,2)");
@@ -346,8 +320,6 @@ namespace AgenciaAterrizar.Migrations
 
                     b.HasIndex("CiudadID");
 
-                    b.HasIndex("MedioDePagoID");
-
                     b.HasIndex("PersonaID");
 
                     b.ToTable("ReservaHoteles");
@@ -355,26 +327,30 @@ namespace AgenciaAterrizar.Migrations
 
             modelBuilder.Entity("AgenciaAterrizar.Models.ReservaVuelo", b =>
                 {
-                    b.Property<int>("ReservaVueloID")
+                    b.Property<int?>("ReservaVueloID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservaVueloID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("ReservaVueloID"));
 
                     b.Property<int?>("AcompanianteID")
                         .HasColumnType("int");
 
-                    b.Property<int>("AcompanianteReservaID")
-                        .HasColumnType("int");
+                    b.Property<string>("AerolineaID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AerolineaID")
-                        .HasColumnType("int");
+                    b.Property<string>("AerolineaNombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AeropuertoDestinoID")
-                        .HasColumnType("int");
+                    b.Property<string>("AeropuertoDestinoID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AeropuertoOrigenID")
-                        .HasColumnType("int");
+                    b.Property<string>("AeropuertoOrigenID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CantidadCuotas")
                         .HasColumnType("int");
@@ -382,44 +358,49 @@ namespace AgenciaAterrizar.Migrations
                     b.Property<int>("CantidadPasajeros")
                         .HasColumnType("int");
 
-                    b.Property<string>("DuracionVuelo")
+                    b.Property<string>("DuracionVueloIda")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EscalaID")
+                    b.Property<string>("DuracionVueloRegreso")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EscalaID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FechaRegreso")
+                    b.Property<DateTime?>("FechaRegreso")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaSalida")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MedioDePagoID")
-                        .HasColumnType("int");
+                    b.Property<string>("MedioDePago")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("MontoTotalCompra")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("NroTarjeta")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PersonaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TerminalAeropuertoDestino")
+                    b.Property<string>("NombreAeropuertoDestino")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TerminalAeropuertoOrigen")
+                    b.Property<string>("NombreAeropuertoOrigen")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NroTarjeta")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PersonaId")
+                        .HasColumnType("int");
 
                     b.HasKey("ReservaVueloID");
-
-                    b.HasIndex("AcompanianteID");
-
-                    b.HasIndex("MedioDePagoID");
 
                     b.HasIndex("PersonaId");
 
@@ -628,30 +609,24 @@ namespace AgenciaAterrizar.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AgenciaAterrizar.Models.AcompanianteReserva", b =>
+            modelBuilder.Entity("AgenciaAterrizar.Models.Acompaniante", b =>
                 {
-                    b.HasOne("AgenciaAterrizar.Models.Acompaniante", "Acompaniante")
-                        .WithMany("AcompampanianteReservas")
-                        .HasForeignKey("AcompanianteID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AgenciaAterrizar.Models.ReservaVuelo", "ReservaVuelo")
-                        .WithMany("AcompampanianteReservas")
+                    b.HasOne("AgenciaAterrizar.Models.ReservaVuelo", "ReservasVuelos")
+                        .WithMany("Acompaniantes")
                         .HasForeignKey("ReservaVueloID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Acompaniante");
-
-                    b.Navigation("ReservaVuelo");
+                    b.Navigation("ReservasVuelos");
                 });
 
             modelBuilder.Entity("AgenciaAterrizar.Models.Aeropuerto", b =>
                 {
                     b.HasOne("AgenciaAterrizar.Models.Pais", "Pais")
                         .WithMany("Aeropuertos")
-                        .HasForeignKey("PaisID");
+                        .HasForeignKey("PaisID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Pais");
                 });
@@ -669,15 +644,13 @@ namespace AgenciaAterrizar.Migrations
                 {
                     b.HasOne("AgenciaAterrizar.Models.Aerolinea", "Aerolinea")
                         .WithMany("Escalas")
-                        .HasForeignKey("AerolineaID1")
+                        .HasForeignKey("AerolineaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AgenciaAterrizar.Models.Aeropuerto", "Aeropuerto")
+                    b.HasOne("AgenciaAterrizar.Models.Aeropuerto", null)
                         .WithMany("Escalas")
-                        .HasForeignKey("AeropuertoID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AeropuertoID");
 
                     b.HasOne("AgenciaAterrizar.Models.ReservaVuelo", "ReservasVuelos")
                         .WithMany("Escalas")
@@ -686,8 +659,6 @@ namespace AgenciaAterrizar.Migrations
                         .IsRequired();
 
                     b.Navigation("Aerolinea");
-
-                    b.Navigation("Aeropuerto");
 
                     b.Navigation("ReservasVuelos");
                 });
@@ -700,12 +671,6 @@ namespace AgenciaAterrizar.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AgenciaAterrizar.Models.MedioDePago", "MedioDePago")
-                        .WithMany("ReservasHoteles")
-                        .HasForeignKey("MedioDePagoID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AgenciaAterrizar.Models.Persona", "Persona")
                         .WithMany("ReservasHoteles")
                         .HasForeignKey("PersonaID")
@@ -714,30 +679,14 @@ namespace AgenciaAterrizar.Migrations
 
                     b.Navigation("Ciudad");
 
-                    b.Navigation("MedioDePago");
-
                     b.Navigation("Persona");
                 });
 
             modelBuilder.Entity("AgenciaAterrizar.Models.ReservaVuelo", b =>
                 {
-                    b.HasOne("AgenciaAterrizar.Models.Acompaniante", null)
-                        .WithMany("ReservasVuelos")
-                        .HasForeignKey("AcompanianteID");
-
-                    b.HasOne("AgenciaAterrizar.Models.MedioDePago", "MedioDePago")
-                        .WithMany("ReservasVuelos")
-                        .HasForeignKey("MedioDePagoID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AgenciaAterrizar.Models.Persona", "Persona")
                         .WithMany("ReservasVuelos")
-                        .HasForeignKey("PersonaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MedioDePago");
+                        .HasForeignKey("PersonaId");
 
                     b.Navigation("Persona");
                 });
@@ -793,13 +742,6 @@ namespace AgenciaAterrizar.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AgenciaAterrizar.Models.Acompaniante", b =>
-                {
-                    b.Navigation("AcompampanianteReservas");
-
-                    b.Navigation("ReservasVuelos");
-                });
-
             modelBuilder.Entity("AgenciaAterrizar.Models.Aerolinea", b =>
                 {
                     b.Navigation("Escalas");
@@ -813,13 +755,6 @@ namespace AgenciaAterrizar.Migrations
             modelBuilder.Entity("AgenciaAterrizar.Models.Ciudad", b =>
                 {
                     b.Navigation("ReservaHoteles");
-                });
-
-            modelBuilder.Entity("AgenciaAterrizar.Models.MedioDePago", b =>
-                {
-                    b.Navigation("ReservasHoteles");
-
-                    b.Navigation("ReservasVuelos");
                 });
 
             modelBuilder.Entity("AgenciaAterrizar.Models.Pais", b =>
@@ -838,7 +773,7 @@ namespace AgenciaAterrizar.Migrations
 
             modelBuilder.Entity("AgenciaAterrizar.Models.ReservaVuelo", b =>
                 {
-                    b.Navigation("AcompampanianteReservas");
+                    b.Navigation("Acompaniantes");
 
                     b.Navigation("Escalas");
                 });

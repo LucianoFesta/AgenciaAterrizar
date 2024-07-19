@@ -16,13 +16,12 @@ namespace AgenciaAterrizar.Models
         public decimal PrecioTotal { get; set; }
         public decimal MontoPagado { get; set; }
         public int CantidadHuespedes { get; set; }
-        public int MedioDePagoID { get; set; }
+        public string MedioDePago { get; set; }
         public int NroTarjeta { get; set; }
         public int CantidadCuotas { get; set; }
 
         public virtual Persona Persona { get; set; }
         public virtual Ciudad Ciudad { get; set; }
-        public virtual MedioDePago MedioDePago { get; set; }
 
     }
 }

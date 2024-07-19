@@ -1,0 +1,321 @@
+@{
+    ViewData["Title"] = "Finalizar Compra";
+    var appUrl = Url.Content("~/");
+    var modeloVueloJson = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+}
+
+@model OfertaVueloApi
+
+<link rel="stylesheet" href="~/css/reservaVuelo.css" asp-append-version="true" />
+
+<div class="divReserva">
+    <div class="divTitulo">
+        <h3>¡Estás a un solo paso de concretar tu viaje!</h3>
+
+        <form class="mt-5 ps-2 pe-4">
+            <h5>Completá con los datos de los pasajeros:</h5>
+            <div>
+                @for (int i = 1; i <= Model.pasajeros; i++)
+                {
+                    <h6>Pasajero @(i)</h6>
+                    <div class="d-flex justify-content-evenly">
+                        <div class="mb-3 w-50 p-2">
+                            <label for="nombreCompleto_@(i)" class="form-label">Nombre completo</label>
+                            <input type="text" class="form-control" id="nombreCompleto_@(i)" name="Pasajeros[@i].NombreCompleto" aria-describedby="nombreHelp_@(i)" placeholder="Como aparece en tu documento de viaje">
+                        </div>
+                        <div class="mb-3 w-50 p-2">
+                            <label for="apellido_@(i)" class="form-label">Apellido/s</label>
+                            <input type="text" class="form-control" id="apellido_@(i)" name="Pasajeros[@i].Apellido" placeholder="Como aparece en tu documento de viaje">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-evenly">
+                        <div class="mb-3 w-50 p-2">
+                            <label for="pais_@(i)" class="form-label">País de Residencia</label>
+                            <select class="form-control" id="selectPaises_@(i)" name="Pasajeros[@i].Pais">
+                                <option value="">Seleccione un país</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3 w-50 p-2">
+                            <label for="fechaNacimiento_@(i)" class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control" id="fechaNacimiento_@(i)" name="Pasajeros[@i].FechaNacimiento">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-evenly">
+                        <div class="mb-3 w-50 p-2">
+                            <label for="tipoDocumento_@(i)" class="form-label">Tipo de Documento</label>
+                            <select class="form-control" id="tipoDocumento_@(i)" name="Pasajeros[@i].TipoDocumento">
+                                <option value="pasaporte">Pasaporte</option>
+                                <option value="dni">Documento Nacional de Identidad</option>
+                                <option value="dniExtranjero">Documento Nacional Extranjero</option>
+                                <option value="libretaCivica">Libreta Civica</option>
+                                <option value="libretaEnrolamiento">Libreta de Enrolamiento</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3 w-50 p-2">
+                            <label for="nroDocumento_@(i)" class="form-label">Número de Documento</label>
+                            <input type="text" class="form-control" id="nroDocumento_@(i)" name="Pasajeros[@i].NroDocumento">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-evenly align-items-center">
+                        <div class="d-flex inputGenero">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="Pasajeros[@i].Genero" id="masculino_@(i)" value="masculino">
+                                <label class="form-check-label" for="masculino_@(i)">
+                                    Masculino
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="Pasajeros[@i].Genero" id="femenino_@(i)" value="femenino" checked>
+                                <label class="form-check-label" for="femenino_@(i)">
+                                    Femenino
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                <hr>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email para el envío del voucher</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+            </div>
+
+            <div class="d-flex justify-content-evenly">
+                <div class="mb-3 w-50 p-2">
+                    <label for="medioPago" class="form-label">Medio de Pago</label>
+                    <select class="form-control" id="medioPago" name="medioPago">
+                        <option value="credito">Tarjeta de Crédito</option>
+                        <option value="debito">Tarjeta de Débito</option>
+                    </select>
+                    @* @Html.DropDownList("medioPago", null, htmlAttributes: new { @class = "form-control", id = "medioPago" }) *@
+                </div>
+
+                <div class="mb-3 w-50 p-2">
+                    <label for="nroTarjeta" class="form-label">Número de Tarjeta</label>
+                    <input type="number" class="form-control" id="nroTarjeta" name="nroTarjeta">
+                </div>
+            </div>
+
+            <button class="btn btn-primary" id="finalizarCompra">Comprar</button>
+        </form>
+    </div>
+    <div class="detalleCompra">
+        <h4 class="text-center">Detalle de la compra:</h4>
+
+        <div class="mt-4">
+            <div class="text-center">
+                <p class="mb-3 aerolinea"><i class="fa-solid fa-plane"></i>Volás con: <b>@Model.nombreAerolinea</b></p>
+                <p><b>Pasajeros:</b> @Model.pasajeros.</p>
+            </div>
+            <div>
+                <p><i class="fa-solid fa-plane-departure"></i> <b>IDA:</b> @Model.escalasIda[0].departureAirport.ciudad - @Model.escalasIda[@Model.cantEscalasIda].arrivalAirport.ciudad </p>
+                
+                <div class="container divVuelo">
+                    <p class="m-2"><b>Salida: </b> @Model.escalasIda[0].fechaDepartureFormateada hs.</p>
+                    <p class="m-2"><b>Llegada: </b>@Model.escalasIda[@Model.cantEscalasIda].fechaArrivalFormateada hs.</p>
+                    <p class="m-2"><b>Escalas:</b> @Model.cantEscalasIda</p>
+                    @if(@Model.equipaje == 0){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Solo bolso de mano.</p>
+                    }
+                    @if(@Model.equipaje == 1){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano y Carry On.</p>
+                    }
+                    @if(@Model.equipaje > 1){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano , Carry On y Equipaje de 23kg.</p>
+                    }
+
+                    <p class="m-2"><i class="fa-regular fa-clock"></i> @Model.intinerario[0].durationFormateada</p>
+                </div>
+            </div>
+
+            @if(@Model.idaYvuelta == true){
+                <div class="mt-4">
+                    <p><i class="fa-solid fa-plane-arrival"></i><b> VUELTA:</b>  @Model.escalasVuelta[0].departureAirport.ciudad - @Model.escalasVuelta[@Model.cantEscalasVuelta].arrivalAirport.ciudad </p>
+                    
+                    <div class="container divVuelo">
+                        <p class="m-2"><b>Salida: </b> @Model.escalasVuelta[0].fechaDepartureFormateada hs. </p>
+                        <p class="m-2"><b>Llegada:</b> @Model.escalasVuelta[@Model.cantEscalasVuelta].fechaArrivalFormateada hs. </p>
+                        <p class="m-2"><b>Escalas:</b> @Model.cantEscalasVuelta</p>
+                    @if(@Model.equipaje == 0){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Solo bolso de mano.</p>
+                    }
+                    @if(@Model.equipaje == 1){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano y Carry On.</p>
+                    }
+                    @if(@Model.equipaje > 1){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano , Carry On y Equipaje de 23kg.</p>
+                    }
+
+                        <p class="m-2"><i class="fa-regular fa-clock"></i> @Model.intinerario[1].durationFormateada</p>
+                    </div>
+                </div>
+            }
+
+
+            <div class="text-center mt-4 precioCompra">
+                <span><b>Precio:</b> $ @Model.precio.total</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/reservaVuelo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        //Genero la variable para obtener la ruta relativa de la aplicación y no tener inconveniente para utilizar el controlador.
+        var appUrl = "@appUrl";
+    </script>
+    <script>
+
+        document.getElementById('finalizarCompra').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            //Obtengo del modelo que paso al HTML un objeto JSON para poder utilizarlo en un script de JS.
+            var modeloVuelo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+            //Verifico si se trata de un vuelo ida y vuelta o solo ida para asignar los aeropuertos de vuelta si existen.
+            var aeropuertoDestinoID;
+            var nombreAeropuertoDestino;
+
+            if (modeloVuelo.intinerario[0].segments.length > 1) {
+                aeropuertoDestinoID = modeloVuelo.escalasIda[modeloVuelo.escalasIda.length - 1].arrival;
+                nombreAeropuertoDestino = modeloVuelo.escalasIda[modeloVuelo.escalasIda.length - 1].arrivalAirport.nombre;
+            } else {
+                aeropuertoDestinoID = modeloVuelo.escalasIda[0].arrival;
+                nombreAeropuertoDestino = modeloVuelo.escalasIda[0].arrivalAirport.nombre;
+            }
+
+            //Genero el objeto que voy a pasar el controlador.
+            var reservaVuelo = {
+                AeropuertoOrigenID: modeloVuelo.escalasIda[0].departure,
+                NombreAeropuertoOrigen: modeloVuelo.escalasIda[0].departureAirport.nombre,
+                FechaSalida: modeloVuelo.escalasIda[0].departureDate,
+                AerolineaID: modeloVuelo.codigoAerolinea,
+                AerolineaNombre: modeloVuelo.nombreAerolinea,
+                DuracionVueloIda: modeloVuelo.intinerario[0].duration,
+                CantidadPasajeros: modeloVuelo.pasajeros,
+                Email: document.getElementById('email').value,
+                MedioDePago: document.getElementById('medioPago').value,
+                NroTarjeta: document.getElementById('nroTarjeta').value,
+                CantidadCuotas: 1,
+                MontoTotalCompra: modeloVuelo.precio.total,
+                AeropuertoDestinoID: aeropuertoDestinoID,
+                NombreAeropuertoDestino: nombreAeropuertoDestino
+            }
+
+            //Creo las escalas del vuelo seleccionado para agregarlas al objeto que paso al controlador.
+            var escalas = [];
+            for(var i = 0; i < modeloVuelo.escalasIda.length; i++)
+            {
+                var escala = {
+                    AerolineaID: modeloVuelo.escalasIda[i].airline,
+                    AeropuertoDestinoID: modeloVuelo.escalasIda[i].arrival,
+                    FechaLlegada: modeloVuelo.escalasIda[i].arrivalDate,
+                    AeropuertoOrigenID: modeloVuelo.escalasIda[i].departure,
+                    FechaSalida: modeloVuelo.escalasIda[i].departureDate,
+                    EscalaIda: modeloVuelo.escalasIda[i].ida,
+                    EscalaVuelta: modeloVuelo.escalasIda[i].vuelta,
+                    NroEscala: modeloVuelo.escalasIda[i].escalaNumber,
+                    DuracionVuelo: modeloVuelo.escalasIda[i].duration,
+                    NumeroVuelo: modeloVuelo.escalasIda[i].fligthNumber
+                }
+
+                escalas.push(escala);
+            }
+
+            if( modeloVuelo.escalasVuelta.length > 0)
+            {
+                reservaVuelo.FechaRegreso = modeloVuelo.escalasVuelta[0].departureDate;
+                reservaVuelo.DuracionVueloRegreso = modeloVuelo.intinerario[1].duration;
+
+                for(var i = 0; i < modeloVuelo.escalasVuelta.length; i++)
+                {
+                    var escala = {
+                        AerolineaID: modeloVuelo.escalasVuelta[i].airline,
+                        AeropuertoDestinoID: modeloVuelo.escalasVuelta[i].arrival,
+                        FechaLlegada: modeloVuelo.escalasVuelta[i].arrivalDate,
+                        AeropuertoOrigenID: modeloVuelo.escalasVuelta[i].departure,
+                        FechaSalida: modeloVuelo.escalasVuelta[i].departureDate,
+                        EscalaIda: modeloVuelo.escalasVuelta[i].ida,
+                        EscalaVuelta: modeloVuelo.escalasVuelta[i].vuelta,
+                        NroEscala: modeloVuelo.escalasVuelta[i].escalaNumber,
+                        DuracionVuelo: modeloVuelo.escalasVuelta[i].duration,
+                        NumeroVuelo: modeloVuelo.escalasVuelta[i].fligthNumber
+                    }
+
+                    escalas.push(escala);
+                }
+            }
+            reservaVuelo.Escalas = escalas;
+
+            //Creo los acompañantes del vuelo seleccionado para agregarlas al objeto que paso al controlador.
+            var acompaniantes = [];
+            for(var i = 1; i <= modeloVuelo.pasajeros; i++)
+            {   
+                var acompaniante = {
+                    NombreCompleto : document.getElementById('nombreCompleto_' + i).value,
+                    Apellido: document.getElementById('apellido_' + i).value,
+                    Pais: document.getElementById('selectPaises_' + i).value,
+                    FechaNacimiento: document.getElementById('fechaNacimiento_' + i).value,
+                    TipoDocumento: document.getElementById('tipoDocumento_' + i).value,
+                    NroDocumento: document.getElementById('nroDocumento_' + i).value,
+                    Genero: document.querySelector('input[name="Pasajeros[' + i + '].Genero"]:checked').value
+                };
+
+                acompaniantes.push(acompaniante);
+            }
+            
+            //Paso el objeto generado al controlador para proceder a almacenar la reserva, escalas y acompaniantes en la base de datos.
+            $.ajax({
+                url: appUrl + 'ReservaVuelo/GuardarNuevaReserva',
+                data: { ReservaVuelo: reservaVuelo, Acompaniantes: acompaniantes },
+                type: 'POST',
+                dataType: 'json',
+                success: function(result){
+                    console.log(result)
+                    if(!result.success)
+                    {
+                        Swal.fire({
+                            title: 'Ups, existe un inconveniente:',
+                            text: result.message,
+                            icon: 'warning',
+                            confirmButtonText: 'Volver a intentarlo'
+                        });
+                    }else
+                    {
+                        Swal.fire({
+                            title: 'Compra realizada exitosamente.',
+                            text: '¡Felicitaciones, has reservado tu vuelo con éxito!',
+                            icon: 'success',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if(result.isConfirmed){
+                                window.open('/', '_blank');
+
+                                // Cerrar la ventana actual
+                                window.close();
+                            }
+                        })
+                    }
+                },
+                error: function(kxr, status){
+                    Swal.fire({
+                        title: 'Ups, existe un inconveniente:',
+                        text: 'Ocurrió un error para proceder a reservar el vuelo. Por favor, intente más tarde.',
+                        icon: 'warning',
+                        confirmButtonText: 'Volver a intentarlo'
+                    });
+                }
+            })
+        })
+
+    </script>
+}

@@ -1,0 +1,79 @@
+.divReserva{
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
+    width: 100%;
+}
+
+h4{
+    background-color: aliceblue;
+    padding: 10px;
+    border-radius: 10px;
+    font-style: italic;
+    font-size: 20px;
+}
+
+.detalleCompra{
+    width: 30%;
+    height: 100%;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #3127643f;
+}
+
+.divVuelo{
+    text-align: center;
+    font-size: 15px;
+    background-color: aliceblue;
+    border-radius: 10px;
+    width: 80%;
+    padding: 10px;
+}
+
+.aerolinea{
+    font-size: 15px;
+    font-style: italic;
+}
+
+.aerolinea b{
+    text-decoration: underline;
+}
+
+.precioCompra{
+    display: flex;
+    justify-content: center;
+    background-color: aliceblue;
+    width: 65%;
+    margin: auto;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: 16px;
+    border: 1px solid black;
+}
+
+.divTitulo{
+    width: 65%;
+}
+
+.form-control{
+    height: 35px;
+}
+
+.inputGenero{
+    border: 1px solid rgb(190, 190, 190);
+    padding: 5px;
+    border-radius: 10px;
+    background-color: white;
+    margin-top: 14px;
+}
+
+.inputGenero div{
+    margin-left: 5px;
+}
+
+h6{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}

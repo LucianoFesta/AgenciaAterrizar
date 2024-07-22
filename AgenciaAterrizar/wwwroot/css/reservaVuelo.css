@@ -77,3 +77,82 @@ h6{
     margin-bottom: 20px;
     font-weight: bold;
 }
+
+.form-check-input:checked {
+    background-color: rgba(238, 153, 57, 1);
+    border-color: rgba(238, 153, 57, 1);
+}
+
+.btnComprar{
+    font-size: 17px;
+    background-color: #fcd45a53;
+    color: rgba(32, 31, 31, 0.895);
+    font-weight: bold;
+    width: 30%;
+    height: 40px;
+    border: rgb(238, 153, 57) 2px solid;
+    border-radius: 11px;
+    transition: all 0.6s ease;
+    margin-top: 40px;
+}
+
+.btnComprar:hover{
+    background-color: rgb(238, 153, 57);
+    color: white;
+}
+
+
+@media (max-width: 480px){
+    .divReserva{
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .detalleCompra{
+        width: 100%;
+    }
+
+    h3{
+        text-align: center;
+        margin-top: 20px;
+    }
+    .container, .container-sm {
+        max-width: 100%;
+    }
+
+    .divTitulo{
+        width: 90%;
+    }
+
+    /* form{
+        width: 100vw !important;
+        margin: auto;
+    }*/
+
+    .itemForm div{
+        flex-direction: column;
+    } 
+
+    .inputGenero{
+        flex-direction: row !important;
+        justify-content: space-around;
+    }
+
+    .inputForm input, .inputForm select{
+        width: 80vw;
+    }
+
+    .inputGenero{
+        width: 50vw;
+    }
+
+    .btnComprar{
+        width: 50vw;
+        margin-top: 20px;
+    }
+
+    .medioPago{
+        flex-direction: column;
+        width: 80vw;
+    }
+}

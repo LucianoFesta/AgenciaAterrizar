@@ -12,39 +12,39 @@
     <div class="divTitulo">
         <h3>¡Estás a un solo paso de concretar tu viaje!</h3>
 
-        <form class="mt-5 ps-2 pe-4">
+        <form class="mt-5 ps-2 pe-4 animate__animated animate__fadeIn">
             <h5>Completá con los datos de los pasajeros:</h5>
-            <div>
+            <div class="itemForm">
                 @for (int i = 1; i <= Model.pasajeros; i++)
                 {
                     <h6>Pasajero @(i)</h6>
                     <div class="d-flex justify-content-evenly">
-                        <div class="mb-3 w-50 p-2">
+                        <div class="mb-3 w-50 p-2 inputForm">
                             <label for="nombreCompleto_@(i)" class="form-label">Nombre completo</label>
                             <input type="text" class="form-control" id="nombreCompleto_@(i)" name="Pasajeros[@i].NombreCompleto" aria-describedby="nombreHelp_@(i)" placeholder="Como aparece en tu documento de viaje">
                         </div>
-                        <div class="mb-3 w-50 p-2">
+                        <div class="mb-3 w-50 p-2 inputForm">
                             <label for="apellido_@(i)" class="form-label">Apellido/s</label>
                             <input type="text" class="form-control" id="apellido_@(i)" name="Pasajeros[@i].Apellido" placeholder="Como aparece en tu documento de viaje">
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-evenly">
-                        <div class="mb-3 w-50 p-2">
+                        <div class="mb-3 w-50 p-2 inputForm">
                             <label for="pais_@(i)" class="form-label">País de Residencia</label>
                             <select class="form-control" id="selectPaises_@(i)" name="Pasajeros[@i].Pais">
                                 <option value="">Seleccione un país</option>
                             </select>
                         </div>
 
-                        <div class="mb-3 w-50 p-2">
+                        <div class="mb-3 w-50 p-2 inputForm">
                             <label for="fechaNacimiento_@(i)" class="form-label">Fecha de Nacimiento</label>
                             <input type="date" class="form-control" id="fechaNacimiento_@(i)" name="Pasajeros[@i].FechaNacimiento">
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-evenly">
-                        <div class="mb-3 w-50 p-2">
+                        <div class="mb-3 w-50 p-2 inputForm">
                             <label for="tipoDocumento_@(i)" class="form-label">Tipo de Documento</label>
                             <select class="form-control" id="tipoDocumento_@(i)" name="Pasajeros[@i].TipoDocumento">
                                 <option value="pasaporte">Pasaporte</option>
@@ -55,7 +55,7 @@
                             </select>
                         </div>
 
-                        <div class="mb-3 w-50 p-2">
+                        <div class="mb-3 w-50 p-2 inputForm">
                             <label for="nroDocumento_@(i)" class="form-label">Número de Documento</label>
                             <input type="text" class="form-control" id="nroDocumento_@(i)" name="Pasajeros[@i].NroDocumento">
                         </div>
@@ -86,8 +86,8 @@
                 <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
             </div>
 
-            <div class="d-flex justify-content-evenly">
-                <div class="mb-3 w-50 p-2">
+            <div class="d-flex justify-content-evenly medioPago">
+                <div class="mb-3 w-50 p-2 inputForm">
                     <label for="medioPago" class="form-label">Medio de Pago</label>
                     <select class="form-control" id="medioPago" name="medioPago">
                         <option value="credito">Tarjeta de Crédito</option>
@@ -96,16 +96,18 @@
                     @* @Html.DropDownList("medioPago", null, htmlAttributes: new { @class = "form-control", id = "medioPago" }) *@
                 </div>
 
-                <div class="mb-3 w-50 p-2">
+                <div class="mb-3 w-50 p-2 inputForm">
                     <label for="nroTarjeta" class="form-label">Número de Tarjeta</label>
                     <input type="number" class="form-control" id="nroTarjeta" name="nroTarjeta">
                 </div>
             </div>
-
-            <button class="btn btn-primary" id="finalizarCompra">Comprar</button>
+            
+            <div class="d-flex justify-content-center"> 
+                <button class="btn btnComprar" id="finalizarCompra"><i class="fa-solid fa-ticket"></i> Finalizar comprar</button>
+            </div>
         </form>
     </div>
-    <div class="detalleCompra">
+    <div class="detalleCompra animate__bounceIn">
         <h4 class="text-center">Detalle de la compra:</h4>
 
         <div class="mt-4">
@@ -119,7 +121,11 @@
                 <div class="container divVuelo">
                     <p class="m-2"><b>Salida: </b> @Model.escalasIda[0].fechaDepartureFormateada hs.</p>
                     <p class="m-2"><b>Llegada: </b>@Model.escalasIda[@Model.cantEscalasIda].fechaArrivalFormateada hs.</p>
-                    <p class="m-2"><b>Escalas:</b> @Model.cantEscalasIda</p>
+                    @if(@Model.cantEscalasIda == 0){
+                        <p class="m-2"><b>Escalas:</b> Directo.</p>
+                    }else{
+                        <p class="m-2"><b>Escalas:</b> @Model.cantEscalasIda</p>
+                    }
                     @if(@Model.equipaje == 0){
                         <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Solo bolso de mano.</p>
                     }
@@ -141,17 +147,20 @@
                     <div class="container divVuelo">
                         <p class="m-2"><b>Salida: </b> @Model.escalasVuelta[0].fechaDepartureFormateada hs. </p>
                         <p class="m-2"><b>Llegada:</b> @Model.escalasVuelta[@Model.cantEscalasVuelta].fechaArrivalFormateada hs. </p>
-                        <p class="m-2"><b>Escalas:</b> @Model.cantEscalasVuelta</p>
-                    @if(@Model.equipaje == 0){
-                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Solo bolso de mano.</p>
-                    }
-                    @if(@Model.equipaje == 1){
-                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano y Carry On.</p>
-                    }
-                    @if(@Model.equipaje > 1){
-                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano , Carry On y Equipaje de 23kg.</p>
-                    }
-
+                        @if(@Model.cantEscalasVuelta == 0){
+                        <p class="m-2"><b>Escalas:</b> Directo.</p>
+                        }else{
+                            <p class="m-2"><b>Escalas:</b> @Model.cantEscalasVuelta</p>
+                        }
+                        @if(@Model.equipaje == 0){
+                            <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Solo bolso de mano.</p>
+                        }
+                        @if(@Model.equipaje == 1){
+                            <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano y Carry On.</p>
+                        }
+                        @if(@Model.equipaje > 1){
+                            <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Bolso de mano , Carry On y Equipaje de 23kg.</p>
+                        }
                         <p class="m-2"><i class="fa-regular fa-clock"></i> @Model.intinerario[1].durationFormateada</p>
                     </div>
                 </div>
@@ -299,7 +308,7 @@
                         }).then((result) => {
                             if(result.isConfirmed){
                                 window.open('/', '_blank');
-
+                                
                                 // Cerrar la ventana actual
                                 window.close();
                             }

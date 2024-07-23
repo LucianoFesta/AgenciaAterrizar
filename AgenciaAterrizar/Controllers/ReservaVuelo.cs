@@ -1,7 +1,6 @@
 using AgenciaAterrizar.Data;
 using AgenciaAterrizar.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
 namespace AgenciaAterrizar.Controllers;

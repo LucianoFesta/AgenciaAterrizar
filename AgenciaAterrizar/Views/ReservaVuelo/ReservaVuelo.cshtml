@@ -8,7 +8,13 @@
 
 <link rel="stylesheet" href="~/css/reservaVuelo.css" asp-append-version="true" />
 
-<div class="divReserva">
+<div class="compraFinalizada" id="compraFinalizada" style="display: none;">
+    <h3>¡¡GRACIAS POR TU COMPRA!!</h3>
+    <p>Desde <b>AgenciaAterrizar</b> te deseamos un excelente viaje.</p>
+    <button class="buttonHome" onclick="volverInicio()">Volver a la página principal</button>
+</div>
+
+<div class="divReserva" id="contenidoReserva" style="display: flex;">
     <div class="divTitulo">
         <h3>¡Estás a un solo paso de concretar tu viaje!</h3>
 
@@ -103,11 +109,20 @@
             </div>
             
             <div class="d-flex justify-content-center"> 
-                <button class="btn btnComprar" id="finalizarCompra"><i class="fa-solid fa-ticket"></i> Finalizar comprar</button>
+                @* <button class="btn btnComprar" id="finalizarCompra"><i class="fa-solid fa-ticket"></i> Finalizar comprar</button> *@
+                <button class="btn" id="finalizarCompra">
+                    <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" fill="currentColor" class="bi bi-airplane-fill" viewBox="0 0 16 16">
+                            <path d="M6.428 1.151C6.708.591 7.213 0 8 0s1.292.592 1.572 1.151C9.861 1.73 10 2.431 10 3v3.691l5.17 2.585a1.5 1.5 0 0 1 .83 1.342V12a.5.5 0 0 1-.582.493l-5.507-.918-.375 2.253 1.318 1.318A.5.5 0 0 1 10.5 16h-5a.5.5 0 0 1-.354-.854l1.319-1.318-.376-2.253-5.507.918A.5.5 0 0 1 0 12v-1.382a1.5 1.5 0 0 1 .83-1.342L6 6.691V3c0-.568.14-1.271.428-1.849Z"></path>
+                        </svg>
+                    </span>
+                    <span class="text">Reservar Vuelo</span>
+                </button>
             </div>
+
         </form>
     </div>
-    <div class="detalleCompra animate__bounceIn">
+    <div class="card">
         <h4 class="text-center">Detalle de la compra:</h4>
 
         <div class="mt-4">
@@ -175,9 +190,72 @@
     </div>
 </div>
 
+<div id="voucherPDF" style="display: none;" class="flex-column">
+    <h1 class="tituloPDF"><i class="fa-solid fa-plane"></i> AgenciaAterrizar - Voucher de tu reserva</h1>
+
+    <div class="d-flex divIdReserva">
+        <div>
+            <p>Nro de e-Voucher: <span id="nroVoucherPDF"></span></p>
+        </div>
+        <div>
+            <p>Email de la reserva: <span id="emailPDF"></span></p>
+        </div>
+    </div>
+
+    <div class="detalleReservaPDF">
+        <h5>Detalle de tu reserva:</h5>
+        <div>
+            <div class="escalasPDF">
+                <div>
+                    <p><b>Vuelo de Ida:</b> @Model.escalasIda[0].departureAirport.ciudad - @Model.escalasIda[@Model.cantEscalasIda].arrivalAirport.ciudad</p>
+                    <div>
+                        <ul id="escalasIdaPDF"></ul>
+                    </div>
+                </div>
+
+                <div>
+                    <p><b>Vuelo de Regreso</b>: @Model.escalasVuelta[0].departureAirport.ciudad - @Model.escalasVuelta[@Model.cantEscalasVuelta].arrivalAirport.ciudad</p>
+                    <div>
+                        <ul id="escalasVueltaPDF"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center pasajerosPDF">
+                <div class="mt-2">
+                    <p>@Model.pasajeros pasajero/s </p>
+                </div>
+                <div class="equipajePDF">
+                    @if(@Model.equipaje == 0){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Incluye: Solo bolso de mano.</p>
+                    }
+                    @if(@Model.equipaje == 1){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Incluye: Bolso de mano y Carry On.</p>
+                    }
+                    @if(@Model.equipaje > 1){
+                        <p class="m-2"><i class="fa-solid fa-bag-shopping"></i> Incluye: Bolso de mano , Carry On y Equipaje de 23kg.</p>
+                    }
+                </div>
+            </div>
+
+            <div>
+                <h6>Pasajeros: </h6>
+                <div class="d-flex justify-content-center" id="pasajerosPDF"></div>
+            </div>
+
+            <div>
+                <h6>Método de Pago: </h6>
+                <div id="pagoPDF"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 @section Scripts{
     <script src="~/js/reservaVuelo.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         //Genero la variable para obtener la ruta relativa de la aplicación y no tener inconveniente para utilizar el controlador.
         var appUrl = "@appUrl";
@@ -202,8 +280,16 @@
                 nombreAeropuertoDestino = modeloVuelo.escalasIda[0].arrivalAirport.nombre;
             }
 
+            function generarNroVoucher() {
+                const timestamp = Date.now(); // Obtiene la marca de tiempo actual en milisegundos
+                const numAleatorio = Math.floor(Math.random() * 1000000); // Genera un número aleatorio entre 0 y 999999
+                return timestamp.toString() + numAleatorio.toString(); // Combina ambos en una cadena de números
+            }
+            var nroVoucher = generarNroVoucher();
+
             //Genero el objeto que voy a pasar el controlador.
             var reservaVuelo = {
+                NroVoucher: nroVoucher,
                 AeropuertoOrigenID: modeloVuelo.escalasIda[0].departure,
                 NombreAeropuertoOrigen: modeloVuelo.escalasIda[0].departureAirport.nombre,
                 FechaSalida: modeloVuelo.escalasIda[0].departureDate,
@@ -222,6 +308,7 @@
 
             //Creo las escalas del vuelo seleccionado para agregarlas al objeto que paso al controlador.
             var escalas = [];
+            var escalasIdaHTMLPDF = ``;
             for(var i = 0; i < modeloVuelo.escalasIda.length; i++)
             {
                 var escala = {
@@ -237,9 +324,14 @@
                     NumeroVuelo: modeloVuelo.escalasIda[i].fligthNumber
                 }
 
+                escalasIdaHTMLPDF += `
+                    <li><b>Tramo ${i + 1} con ${escala.AerolineaID}</b>: Partida: ${formatoFechaMostrar(escala.FechaSalida)} desde ${escala.AeropuertoOrigenID} a las ${formatoFechaSinFechaMostrar(escala.FechaSalida)}hs.  - Arrivo: ${formatoFechaMostrar(escala.FechaLlegada)} - a ${escala.AeropuertoDestinoID} a las ${formatoFechaSinFechaMostrar(escala.FechaLlegada)}hs. - <b>Vuelo Nro</b>: ${escala.AerolineaID}${escala.NumeroVuelo} </li>
+                `
+
                 escalas.push(escala);
             }
 
+            var escalasVueltaHTMLPDF = ``;
             if( modeloVuelo.escalasVuelta.length > 0)
             {
                 reservaVuelo.FechaRegreso = modeloVuelo.escalasVuelta[0].departureDate;
@@ -260,6 +352,10 @@
                         NumeroVuelo: modeloVuelo.escalasVuelta[i].fligthNumber
                     }
 
+                    escalasVueltaHTMLPDF += `
+                        <li><b>Tramo ${i + 1} con ${escala.AerolineaID}</b>: Partida: ${formatoFechaMostrar(escala.FechaSalida)} desde ${escala.AeropuertoOrigenID} a las ${formatoFechaSinFechaMostrar(escala.FechaSalida)}hs.  - Arrivo: ${formatoFechaMostrar(escala.FechaLlegada)} - a ${escala.AeropuertoDestinoID} a las ${formatoFechaSinFechaMostrar(escala.FechaLlegada)}hs. - <b>Vuelo Nro</b>: ${escala.AerolineaID}${escala.NumeroVuelo}  </li>
+                    `
+
                     escalas.push(escala);
                 }
             }
@@ -267,6 +363,7 @@
 
             //Creo los acompañantes del vuelo seleccionado para agregarlas al objeto que paso al controlador.
             var acompaniantes = [];
+            var pasajerosHTMLPDF = ``;
             for(var i = 1; i <= modeloVuelo.pasajeros; i++)
             {   
                 var acompaniante = {
@@ -279,9 +376,31 @@
                     Genero: document.querySelector('input[name="Pasajeros[' + i + '].Genero"]:checked').value
                 };
 
+                pasajerosHTMLPDF += `
+                    <div class="detallePasajerosPDF">
+                        <p>Pasajero ${i}:</p>
+                        <p>${acompaniante.NombreCompleto} ${acompaniante.Apellido}.</p>
+                        <p>Nacionalidad: ${acompaniante.Pais}.</p>
+                        <p>Fecha de Nacimiento: ${acompaniante.FechaNacimiento}.</p>
+                        <p>Documento de Viaje: ${acompaniante.TipoDocumento} ${acompaniante.NroDocumento}.</p>
+                        <p>Género: ${acompaniante.Genero}.</p>
+                    </div>
+                `
+
                 acompaniantes.push(acompaniante);
             }
-            
+
+            //Agrego el HTML del PDF de la reserva
+            document.getElementById('nroVoucherPDF').innerText = reservaVuelo.NroVoucher;
+            document.getElementById('emailPDF').innerText = document.getElementById('email').value;           
+            document.getElementById('escalasIdaPDF').innerHTML = escalasIdaHTMLPDF;
+            document.getElementById('escalasVueltaPDF').innerHTML = escalasVueltaHTMLPDF;
+            document.getElementById('pasajerosPDF').innerHTML = pasajerosHTMLPDF;
+            document.getElementById('pagoPDF').innerHTML = `
+                <p>Tarjeta de ${reservaVuelo.MedioDePago} en un solo pago. <b>MONTO ABONADO</b>: $${reservaVuelo.MontoTotalCompra}</p>
+            `;
+
+
             //Paso el objeto generado al controlador para proceder a almacenar la reserva, escalas y acompaniantes en la base de datos.
             $.ajax({
                 url: appUrl + 'ReservaVuelo/GuardarNuevaReserva',
@@ -289,7 +408,7 @@
                 type: 'POST',
                 dataType: 'json',
                 success: function(result){
-                    console.log(result)
+
                     if(!result.success)
                     {
                         Swal.fire({
@@ -304,13 +423,20 @@
                             title: 'Compra realizada exitosamente.',
                             text: '¡Felicitaciones, has reservado tu vuelo con éxito!',
                             icon: 'success',
-                            confirmButtonText: 'Aceptar'
+                            showCancelButton: true,
+                            confirmButtonText: 'Descargar Voucher',
+                            cancelButtonText: 'Salir'
                         }).then((result) => {
                             if(result.isConfirmed){
-                                window.open('/', '_blank');
-                                
-                                // Cerrar la ventana actual
-                                window.close();
+
+                                document.getElementById('contenidoReserva').style.display = 'none';
+                                document.getElementById('compraFinalizada').style.display = 'flex';
+
+                                generarVoucher().then();
+
+                            }else{
+                                document.getElementById('contenidoReserva').style.display = 'none';
+                                document.getElementById('compraFinalizada').style.display = 'flex';
                             }
                         })
                     }
@@ -325,6 +451,83 @@
                 }
             })
         })
+
+        function generarVoucher() {
+            return new Promise((resolve, reject) => {
+                var { jsPDF } = window.jspdf;
+                var doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                var element = document.getElementById('voucherPDF');
+
+                // Mostrar el div temporalmente para asegurar que html2canvas lo captura correctamente
+                element.style.display = 'block';
+
+                html2canvas(element, {
+                    scale: 2  // Aumenta la escala para mejorar la calidad
+                }).then(function(canvas) {
+                    var imgData = canvas.toDataURL('image/png');
+
+                    // Calcular las dimensiones de la imagen
+                    var imgWidth = 210; // Ancho de A4 en mm
+                    var pageHeight = 297; // Alto de A4 en mm
+                    var imgHeight = canvas.height * imgWidth / canvas.width;
+                    var heightLeft = imgHeight;
+
+                    var position = 0;
+
+                    // Añadir la imagen al documento
+                    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+
+                    // Si la imagen es más alta que una página, agrega otra página
+                    while (heightLeft >= 0) {
+                        position = heightLeft - imgHeight;
+                        doc.addPage();
+                        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
+
+                    doc.save('VoucherReserva.pdf');
+
+                    // Ocultar el div nuevamente
+                    element.style.display = 'none';
+
+                    resolve();
+
+                }).catch(function(error) {
+                    console.error('Error al generar el canvas:', error);
+                    reject(error);
+                });
+            });
+        }
+
+        function volverInicio(){
+            window.open('/', '_blank');
+            window.close();
+        }
+
+        function formatoFechaMostrar(stringFecha) {
+            const fecha = new Date(stringFecha);
+            const dia = String(fecha.getDate()).padStart(2, '0');
+            const mes = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'][fecha.getMonth()];
+            const anio = fecha.getFullYear();
+
+            return `${dia} ${mes}. ${anio}`;
+        }
+
+
+        function formatoFechaSinFechaMostrar(stringFecha) {
+
+            const fecha = new Date(stringFecha);
+            const horas = String(fecha.getHours()).padStart(2, '0');
+            const minutos = String(fecha.getMinutes()).padStart(2, '0');
+
+            return `${horas}:${minutos}`;
+        }
 
     </script>
 }

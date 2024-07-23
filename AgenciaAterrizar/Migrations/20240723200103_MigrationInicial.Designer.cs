@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgenciaAterrizar.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240719152502_MigrationInicial")]
+    [Migration("20240723200103_MigrationInicial")]
     partial class MigrationInicial
     {
         /// <inheritdoc />
@@ -397,6 +397,10 @@ namespace AgenciaAterrizar.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NroTarjeta")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NroVoucher")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

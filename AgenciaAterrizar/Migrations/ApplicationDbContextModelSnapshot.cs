@@ -397,6 +397,10 @@ namespace AgenciaAterrizar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NroVoucher")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("PersonaId")
                         .HasColumnType("int");
 

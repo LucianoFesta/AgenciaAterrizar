@@ -7,6 +7,7 @@ namespace AgenciaAterrizar.Models
         [Key]
         public int? ReservaVueloID { get; set; }
         public int? PersonaId { get; set; }
+        public string NroVoucher { get; set; }
         public string AeropuertoOrigenID { get; set; }
         public string NombreAeropuertoOrigen { get; set; }
         public string AeropuertoDestinoID { get; set; }

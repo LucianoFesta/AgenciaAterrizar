@@ -261,6 +261,7 @@ namespace AgenciaAterrizar.Migrations
                     ReservaVueloID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PersonaId = table.Column<int>(type: "int", nullable: true),
+                    NroVoucher = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AeropuertoOrigenID = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NombreAeropuertoOrigen = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AeropuertoDestinoID = table.Column<string>(type: "nvarchar(max)", nullable: false),

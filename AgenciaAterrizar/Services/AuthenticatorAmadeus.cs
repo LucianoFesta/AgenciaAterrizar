@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 
 public class AuthenticatorAmadeus
 {
+    
     private const string Client_id = "";
     private const string Client_secret = "";
     private const string Grant_type = "";

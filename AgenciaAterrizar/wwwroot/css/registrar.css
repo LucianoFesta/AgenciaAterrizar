@@ -1,0 +1,28 @@
+.divRegistrar{
+    position: relative;
+    background-color: #3127643f;
+     padding: 20px 15px; 
+     width: 50vw; 
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1.5px solid #04001c;
+}
+.formulario{
+    justify-content: center;
+}
+.form-group{
+    margin: 0.5rem;
+}
+
+.titulo-Registrar{
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+.input{
+    height: 3rem;
+}
+.titulo-carta{
+    text-align: center;
+}

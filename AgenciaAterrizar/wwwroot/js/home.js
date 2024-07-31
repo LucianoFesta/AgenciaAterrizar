@@ -2,9 +2,34 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Asigno por defecto la opción "Ida y Vuelta" de vuelos.
     checkSeleccionado('idaVuelta');
 
-    document.getElementById('origen').addEventListener('change', function(e){
-        let ida = this.value;
-        console.log(ida);
+    // Estabalecer atributo min en los input date para limitar la selección de fechas.
+    var fechaActual = new Date().toISOString().split('T')[0];
+
+    var fechaDesde = document.getElementById('fechaDesde');
+    var fechaDesdeSoloIda = document.getElementById('fechaDesdeSoloIda');
+    var fechaHasta = document.getElementById('fechaHasta');
+    var pasajeros = document.getElementById('pasajeros');
+    var origen = document.getElementById('origen');
+
+    fechaDesde.setAttribute("min", fechaActual);
+    fechaDesdeSoloIda.setAttribute("min", fechaActual);
+
+    fechaDesde.addEventListener('change', function(){
+        fechaHasta.setAttribute('min', fechaDesde.value);
+        document.getElementById('inputFechaDesde').style.display = 'none';
+    });
+
+    fechaDesdeSoloIda.addEventListener('change', function(){
+        fechaHasta.setAttribute('min', fechaDesdeSoloIda.value);
+        document.getElementById('inputFechaDesdeSoloIda').style.display = 'none';
+    });
+
+    fechaHasta.addEventListener('change', function(){
+        document.getElementById('inputFechaHasta').style.display = 'none';
+    });
+
+    origen.addEventListener('change', function(){
+        document.getElementById('inputOrigen').style.display = 'none';
     });
 
     // Evento de click al botón de búsqueda de vuelos.
@@ -19,13 +44,97 @@ document.addEventListener('DOMContentLoaded', (event) => {
         let fechaDesde = document.getElementById('fechaDesde').value;
         let pasajeros = document.getElementById('pasajeros').value;
         let checkIdaVuelta = document.getElementById('idaVuelta').checked;
+
+        if(document.getElementById('idaVuelta').checked){
+            // Verificamos si existen errores al enviar una búsqueda y mostramos mensaje de error si los hay.
+            var erroresInput = 0;
+    
+            document.getElementById('inputOrigen').style.display = 'none';
+            if(ida == '')
+            {
+                document.getElementById('inputOrigen').style.display = 'block';
+                erroresInput ++;
+            }
+    
+            document.getElementById('inputDestino').style.display = 'none';
+            if(vuelta == '')
+            {
+                document.getElementById('inputDestino').style.display = 'block';
+                erroresInput ++;
+            }
+    
+            document.getElementById('inputFechaDesde').style.display = 'none';
+            if(fechaDesde == '')
+            {
+                document.getElementById('inputFechaDesde').style.display = 'block';
+                erroresInput ++;
+            }
+    
+            document.getElementById('inputFechaHasta').style.display = 'none';
+            if(fechaDesde == '')
+            {
+                document.getElementById('inputFechaHasta').style.display = 'block';
+                erroresInput ++;
+            }
+            document.getElementById('inputFechaDesdeMayorAHoy').style.display = 'none';
+            var fechaDesdeDate = new Date(fechaDesde);
+            if(fechaDesde && fechaDesdeDate < Date.now()){
+                document.getElementById('inputFechaDesdeMayorAHoy').style.display = 'block';
+                erroresInput ++;
+            }
+    
+            document.getElementById('inputFechaHastaMayorADesde').style.display = 'none';
+            if(fechaDesde > fechaHasta){
+                document.getElementById('inputFechaHastaMayorADesde').style.display = 'block';
+                erroresInput ++;
+            }
+    
+            if(erroresInput > 0){
+                return;
+            }
+        }
         
         //Verificar si se trata de un vuelo de ida-vuelta o solo de ida.
         if(document.getElementById('ida').checked){
             fechaDesde = document.getElementById('fechaDesdeSoloIda').value;
             fechaHasta = '';
             pasajeros = document.getElementById('pasajerosSoloIda').value;
+
+            var erroresInput = 0;
+
+            document.getElementById('inputOrigen').style.display = 'none';
+            if(ida == '')
+            {
+                document.getElementById('inputOrigen').style.display = 'block';
+                erroresInput ++;
+            }
+    
+            document.getElementById('inputDestino').style.display = 'none';
+            if(vuelta == '')
+            {
+                document.getElementById('inputDestino').style.display = 'block';
+                erroresInput ++;
+            }
+
+            document.getElementById('inputFechaDesdeSoloIda').style.display = 'none';
+            if(fechaDesde == '')
+            {
+                document.getElementById('inputFechaDesdeSoloIda').style.display = 'block';
+                erroresInput ++;
+            }
+
+            document.getElementById('inputFechaDesdeMayorAHoySoloIda').style.display = 'none';
+            var fechaDesdeDate = new Date(fechaDesde);
+            if(fechaDesde && fechaDesdeDate < Date.now()){
+                document.getElementById('inputFechaDesdeMayorAHoySoloIda').style.display = 'block';
+                erroresInput ++;
+            }
+
+            if(erroresInput > 0){
+                return;
+            }
         }
+
 
         $.ajax({
             url: '../../Home/ObtenerVuelos',

@@ -7,7 +7,7 @@
     var appUrl = '@appUrl';
 </script>
 
-<div class="col-8 divBuscador">
+<div class="col-8 divBuscador animate__animated animate__fadeIn">
    <form>
         <div>
             <div class="d-flex align-items-center titleSearch">
@@ -29,10 +29,12 @@
                 <div class="mb-3 mx-3 col-5">
                     <label for="origen" class="form-label">Origen:</label>
                     <select id="origen" class="form-control select2"></select>
+                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputOrigen">Seleccione el origen.</span>
                 </div>
                 <div class="mb-3 mx-3 col-5">
                     <label for="destino" class="form-label">Destino:</label>
                     <select id="destino" class="form-control select2"></select>
+                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputDestino">Seleccione el destino.</span>
                 </div>
             </div>
 
@@ -40,15 +42,30 @@
                 <div class="mb-3 mx-3 divInputFecha col-3">
                     <label for="fechaDesde" class="form-label">Desde:</label>
                     <input type="date" class="form-control inputFecha select2" id="fechaDesde">
+                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesde">Seleccione una fecha de ida.</span>
+                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesdeMayorAHoy">La fecha de ida debe ser mayor a la de hoy.</span>
                 </div>
                 <div class="mb-3 mx-3 inputFecha col-3">
                     <label for="fechaHasta" class="form-label">Hasta:</label>
                     <input type="date" class="form-control inputFecha select2" id="fechaHasta">
+                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaHasta">Seleccione una fecha de regreso.</span>
+                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaHastaMayorADesde">La fecha de regreso debe ser mayor a la de ida.</span>
                 </div>
 
                 <div class="mb-3 mx-2 col-1 divInputPasajeros">
                     <label for="pasajeros" class="form-label">Pasajeros:</label>
-                    <input type="number" class="form-control inputPasajeros" id="pasajeros">
+                    <select class="form-control inputPasajeros" name="pasajeros" id="pasajeros">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
                 </div>
             </div>
 
@@ -56,11 +73,24 @@
                 <div class="mb-3 mx-3 inputFecha col-3">
                     <label for="fechaDesde" class="form-label">Fecha:</label>
                     <input type="date" class="form-control inputFecha select2" id="fechaDesdeSoloIda">
+                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesdeSoloIda">Seleccione una fecha.</span>
+                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesdeMayorAHoySoloIda">La fecha debe ser mayor a la de hoy.</span>
                 </div>
 
                 <div class="mb-3 mx-2 col-1 divInputPasajeros">
-                    <label for="pasajeros" class="form-label">Pasajeros:</label>
-                    <input type="number" class="form-control inputPasajeros" id="pasajerosSoloIda">
+                    <label for="pasajerosSoloIda" class="form-label">Pasajeros:</label>
+                    <select class="form-control inputPasajeros" name="pasajerosSoloIda" id="pasajerosSoloIda">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
                 </div>
             </div>
 
@@ -177,5 +207,6 @@
                 }
             });
         });
+
     </script>
 }

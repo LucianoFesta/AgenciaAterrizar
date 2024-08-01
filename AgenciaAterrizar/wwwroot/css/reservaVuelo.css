@@ -279,8 +279,18 @@ h6{
     margin-top: 5PX;
 }
 
+@media(max-width: 1024px){
+    .container, .container-sm {
+        max-width: 100%;
+    }
 
-@media (max-width: 480px){
+    .btn{
+        width: 50vw;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 769px){
     .divReserva{
         flex-direction: column-reverse;
         align-items: center;
@@ -296,6 +306,10 @@ h6{
     }
     .container, .container-sm {
         max-width: 100%;
+    }
+
+    .card{
+        width: 85%;
     }
 
     .divTitulo{
@@ -320,7 +334,7 @@ h6{
     }
 
     .btn{
-        width: 50vw;
+        width: 60vw;
         margin-top: 20px;
     }
 

@@ -194,6 +194,8 @@ i{
 }
 
 .inputPasajeros{
+    width: 60%;
+    text-align: center;
     height: 40px;
 }
 
@@ -206,6 +208,10 @@ i{
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     border: 1.5px solid #04001c;
+}
+
+.spanError{
+    color: red;
 }
 
 form{

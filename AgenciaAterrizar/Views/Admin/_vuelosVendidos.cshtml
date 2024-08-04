@@ -1,0 +1,44 @@
+@model IEnumerable<ReservaVuelo>
+
+<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+
+<div class="divContenido">
+    <h3 class="tituloVuelos">Vuelos Vendidos</h3>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Origen</th>
+                <th scope="col">Destino</th>
+                <th scope="col">Salida</th>
+                <th scope="col">Regreso</th>
+                <th scope="col">Aerolinea</th>
+                <th scope="col">Pasajeros</th>
+                <th scope="col">Monto</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var reserva in Model)
+            {
+                <td>@reserva.ReservaVueloID</td>
+                <td>@reserva.AeropuertoOrigenID - @reserva.NombreAeropuertoOrigen</td>
+                <td>@reserva.AeropuertoDestinoID - @reserva.NombreAeropuertoDestino</td>
+                <td>@reserva.FechaSalida</td>
+                <td>@reserva.FechaRegreso</td>
+                <td>@reserva.AerolineaID - @reserva.AerolineaNombre</td>
+                <td>@reserva.CantidadPasajeros</td>
+                <td>$@reserva.MontoTotalCompra</td>
+                <td>
+                    <div class="d-flex flex-column tdBotones">
+                        <button class="btn btn-success" data-id="@reserva.ReservaVueloID">Editar</button>
+                        <button type="button" class="btn btn-info">Pasajeros</button>
+                        <button type="button" class="btn btn-primary">Escalas</button>
+                        <button type="button" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </td>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,91 @@
+<div class="col-8 divBuscador">
+    <form>
+        <div class="d-flex align-items-center titleSearch">
+            <h3>Complete el formulario:</h3>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico" required>
+        </div>
+
+        <!-- Número de teléfono -->
+        <div class="mb-3">
+            <label for="numerotel" class="form-label">Número de teléfono:</label>
+            <input type="tel" class="form-control" id="numerotel" placeholder="Ingrese su número de teléfono" required>
+        </div>
+
+        <!-- Nombre completo -->
+        <div class="mb-3">
+            <label for="nombreCompleto" class="form-label">Nombre completo:</label>
+            <input type="text" class="form-control" id="nombreCompleto" placeholder="Ingrese su nombre completo" required>
+        </div>
+
+        <!-- Tipo de documento -->
+        <div class="mb-3">
+            <label for="tipoDocumento" class="form-label">Tipo de documento:</label>
+            <select id="tipoDocumento" class="form-control">
+                <option value="DNI">DNI</option>
+                <option value="Pasaporte">Pasaporte</option>
+                <option value="Carnet de identidad">Carnet de identidad</option>
+            </select>
+        </div>
+
+        <!-- Número de documento -->
+        <div class="mb-3">
+            <label for="DNI" class="form-label">Número de documento:</label>
+            <input type="text" class="form-control" id="DNI" placeholder="Ingrese su número de documento" required>
+        </div>
+
+        <!-- Pasaporte -->
+        <div class="mb-3">
+            <label for="pasaporte" class="form-label">Pasaporte:</label>
+            <input type="text" class="form-control" id="pasaporte" placeholder="Ingrese su número de pasaporte" required>
+        </div>
+
+        <!-- Vencimiento de pasaporte -->
+        <div class="mb-3">
+            <label for="vencimientoPasaporte" class="form-label">Vencimiento de pasaporte:</label>
+            <input type="date" class="form-control" id="vencimientoPasaporte" required>
+        </div>
+
+        <!-- País -->
+        <div class="mb-3">
+            <label for="pais" class="form-label">País:</label>
+            <input type="text" class="form-control" id="pais" placeholder="Ingrese su país de residencia" required>
+        </div>
+
+        <!-- Provincia -->
+        <div class="mb-3">
+            <label for="provincia" class="form-label">Provincia:</label>
+            <input type="text" class="form-control" id="provincia" placeholder="Ingrese su provincia" required>
+        </div>
+
+        <!-- Localidad -->
+        <div class="mb-3">
+            <label for="localidad" class="form-label">Localidad:</label>
+            <input type="text" class="form-control" id="localidad" placeholder="Ingrese su localidad" required>
+        </div>
+
+        <!-- Domicilio -->
+        <div class="mb-3">
+            <label for="domicilio" class="form-label">Domicilio:</label>
+            <input type="text" class="form-control" id="domicilio" placeholder="Ingrese su domicilio" required>
+        </div>
+
+        <!-- Fecha de nacimiento -->
+        <div class="mb-3">
+            <label for="fechaNacimiento" class="form-label">Fecha de nacimiento:</label>
+            <input type="date" class="form-control" id="fechaNacimiento" required>
+        </div>
+
+        <!-- Submit button -->
+        <div class="mb-3">
+            <button type="submit" onclick="guardarFormulario()" class="btn btn-warning btnSearch"><i class="fa-solid fa-magnifying-glass mx-2"></i>Enviar</button>
+        </div>
+    </form>
+</div>
+
+
+<script src="~/js/usuario.js"></script>

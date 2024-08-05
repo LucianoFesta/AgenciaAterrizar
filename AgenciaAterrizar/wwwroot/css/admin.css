@@ -1,11 +1,8 @@
-section{
-    height: 100vh;
-}
 
 .ulMenuLateral {
     list-style: none;
     width: 15vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #04001cd8;
     padding: 0;
     margin: 0;
@@ -47,6 +44,11 @@ body{
 
 .tdBotones button{
     margin: 5px;
+    color: #fff;
+}
+
+.tdBotones i{
+    color: #fff;
 }
 
 /*********************************************************************************************************************/
@@ -55,9 +57,22 @@ body{
 
 .divContenido{
     margin: 20px;
+    height: 100%;
 }
 
 table{
     text-align: center;
     vertical-align: middle;
+}
+
+.itemPasajero{
+    padding: 15px;
+    font-size: 15px;
+    background-color: #dbd7d7;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.tituloModal{
+    color: #ee9939;
 }

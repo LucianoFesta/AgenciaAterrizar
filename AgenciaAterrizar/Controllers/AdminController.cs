@@ -1,4 +1,5 @@
 using AgenciaAterrizar.Data;
+using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,9 +22,10 @@ public class AdminController : Controller
     [HttpGet("vuelosVendidos")]
     public async Task<IActionResult> VuelosVendidos()
     {
-        var listaVuelosVendidos = await _context.ReservaVuelos.ToListAsync();
-
-        
+        var listaVuelosVendidos = await _context.ReservaVuelos
+            .Include(rv => rv.Acompaniantes)
+            .Include(rv => rv.Escalas)
+            .ToListAsync();
 
         return PartialView("_vuelosVendidos", listaVuelosVendidos);
     }

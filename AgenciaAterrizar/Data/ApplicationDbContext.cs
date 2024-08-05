@@ -21,16 +21,4 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Acompaniante> Acompaniantes { get; set; }
     public DbSet<Escala> Escalas { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<ReservaVuelo>()
-            .Property(r => r.MontoTotalCompra)
-            .HasColumnType("decimal(18,2)");
-
-        // Configurar otras entidades...
-        
-        base.OnModelCreating(modelBuilder);
-
-    }
-
 }

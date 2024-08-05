@@ -28,10 +28,12 @@
                         <div class="mb-3 w-50 p-2 inputForm">
                             <label for="nombreCompleto_@(i)" class="form-label">Nombre completo</label>
                             <input type="text" class="form-control" id="nombreCompleto_@(i)" name="Pasajeros[@i].NombreCompleto" aria-describedby="nombreHelp_@(i)" placeholder="Como aparece en tu documento de viaje">
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nombreCompletoError_@(i)">Complete el nombre completo.</span>
                         </div>
                         <div class="mb-3 w-50 p-2 inputForm">
                             <label for="apellido_@(i)" class="form-label">Apellido/s</label>
                             <input type="text" class="form-control" id="apellido_@(i)" name="Pasajeros[@i].Apellido" placeholder="Como aparece en tu documento de viaje">
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="apellidoError_@(i)">Complete con el apellido.</span>
                         </div>
                     </div>
 
@@ -41,11 +43,13 @@
                             <select class="form-control" id="selectPaises_@(i)" name="Pasajeros[@i].Pais">
                                 <option value="">Seleccione un país</option>
                             </select>
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="paisError_@(i)">Seleccione país de residencia.</span>
                         </div>
 
                         <div class="mb-3 w-50 p-2 inputForm">
                             <label for="fechaNacimiento_@(i)" class="form-label">Fecha de Nacimiento</label>
                             <input type="date" class="form-control" id="fechaNacimiento_@(i)" name="Pasajeros[@i].FechaNacimiento">
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoError_@(i)">Elija la fecha de nacimiento.</span>
                         </div>
                     </div>
 
@@ -64,6 +68,7 @@
                         <div class="mb-3 w-50 p-2 inputForm">
                             <label for="nroDocumento_@(i)" class="form-label">Número de Documento</label>
                             <input type="text" class="form-control" id="nroDocumento_@(i)" name="Pasajeros[@i].NroDocumento">
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroDocumentoError_@(i)">Complete con el número de documento.</span>
                         </div>
                     </div>
 
@@ -90,6 +95,7 @@
             <div class="mb-3">
                 <label for="email" class="form-label">Email para el envío del voucher</label>
                 <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="emailError">Ingrese el email de la reserva.</span>
             </div>
 
             <div class="d-flex justify-content-evenly medioPago">
@@ -99,17 +105,16 @@
                         <option value="credito">Tarjeta de Crédito</option>
                         <option value="debito">Tarjeta de Débito</option>
                     </select>
-                    @* @Html.DropDownList("medioPago", null, htmlAttributes: new { @class = "form-control", id = "medioPago" }) *@
                 </div>
 
                 <div class="mb-3 w-50 p-2 inputForm">
                     <label for="nroTarjeta" class="form-label">Número de Tarjeta</label>
                     <input type="number" class="form-control" id="nroTarjeta" name="nroTarjeta">
+                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroTarjetaError">Ingrese el nro de tarjeta.</span>
                 </div>
             </div>
             
             <div class="d-flex justify-content-center"> 
-                @* <button class="btn btnComprar" id="finalizarCompra"><i class="fa-solid fa-ticket"></i> Finalizar comprar</button> *@
                 <button class="btn" id="finalizarCompra">
                     <span class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" fill="currentColor" class="bi bi-airplane-fill" viewBox="0 0 16 16">
@@ -205,21 +210,33 @@
     <div class="detalleReservaPDF">
         <h5>Detalle de tu reserva:</h5>
         <div>
-            <div class="escalasPDF">
-                <div>
-                    <p><b>Vuelo de Ida:</b> @Model.escalasIda[0].departureAirport.ciudad - @Model.escalasIda[@Model.cantEscalasIda].arrivalAirport.ciudad</p>
+            @if(@Model.escalasVuelta.Count > 0)
+            {
+                <div class="escalasPDF">
                     <div>
-                        <ul id="escalasIdaPDF"></ul>
+                        <p><b>Vuelo de Ida:</b> @Model.escalasIda[0].departureAirport.ciudad - @Model.escalasIda[@Model.cantEscalasIda].arrivalAirport.ciudad</p>
+                        <div>
+                            <ul id="escalasIdaPDF"></ul>
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    <p><b>Vuelo de Regreso</b>: @Model.escalasVuelta[0].departureAirport.ciudad - @Model.escalasVuelta[@Model.cantEscalasVuelta].arrivalAirport.ciudad</p>
                     <div>
-                        <ul id="escalasVueltaPDF"></ul>
+                        <p><b>Vuelo de Regreso</b>: @Model.escalasVuelta[0].departureAirport.ciudad - @Model.escalasVuelta[@Model.cantEscalasVuelta].arrivalAirport.ciudad</p>
+                        <div>
+                            <ul id="escalasVueltaPDF"></ul>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }else{
+                <div class="escalasPDF">
+                    <div>
+                        <p><b>Vuelo:</b> @Model.escalasIda[0].departureAirport.ciudad - @Model.escalasIda[@Model.cantEscalasIda].arrivalAirport.ciudad</p>
+                        <div>
+                            <ul id="escalasIdaPDF"></ul>
+                        </div>
+                    </div>
+                </div>
+            }
             <div class="d-flex justify-content-center pasajerosPDF">
                 <div class="mt-2">
                     <p>@Model.pasajeros pasajero/s </p>
@@ -264,6 +281,65 @@
 
         document.getElementById('finalizarCompra').addEventListener('click', function(e) {
             e.preventDefault();
+
+            // Corrobora que no existan campos incompletos
+            var erroresInput = 0;
+
+            for(var i = 1; i <= @Model.pasajeros; i++)
+            {
+                document.getElementById('nombreCompletoError_'+i).style.display = 'none';
+                var nombre = document.getElementById('nombreCompleto_'+i).value;
+                if(nombre == ''){
+                    document.getElementById('nombreCompletoError_'+i).style.display = 'block';
+                    erroresInput++;
+                }
+
+                document.getElementById('apellidoError_'+i).style.display = 'none';
+                var apellido = document.getElementById('apellido_'+i).value;
+                if(apellido == ''){
+                    document.getElementById('apellidoError_'+i).style.display = 'block';
+                    erroresInput++;
+                }
+
+                document.getElementById('paisError_'+i).style.display = 'none';
+                var pais = document.getElementById('selectPaises_'+i).value;
+                if(pais == ''){
+                    document.getElementById('paisError_'+i).style.display = 'block';
+                    erroresInput++;
+                }
+
+                document.getElementById('fechaNacimientoError_'+i).style.display = 'none';
+                var fechaNacimiento = document.getElementById('fechaNacimiento_'+i).value;
+                if(fechaNacimiento == ''){
+                    document.getElementById('fechaNacimientoError_'+i).style.display = 'block';
+                    erroresInput++;
+                }
+
+                document.getElementById('nroDocumentoError_'+i).style.display = 'none';
+                var nroDocumento = document.getElementById('nroDocumento_'+i).value;
+                if(nroDocumento == ''){
+                    document.getElementById('nroDocumentoError_'+i).style.display = 'block';
+                    erroresInput++;
+                }
+            }
+
+            document.getElementById('emailError').style.display = 'none';
+            var email = document.getElementById('email').value;
+            if(email == ''){
+                document.getElementById('emailError').style.display = 'block';
+                erroresInput++;
+            }
+
+            document.getElementById('nroTarjetaError').style.display = 'none';
+            var nroTarjeta = document.getElementById('nroTarjeta').value;
+            if(nroTarjeta == ''){
+                document.getElementById('nroTarjetaError').style.display = 'block';
+                erroresInput++;
+            }
+
+            if(erroresInput > 0){
+                return;
+            }
 
             //Obtengo del modelo que paso al HTML un objeto JSON para poder utilizarlo en un script de JS.
             var modeloVuelo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
@@ -394,7 +470,9 @@
             document.getElementById('nroVoucherPDF').innerText = reservaVuelo.NroVoucher;
             document.getElementById('emailPDF').innerText = document.getElementById('email').value;           
             document.getElementById('escalasIdaPDF').innerHTML = escalasIdaHTMLPDF;
-            document.getElementById('escalasVueltaPDF').innerHTML = escalasVueltaHTMLPDF;
+            if(modeloVuelo.escalasVuelta.length > 0){
+                document.getElementById('escalasVueltaPDF').innerHTML = escalasVueltaHTMLPDF;
+            }
             document.getElementById('pasajerosPDF').innerHTML = pasajerosHTMLPDF;
             document.getElementById('pagoPDF').innerHTML = `
                 <p>Tarjeta de ${reservaVuelo.MedioDePago} en un solo pago. <b>MONTO ABONADO</b>: $${reservaVuelo.MontoTotalCompra}</p>

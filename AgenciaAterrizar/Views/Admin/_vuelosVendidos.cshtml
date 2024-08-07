@@ -49,6 +49,7 @@
                     </td>
                 </tr>
 
+                @* Modal pasajeros *@
                 <div class="modal fade" id="modalPasajeros_@reserva.ReservaVueloID" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -58,12 +59,21 @@
                         </div>
                         <div class="modal-body">
                             @foreach(var pasajero in reserva.Acompaniantes){
-                                <div class="itemPasajero">    
-                                    <p><b>Nombre: </b><span>@pasajero.NombreCompleto.ToUpper()</span> <span>@pasajero.Apellido.ToUpper()</span>.</p>
-                                    <p><b><span>@pasajero.TipoDocumento</span></b>: <span>@pasajero.NroDocumento</span>.</p>
-                                    <p><b>Nacionalidad</b>: <span>@pasajero.Pais</span>.</p>
-                                    <p><b>Fecha Nacimiento:</b> <span>@pasajero.FechaNacimiento.ToString("dd/MM/yyyy")</span>.</p>
-                                    <p><b>Género:</b> <span>@pasajero.Genero.ToUpper()</span>.</p>
+                                <div class="itemPasajero">
+                                    <div id="detallePasajero_@pasajero.AcompanianteID" style="display: block;">    
+                                        <p><b>Nombre: </b><span>@pasajero.NombreCompleto.ToUpper()</span> <span>@pasajero.Apellido.ToUpper()</span>.</p>
+                                        <p><b><span>@pasajero.TipoDocumento</span></b>: <span>@pasajero.NroDocumento</span>.</p>
+                                        <p><b>Nacionalidad</b>: <span>@pasajero.Pais</span>.</p>
+                                        <p><b>Fecha Nacimiento:</b> <span>@pasajero.FechaNacimiento.ToString("dd/MM/yyyy")</span>.</p>
+                                        <p><b>Género:</b> <span>@pasajero.Genero.ToUpper()</span>.</p>
+                                    </div>
+                                    <div id="inputPasajero_@pasajero.AcompanianteID" style="display: none;">
+                                        <p>Div Oculto</p>
+                                    </div>
+                                    <div class="d-flex justify-content-end tdBotones">
+                                        <button style="display: block;" class="btn btn-success editarPasajero" data-id="@pasajero.AcompanianteID"><i class="fa-regular fa-pen-to-square"></i> Editar</button>
+                                        <button style="display: none;" class="btn btn-primary guardarPasajero" data-id="@pasajero.AcompanianteID"><i class="fa-regular fa-pen-to-square"></i> Guardar</button>
+                                    </div>
                                 </div>
                             }
                         </div>
@@ -74,51 +84,67 @@
                     </div>
                 </div>
 
+                @* Modal escalas *@
                 <div class="modal fade" id="modalEscalas_@reserva.ReservaVueloID" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title tituloModal" id="exampleModalLabel">Tramos de la Reserva</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Tramo/s Ida: </p>
-                            @foreach(var escala in reserva.Escalas){
-                                @if(escala.EscalaIda)
+                            <div class="modal-header">
+                                <h5 class="modal-title tituloModal" id="exampleModalLabel">Tramos de la Reserva</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Tramo/s Ida: </p>
+                                @foreach (var escala in reserva.Escalas)
                                 {
-                                    <div class="itemPasajero">    
-                                        <p><b>Aerolinea: </b><span>@escala.AerolineaID.ToUpper()</span>.</p>
-                                        <p><b>Aeropuero Origen: </b><span>@escala.AeropuertoOrigenID.ToUpper()</span>.</p>
-                                        <p><b>Aeropuero Destino: </b><span>@escala.AeropuertoDestinoID.ToUpper()</span>.</p>
-                                        <p><b>Número de Vuelo: </b><span>@escala.AerolineaID.ToUpper()</span><span>@escala.NumeroVuelo.ToUpper()</span>.</p>
-                                        <p><b>Salida: </b><span>@escala.FechaSalida.ToString("dd/MM/yyyy HH:mm")Hs.</span></p>
-                                        <p><b>Llegada: </b><span>@escala.FechaLlegada.ToString("dd/MM/yyyy HH:mm")Hs.</span></p>
-                                        <p><b>Duración: </b><span>@escala.DuracionVuelo</span>.</p>
+                                    @if (escala.EscalaIda)
+                                    {
+                                        <div class="itemPasajero">
+                                            <p><b>Aerolinea: </b><span>@escala.AerolineaID.ToUpper()</span>.</p>
+                                            <p><b>Aeropuero Origen: </b><span>@escala.AeropuertoOrigenID.ToUpper()</span>.</p>
+                                            <p><b>Aeropuero Destino: </b><span>@escala.AeropuertoDestinoID.ToUpper()</span>.</p>
+                                            <p><b>Número de Vuelo: </b><span>@escala.AerolineaID.ToUpper()</span><span>@escala.NumeroVuelo.ToUpper()</span>.</p>
+                                            <p><b>Salida: </b><span>@escala.FechaSalida.ToString("dd/MM/yyyy HH:mm")Hs.</span></p>
+                                            <p><b>Llegada: </b><span>@escala.FechaLlegada.ToString("dd/MM/yyyy HH:mm")Hs.</span></p>
+                                            <p><b>Duración: </b><span>@escala.DuracionVuelo</span>.</p>
+                                        </div>
+                                    }
+                                }
+                                <p>Tramo/s Vuelta:</p>
+                                @{
+                                    var cantEscalasVuelta = reserva.Escalas.Count(e => e.EscalaVuelta);
+                                }
+                                @if (cantEscalasVuelta > 0)
+                                {
+                                    @foreach (var escala in reserva.Escalas)
+                                    {
+                                        @if (escala.EscalaVuelta)
+                                        {
+                                            <div class="itemPasajero">
+                                                <p><b>Aerolinea: </b><span>@escala.AerolineaID.ToUpper()</span>.</p>
+                                                <p><b>Aeropuero Origen: </b><span>@escala.AeropuertoOrigenID.ToUpper()</span>.</p>
+                                                <p><b>Aeropuero Destino: </b><span>@escala.AeropuertoDestinoID.ToUpper()</span>.</p>
+                                                <p><b>Número de Vuelo: </b><span>@escala.AerolineaID.ToUpper()</span><span>@escala.NumeroVuelo.ToUpper()</span>.</p>
+                                                <p><b>Salida: </b><span>@escala.FechaSalida.ToString("dd/MM/yyyy HH:mm")Hs.</span></p>
+                                                <p><b>Llegada: </b><span>@escala.FechaLlegada.ToString("dd/MM/yyyy HH:mm")Hs.</span></p>
+                                                <p><b>Duración: </b><span>@escala.DuracionVuelo</span>.</p>
+                                            </div>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="itemPasajero">
+                                        <p>No posee vuelos de regreso. Es solo un vuelo de ida.</p>
                                     </div>
                                 }
-                            }
-                            <p>Tramo/s Vuelta:</p>
-                            @foreach(var escala in reserva.Escalas){
-                                @if(escala.EscalaVuelta)
-                                {
-                                    <div class="itemPasajero">    
-                                        <p><b>Aerolinea: </b><span>@escala.AerolineaID.ToUpper()</span>.</p>
-                                        <p><b>Aeropuero Origen: </b><span>@escala.AeropuertoOrigenID.ToUpper()</span>.</p>
-                                        <p><b>Aeropuero Destino: </b><span>@escala.AeropuertoDestinoID.ToUpper()</span>.</p>
-                                        <p><b>Número de Vuelo: </b><span>@escala.AerolineaID.ToUpper()</span><span>@escala.NumeroVuelo.ToUpper()</span>.</p>
-                                        <p><b>Salida: </b><span>@escala.FechaSalida.ToString("dd/MM/yyyy HH:mm")Hs.</span></p>
-                                        <p><b>Llegada: </b><span>@escala.FechaLlegada.ToString("dd/MM/yyyy HH:mm")Hs.</span></p>
-                                        <p><b>Duración: </b><span>@escala.DuracionVuelo</span>.</p>
-                                    </div>
-                                }
-                            }
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                        </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             }
         </tbody>
     </table>
+</div>

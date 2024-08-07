@@ -2,6 +2,7 @@
 
 <section class="d-flex">
     <ul class="ulMenuLateral" id="menu">
+        <li class="menu-header"><a href="#" aria-disabled="true"><span><i class="fa-solid fa-user-tie"></i> Administración</span></a></li>
         <li><a href="#" data-view="vuelosVendidos"><span>Vuelos Vendidos</span></a></li>
     </ul>
 
@@ -28,12 +29,69 @@
                 .then(response => response.text())
                 .then(html => {
                     contenidoHtml.innerHTML = html;
+
+                    //Como la vista se carga dinámicamente (los elementos no existen al cargar el DOM) agregamos los eventos una vez que se cargo la vista.
+                    asignarEventos();
                 })
                 .catch(e => {
                     contenidoHtml.innerHTML = '<p>Error al cargar el contenido de la vista</p>';
                     console.log('Error al cargar vista: ', e);
                 })
         }
+
+        //Función que agrega los eventos "Editar" una vez que se cargo la vista dinámicamente con un fetch. Tener en cuenta que al cargarse dinámicamente, los elementos no estaban presentes al momento de cargar los pasajeros.
+        function asignarEventos() {
+
+            // Seleccionamos todos los botones de edición después de cargar el contenido
+            const botonesEditar = document.querySelectorAll('.itemPasajero .editarPasajero');
+
+            botonesEditar.forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const pasajeroId = boton.getAttribute('data-id');
+
+                    editarPasajero(boton, pasajeroId);
+                });
+            });
+
+            // Detectar el cierre del modal. Busca los modal que tengan un id que comience con modalPasajeros_)
+            const modales = document.querySelectorAll('[id^="modalPasajeros_"]');
+            modales.forEach(modal => {
+                //cuando un modal se cierra llama al metodo resetearEstadoPasajeros.
+                modal.addEventListener('hidden.bs.modal', function() {
+                    resetearEstadoPasajeros(modal);
+                });
+            });
+        }
+
+        function editarPasajero(boton, pasajeroId){
+            // Seleccionamos el contenedor principal del pasajero
+            const elementoMasProximo = boton.closest('.itemPasajero'); //El metodo closest busca el elemento con clase .itemPasajero mas cercano.
+
+            // Ocultamos los detalles actuales y el botón de edición
+            elementoMasProximo.querySelector('#detallePasajero_' + pasajeroId).style.display = 'none';
+            elementoMasProximo.querySelector('.editarPasajero').style.display = 'none';
+
+            // Mostramos el div oculto para editar y el botón de guardar
+            elementoMasProximo.querySelector('#inputPasajero_' + pasajeroId).style.display = 'block';
+            elementoMasProximo.querySelector('.guardarPasajero').style.display = 'block';
+        }
     });
+
+        function resetearEstadoPasajeros(modal) {
+        // Restablecer el estado inicial para cada pasajero dentro del modal.
+        const itemsPasajeros = modal.querySelectorAll('.itemPasajero');
+
+        itemsPasajeros.forEach(item => {
+            // Ocultar la sección de entrada y el botón de guardar
+            item.querySelectorAll('.guardarPasajero, [id^="inputPasajero_"]').forEach(elemento => {
+                elemento.style.display = 'none';
+            });
+
+            // Mostrar los detalles del pasajero y el botón de editar
+            item.querySelectorAll('.editarPasajero, [id^="detallePasajero_"]').forEach(elemento => {
+                elemento.style.display = 'block';
+            });
+        });
+    }
 
 </script>

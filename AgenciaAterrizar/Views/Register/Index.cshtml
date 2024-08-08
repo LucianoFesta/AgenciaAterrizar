@@ -1,25 +1,49 @@
-<div class="col-8 divBuscador">
-    <form>
+<link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
+
+<div class="col-8 divRegistrar">
+    <form class="formulario form-group">
         <div class="d-flex align-items-center titleSearch">
             <h3>Complete el formulario:</h3>
         </div>
 
+        
         <!-- Email -->
         <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
             <input type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico" required>
         </div>
 
-        <!-- Número de teléfono -->
-        <div class="mb-3">
-            <label for="numerotel" class="form-label">Número de teléfono:</label>
-            <input type="tel" class="form-control" id="numerotel" placeholder="Ingrese su número de teléfono" required>
-        </div>
+        
 
         <!-- Nombre completo -->
         <div class="mb-3">
             <label for="nombreCompleto" class="form-label">Nombre completo:</label>
             <input type="text" class="form-control" id="nombreCompleto" placeholder="Ingrese su nombre completo" required>
+        </div>
+
+        <!-- Apellido -->
+        <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido:</label>
+            <input type="text" class="form-control" id="apellido" placeholder="Ingrese su apellido" required>
+        </div>
+        
+        <!-- Contraseña -->
+        <div class="mb-3">
+            <label for="password" class="form-label">Contraseña:</label>
+            <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" required>
+        </div>    
+            
+        
+        <!-- Confirmación de contraseña -->
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirmación de contraseña:</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirme su contraseña" required>
+        </div>
+
+        <!-- Número de teléfono -->
+        <div class="mb-3">
+            <label for="numerotel" class="form-label">Número de teléfono:</label>                
+            <input type="tel" class="form-control" id="numerotel" placeholder="Ingrese su número de teléfono" required>
         </div>
 
         <!-- Tipo de documento -->
@@ -80,6 +104,7 @@
             <input type="date" class="form-control" id="fechaNacimiento" required>
         </div>
 
+       
         <!-- Submit button -->
         <div class="mb-3">
             <button type="submit" onclick="guardarFormulario()" class="btn btn-warning btnSearch"><i class="fa-solid fa-magnifying-glass mx-2"></i>Enviar</button>
@@ -88,4 +113,4 @@
 </div>
 
 
-<script src="~/js/usuario.js"></script>
+<script src="~/js/persona.js"></script>

@@ -4,12 +4,14 @@
      padding: 20px 15px; 
      width: 50vw; 
     margin: auto;
+    margin-bottom: 6rem;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     border: 1.5px solid #04001c;
 }
 .formulario{
     justify-content: center;
+    margin-bottom: 5rem;
 }
 .form-group{
     margin: 0.5rem;
@@ -21,7 +23,7 @@
     align-items: center;
 }
 .input{
-    height: 3rem;
+    height: 5rem;
 }
 .titulo-carta{
     text-align: center;

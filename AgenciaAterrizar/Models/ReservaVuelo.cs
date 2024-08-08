@@ -26,6 +26,7 @@ namespace AgenciaAterrizar.Models
         public string NroTarjeta { get; set; }
         public int CantidadCuotas { get; set; }
         public decimal MontoTotalCompra { get; set; }
+        public bool Eliminado { get; set; }
         public virtual Persona Persona { get; set; }
         public ICollection<Escala>? Escalas { get; set; }
         public ICollection<Acompaniante> Acompaniantes { get; set; }

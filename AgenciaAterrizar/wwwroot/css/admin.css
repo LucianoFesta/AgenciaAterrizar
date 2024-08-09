@@ -1,7 +1,7 @@
 
 .ulMenuLateral {
     list-style: none;
-    width: 20vw;
+    width: 18vw;
     min-height: 100vh;
     background-color: #04001cd8;
     padding: 0;
@@ -35,6 +35,13 @@
     background-color: #555;
 }
 
+
+.ulMenuLateral li.active a {
+    background-color: #ddd; 
+    font-weight: bold; 
+    color: #000; 
+}
+
 body{
     margin: 0;
     padding: 0;
@@ -49,7 +56,7 @@ body{
 }
 
 .contenido{
-    width: 75vw;
+    width: 100vw;
 }
 
 .tdBotones button{

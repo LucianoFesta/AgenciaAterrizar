@@ -134,3 +134,22 @@ li a p {
   }
 
 }
+
+.input-css{
+  height: 3rem;
+  width: 30rem;
+}
+
+.form-regist{
+  background-color: beige;
+}
+
+.titulo-register{
+  text-align: center;
+  color: rgb(211, 125, 26)
+}
+.footer{
+  margin: 0;
+  padding: 0;
+}
+

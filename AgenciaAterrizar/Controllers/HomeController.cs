@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System.IO.Compression;
+using Microsoft.AspNetCore.Identity;
 
 namespace AgenciaAterrizar.Controllers;
 
@@ -15,22 +16,35 @@ public class HomeController : Controller
     private readonly ApplicationDbContext _context;
 
     private readonly AmadeusApiCliente _amadeusApiClient;
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly RoleManager<IdentityRole> _rolManager;
 
-    public HomeController(ApplicationDbContext context, AmadeusApiCliente amadeusApiCliente)
+    public HomeController(ApplicationDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> rolManager, AmadeusApiCliente amadeusApiCliente)
     {
         _context = context;
 
         _amadeusApiClient = amadeusApiCliente;
+
+        _userManager = userManager;
+        
+        _rolManager = rolManager;
     }
 
-    public IActionResult Index()
+public async Task<IActionResult> Index()
     {
+        await CrearRol();
         return View();
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
+    public async Task<JsonResult> CrearRol(){
+        var nombreRolExiste = _context.Roles.Where(r => r.Name == "Cliente").SingleOrDefault();
+
+        if (nombreRolExiste == null) {
+            var rol = await _rolManager.CreateAsync(new IdentityRole("Cliente"));
+        }
+
+        return Json(true);
+
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

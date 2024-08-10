@@ -6,8 +6,9 @@ namespace AgenciaAterrizar.Models
     {
         [Key]
         public int PersonaID { get; set; }
-        public int UsuarioID { get; set; } // VER DE AGREGAR LA RELACION CON LA TABLA USER.
+        public string UsuarioID { get; set; } // VER DE AGREGAR LA RELACION CON LA TABLA USER.
         public string NombreCompleto { get; set; }
+        public string Apellido { get; set; }
         public string TipoDocumento { get; set; }
         public int DNI { get; set; }
         public DateTime FechaNacimiento { get; set; }
@@ -17,6 +18,7 @@ namespace AgenciaAterrizar.Models
         public string Provincia { get; set; }
         public string Localidad { get; set; }
         public string Domicilio { get; set; }
+        public bool Eliminado { get; set; }
 
         public virtual ICollection<ReservaVuelo>? ReservasVuelos { get; set; }
         public virtual ICollection<ReservaHotel>? ReservasHoteles { get; set; }

@@ -1,10 +1,12 @@
 using AgenciaAterrizar.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AgenciaAterrizar.Controllers;
 
+[Authorize]
 public class AdminController : Controller
 {
     private readonly ApplicationDbContext _context;

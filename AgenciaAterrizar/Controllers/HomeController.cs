@@ -2,11 +2,6 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using AgenciaAterrizar.Models;
 using AgenciaAterrizar.Data;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using System.IO.Compression;
 using Microsoft.AspNetCore.Identity;
 
 namespace AgenciaAterrizar.Controllers;
@@ -38,13 +33,30 @@ public async Task<IActionResult> Index()
 
     public async Task<JsonResult> CrearRol(){
         var nombreRolExiste = _context.Roles.Where(r => r.Name == "Cliente").SingleOrDefault();
+        var rolAdminExiste = _context.Roles.Where(r => r.Name == "Administrador").SingleOrDefault();
 
         if (nombreRolExiste == null) {
             var rol = await _rolManager.CreateAsync(new IdentityRole("Cliente"));
         }
 
-        return Json(true);
+        if (rolAdminExiste == null) {
+            var rol = await _rolManager.CreateAsync(new IdentityRole("Administrador"));
+        }
 
+        //Crear usuario admin si no existe
+        bool userAdminCreado = false;
+        var admin = _context.Users.Where(u => u.Email == "admin@agenciaaterrizar.com").SingleOrDefault();
+
+        if(admin == null){
+            var userAdmin = new IdentityUser { UserName = "admin@agenciaaterrizar.com", Email = "admin@agenciaaterrizar.com" };
+            var result = await _userManager.CreateAsync(userAdmin, "agencia2024");
+
+            await _userManager.AddToRoleAsync(userAdmin, "Administrador");
+            userAdminCreado = result.Succeeded;
+        }
+
+
+        return Json(userAdminCreado);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

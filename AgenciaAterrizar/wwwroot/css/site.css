@@ -24,9 +24,6 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
-.form-control{
-  height: 28px;
-}
 
 @media (min-width: 1200px) {
   .container, .container-lg, .container-md, .container-sm, .container-xl {
@@ -65,7 +62,7 @@ footer{
   font-weight: 600;
   cursor: pointer;
   overflow: hidden;
-  transition: border 300ms, color 300ms;
+  transition: all 0.5s, color 0.5s;
   user-select: none;
 }
 
@@ -81,42 +78,21 @@ li a p {
   color: black;
 }
 
+.navbar-light .navbar-nav .nav-link {
+  color: white;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: white;
+}
+
 .btnNav:active {
   border-color: white;
 }
 
-.btnNav::after, .btnNav::before {
-  content: "";
-  position: absolute;
-  width: 100px;
-  aspect-ratio: 1;
+.btnNav:hover{
   background: rgb(238, 153, 57);
-  opacity: 25%;
-  border-radius: 50%;
-  transition: transform 500ms, background 300ms;
-}
-
-.btnNav::before {
-  left: 0;
-  transform: translateX(-8em);
-}
-
-.btnNav::after {
-  right: 0;
-  transform: translateX(8em);
-}
-
-.btnNav:hover:before {
-  transform: translateX(-1em);
-}
-
-.btnNav:hover:after {
-  transform: translateX(1em);
-}
-
-.btnNav:active:before,
-.btnNav:active:after {
-  background: white;
+  opacity: 80%;
 }
 
 @media (max-width: 1024px) {

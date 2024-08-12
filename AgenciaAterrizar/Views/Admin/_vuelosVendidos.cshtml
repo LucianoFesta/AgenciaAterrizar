@@ -40,7 +40,7 @@
                     <td>
                         <div class="d-flex flex-column tdBotones">
                             <div>
-                                <button type="button" class="btn btn-danger">Cancelar</button>
+                                <button type="button" data-id="@reserva.ReservaVueloID" class="btnCancelar btn btn-danger">Cancelar</button>
                             </div>
                             <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalPasajeros_@reserva.ReservaVueloID">Pasajeros</button>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEscalas_@reserva.ReservaVueloID">Tramos</button>
@@ -59,7 +59,7 @@
                         <div class="modal-body">
                             @foreach(var pasajero in reserva.Acompaniantes){
                                 <div class="itemPasajero">
-                                    <div id="detallePasajero_@pasajero.AcompanianteID" style="display: block;">    
+                                    <div id="detallePasajero_@pasajero.AcompanianteID">    
                                         <p><b>Nombre: </b><span>@pasajero.NombreCompleto.ToUpper()</span> <span>@pasajero.Apellido.ToUpper()</span>.</p>
                                         <p><b><span>@pasajero.TipoDocumento</span></b>: <span>@pasajero.NroDocumento</span>.</p>
                                         <p><b>Nacionalidad</b>: <span>@pasajero.Pais</span>.</p>

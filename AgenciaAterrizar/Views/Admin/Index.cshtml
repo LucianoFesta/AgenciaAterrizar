@@ -14,6 +14,7 @@
     document.addEventListener('DOMContentLoaded', function(){
         const listaMenu = document.querySelectorAll('#menu li a');
         const contenidoHtml = document.getElementById('contenido');
+        let vistaActual = '';
 
         listaMenu.forEach(item => {
             item.addEventListener('click', function(e){
@@ -36,12 +37,56 @@
                 .then(response => response.text())
                 .then(html => {
                     contenidoHtml.innerHTML = html;
+                    vistaActual = vista;
+                    // Como al momento de cargar el DOM no están los botónes, se debe asignar manualmente los eventos a los componentes html agregados a la vista.
+                    asignarEventos();
                 })
                 .catch(e => {
                     contenidoHtml.innerHTML = '<p>Error al cargar el contenido de la vista</p>';
                     console.log('Error al cargar vista: ', e);
                 })
         }
+
+
+        function asignarEventos(){
+            const botonesCancelar = document.querySelectorAll('.btnCancelar');
+
+            // Asignamos el evento click a los botones agregados al html que tengan clase .btnCancelar.
+            botonesCancelar.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idReserva = btn.getAttribute('data-id');
+
+                    $.ajax({
+                        url: '../../Admin/EliminarReserva',
+                        data: { ID: idReserva },
+                        type: 'DELETE',
+                        dataType: 'json',
+                        success: function(result){
+                            if(result.result){
+                                Swal.fire({
+                                    title: 'Cancelación de Reserva.',
+                                    text: 'La reserva ha sido cancelada exitósamente.',
+                                    icon: 'success',
+                                    confirmButtonText: 'Aceptar'
+                                }).then((r) => {
+                                    if(r.isConfirmed){
+                                        cargarVista(vistaActual);
+                                    }
+                                });
+                            }else{
+                                Swal.fire({
+                                    title: 'Cancelacón de Reserva:',
+                                    text: result.message,
+                                    icon: 'warning',
+                                    confirmButtonText: 'Volver a intentarlo'
+                                });
+                            }
+                        }
+                    })
+                })
+            })
+        }
     });
+
 
 </script>

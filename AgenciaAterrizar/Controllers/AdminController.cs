@@ -27,8 +27,31 @@ public class AdminController : Controller
         var listaVuelosVendidos = await _context.ReservaVuelos
             .Include(rv => rv.Acompaniantes)
             .Include(rv => rv.Escalas)
+            .Where(rv => rv.Eliminado == false)
             .ToListAsync();
 
         return PartialView("_vuelosVendidos", listaVuelosVendidos);
+    }
+
+    public JsonResult EliminarReserva(int ID)
+    {
+        if(ID > 0){
+            var reserva = _context.ReservaVuelos.Where(r => r.ReservaVueloID == ID).SingleOrDefault();
+
+            if(reserva != null){
+
+                reserva.Eliminado = true;
+                _context.SaveChanges();
+
+                return Json(new { result = true });
+
+            }else{
+                return Json(new { result = false, message = "No existe la reserva a eliminar." });
+
+            }
+
+        }else{
+            return Json(new { result = false, message = "No se pasó un id de reserva a eliminar." });
+        }
     }
 }

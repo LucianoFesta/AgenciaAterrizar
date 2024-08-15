@@ -214,6 +214,10 @@ i{
     color: red;
 }
 
+.errorIcon{
+    color: red;
+}
+
 form{
     position: relative;
 }

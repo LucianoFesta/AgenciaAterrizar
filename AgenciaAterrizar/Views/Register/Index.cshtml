@@ -78,21 +78,18 @@
                 <input type="text" class="form-control" id="pais" value="Argentina" disabled placeholder="Ingrese su país de residencia" required>
             </div>
 
-            <!-- Provincia -->
-            <div class="mb-3">
-                <label for="provincia" class="form-label">Provincia:</label>
-                <input type="text" class="form-control" id="provincia" placeholder="Ingrese su provincia" required>
-            </div>
-        </div>
+            <label for="provincias">Seleccione una provincia:</label>
+            <select id="provincias">
+                <option value="">Seleccione una provincia</option>
+                <!-- Opciones de provincias se llenarán dinámicamente -->
+            </select>
 
-        <div class="divInputs">
-            <!-- Localidad -->
-            <div class="mb-3">
-                <label for="localidad" class="form-label">Localidad:</label>
-                <input type="text" class="form-control" id="localidad" placeholder="Ingrese su localidad" required>
-            </div>
-
-            <!-- Domicilio -->
+            <label for="municipios">Seleccione un municipio:</label>
+            <select id="municipios">
+                <option value="">Seleccione un municipio</option>
+                <!-- Opciones de municipios se llenarán dinámicamente -->
+            </select>
+             <!-- Domicilio -->
             <div class="mb-3">
                 <label for="domicilio" class="form-label">Domicilio:</label>
                 <input type="text" class="form-control" id="domicilio" placeholder="Ingrese su domicilio" required>

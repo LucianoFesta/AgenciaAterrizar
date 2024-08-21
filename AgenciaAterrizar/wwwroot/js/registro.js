@@ -215,6 +215,7 @@ document.getElementById('btnRegister').addEventListener('click', (e) => {
     }else if(confirmPassword != '' && !password){
         document.getElementById('confirmPasswordSinPasswordError').style.display = 'block';
         document.getElementById('confirmPassword').classList.add('form-controlError')
+        erroresInput++;
 
         if (!primerError) {
             primerError = document.getElementById('confirmPassword');
@@ -222,6 +223,7 @@ document.getElementById('btnRegister').addEventListener('click', (e) => {
     }else if(confirmPassword != password){
         document.getElementById('passwordDiferente').style.display = 'block';
         document.getElementById('confirmPassword').classList.add('form-controlError')
+        erroresInput++;
 
         if (!primerError) {
             primerError = document.getElementById('confirmPassword');
@@ -231,51 +233,53 @@ document.getElementById('btnRegister').addEventListener('click', (e) => {
     if(erroresInput > 0){
         primerError.scrollIntoView({ behavior: 'smooth' });
         return;
-    }
 
-    $.ajax({
-        url:'../../Register/GuardarPersona',
-        data: { 
-            NombreCompleto : nombreCompleto, Apellido : apellido, Email : email, PhoneNumber : numeroTel, 
-            Password : password, confirmPassword : confirmPassword,TipoDocumento : tipoDocumento, Dni : DNI,
-            Pasaporte : pasaporte, VencimientoPasaporte : vencimientoPasaporte,
-            Pais : pais, Provincia : provincia, Localidad : localidad, Domicilio : domicilio, 
-            FechaNacimiento : fechaNacimiento 
-        },
-        type: 'POST',
-        dataType: 'json',
-        success: function (resultado ){
-            if(resultado.result){
-                Swal.fire({
-                    title: 'Registro de Usuario',
-                    text: 'Usuario registrado exitosamente!',
-                    icon: 'success',
-                    confirmButtonText: 'Aceptar'
-                }).then((result) => {
-                    if(result.isConfirmed){
-                        limpiarForm();
-                        
-                        window.location.href = '/Identity/Account/Login';
-                    }
-                });
-            }else{
+    }else{
+        $.ajax({
+            url:'../../Register/GuardarPersona',
+            data: { 
+                NombreCompleto : nombreCompleto, Apellido : apellido, Email : email, PhoneNumber : numeroTel, 
+                Password : password, confirmPassword : confirmPassword,TipoDocumento : tipoDocumento, Dni : DNI,
+                Pasaporte : pasaporte, VencimientoPasaporte : vencimientoPasaporte,
+                Pais : pais, Provincia : provincia, Localidad : localidad, Domicilio : domicilio, 
+                FechaNacimiento : fechaNacimiento 
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (resultado ){
+                if(resultado.result){
+                    Swal.fire({
+                        title: 'Registro de Usuario',
+                        text: 'Usuario registrado exitosamente!',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    }).then((result) => {
+                        if(result.isConfirmed){
+                            limpiarForm();
+                            
+                            window.location.href = '/Identity/Account/Login';
+                        }
+                    });
+                }else{
+                    Swal.fire({
+                        title: 'Ups, existe un inconveniente:',
+                        text: resultado.message,
+                        icon: 'warning',
+                        confirmButtonText: 'Volver a intentarlo'
+                    });
+                }
+            },
+            error: function(kxr, status){
                 Swal.fire({
                     title: 'Ups, existe un inconveniente:',
-                    text: resultado.message,
+                    text: 'Ocurrió un error para proceder a registrar el usuario.',
                     icon: 'warning',
                     confirmButtonText: 'Volver a intentarlo'
                 });
             }
-        },
-        error: function(kxr, status){
-            Swal.fire({
-                title: 'Ups, existe un inconveniente:',
-                text: 'Ocurrió un error para proceder a registrar el usuario.',
-                icon: 'warning',
-                confirmButtonText: 'Volver a intentarlo'
-            });
-        }
-    })
+        })
+    }
+
 })
 
 function limpiarForm(){

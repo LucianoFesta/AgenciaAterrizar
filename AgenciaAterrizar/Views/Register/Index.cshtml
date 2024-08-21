@@ -1,7 +1,11 @@
+@{
+    ViewData["Title"] = "Registrarse";
+}
+
 <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
 
 <div class="divTitulo">
-    <h3 class="mb-2">Registrate para ser parte de <b>A<span>gencia</span>A<span>terrizar</span></b>:</h3>
+    <h3 class="mb-2">Registrate para ser parte de <b><span>A</span>gencia<span>A</span>terrizar</b>:</h3>
     <hr class="mb-3">
 </div>
 
@@ -13,12 +17,14 @@
             <div class="mb-3">
                 <label for="nombreCompleto" class="form-label">Nombre completo:</label>
                 <input type="text" class="form-control" id="nombreCompleto" placeholder="Ingrese su nombre completo" required>
+                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nombreError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Nombre Completo</span>
             </div>
 
             <!-- Apellido -->
             <div class="mb-3">
                 <label for="apellido" class="form-label">Apellido:</label>
                 <input type="text" class="form-control" id="apellido" placeholder="Ingrese su apellido" required>
+                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="apellidoError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Apellido</span>
             </div>
         </div>
 
@@ -37,6 +43,7 @@
             <div class="mb-3">
                 <label for="DNI" class="form-label">Número de documento:</label>
                 <input type="number" class="form-control" id="DNI" placeholder="Ingrese su número de documento" required>
+                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroDocumentoError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Nro Documento</span>            
             </div>
         </div>
 
@@ -45,12 +52,15 @@
             <div class="mb-3">
                 <label for="pasaporte" class="form-label">Pasaporte:</label>
                 <input type="text" class="form-control" id="pasaporte" placeholder="Ingrese su número de pasaporte" required>
+                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="pasaporteError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Nro Pasaporte</span>            
             </div>
 
             <!-- Vencimiento de pasaporte -->
             <div class="mb-3">
                 <label for="vencimientoPasaporte" class="form-label">Vencimiento de pasaporte:</label>
                 <input type="date" class="form-control" id="vencimientoPasaporte" required>
+                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="vencimientoPasaporteError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar fecha vto Pasaporte</span>            
+                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="vencimientoPasaporteErrorFecha"><i class="fa-solid fa-circle-exclamation errorIcon"></i> El vto debe ser posterior a hoy</span>            
             </div>
         </div>
 
@@ -59,12 +69,14 @@
             <div class="mb-3">
                 <label for="fechaNacimiento" class="form-label">Fecha de nacimiento:</label>
                 <input type="date" class="form-control" id="fechaNacimiento" required>
+                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar fecha de Nacimiento</span>            
+                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoErrorFecha"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Debe ser mayor de 18 años.</span> 
             </div>
 
             <!-- Número de teléfono -->
             <div class="mb-3">
                 <label for="numerotel" class="form-label">Número de teléfono:</label>                
-                <input type="number" class="form-control" id="numerotel" placeholder="Ingrese su número de teléfono" required>
+                <input type="tel" class="form-control" id="numerotel" placeholder="Ingrese su número de teléfono" required>
             </div>
         </div>
 

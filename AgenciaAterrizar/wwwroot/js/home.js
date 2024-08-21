@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if(ida == '')
             {
                 document.getElementById('inputOrigen').style.display = 'block';
+                document.getElementById('apellido').classList.add('form-controlError')
                 erroresInput ++;
             }
     

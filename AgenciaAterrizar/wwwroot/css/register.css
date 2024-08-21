@@ -1,5 +1,5 @@
 h3 span{
-  color: #04001c;
+  color: rgb(145, 80, 0);
 }
 
 h3{
@@ -7,7 +7,7 @@ h3{
 }
 
 hr{
-  color: rgb(249, 238, 225);
+  color: rgb(145, 80, 0);
 }
 
 .divRegistrar{
@@ -72,6 +72,14 @@ input, select{
     rgb(168, 89, 0) 94.3%
   );
   transition: all 0.475s;
+}
+
+.errorIcon{
+  color: red;
+}
+
+.form-controlError{
+  border: 1.5px solid red !important;
 }
 
 @media (max-width: 768px) {

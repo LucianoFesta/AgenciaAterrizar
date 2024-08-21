@@ -12,8 +12,8 @@ document.getElementById('btnRegister').addEventListener('click', (e) => {
     var pasaporte = document.getElementById("pasaporte").value ;
     var vencimientoPasaporte = document.getElementById("vencimientoPasaporte").value ;
     var pais = document.getElementById("pais").value ;
-    var provincia = document.getElementById("provincias").value ;
-    var localidad = document.getElementById("municipios").value ;
+    var provincia = document.getElementById("provincia").value ;
+    var localidad = document.getElementById("localidad").value ;
     var domicilio = document.getElementById("domicilio").value ;
     var fechaNacimiento = document.getElementById("fechaNacimiento").value ;
 
@@ -77,16 +77,16 @@ function limpiarForm(){
     document.getElementById("pasaporte").value = '';
     document.getElementById("vencimientoPasaporte").value = '';
     document.getElementById("pais").value = ''; 
-    document.getElementById("provincias").value = ''; 
-    document.getElementById("municipios").value = ''; 
+    document.getElementById("provincia").value = ''; 
+    document.getElementById("localidad").value = ''; 
     document.getElementById("domicilio").value = ''; 
     document.getElementById("fechaNacimiento").value = ''; 
 }
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    const provinciasSelect = document.getElementById('provincias');
-    const municipiosSelect = document.getElementById('municipios');
+    const provinciasSelect = document.getElementById('provincia');
+    const municipiosSelect = document.getElementById('localidad');
 
     // Función para obtener las provincias de Argentina
     async function obtenerProvincias() {

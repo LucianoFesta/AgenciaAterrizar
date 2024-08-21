@@ -25,6 +25,7 @@ document.getElementById('btnRegister').addEventListener('click', (e) => {
     var domicilio = document.getElementById("domicilio").value ;
     var fechaNacimiento = document.getElementById("fechaNacimiento").value ;
 
+    // Validaciones de los campos.
     var erroresInput = 0;
     var primerError = null;
 
@@ -124,6 +125,106 @@ document.getElementById('btnRegister').addEventListener('click', (e) => {
 
         if (!primerError) {
             primerError = document.getElementById('fechaNacimiento');
+        }
+    }
+
+    document.getElementById('numerotelError').style.display = 'none';
+    document.getElementById('numerotel').classList.remove('form-controlError')
+    if(numeroTel == ''){
+        document.getElementById('numerotelError').style.display = 'block';
+        document.getElementById('numerotel').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('numerotel');
+        }
+    }
+
+    document.getElementById('emailError').style.display = 'none';
+    document.getElementById('email').classList.remove('form-controlError')
+    if(email == ''){
+        document.getElementById('emailError').style.display = 'block';
+        document.getElementById('email').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('email');
+        }
+    }
+
+    document.getElementById('provinciaError').style.display = 'none';
+    document.getElementById('provincia').classList.remove('form-controlError')
+    if(provincia == ''){
+        document.getElementById('provinciaError').style.display = 'block';
+        document.getElementById('provincia').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('provincia');
+        }
+    }
+
+    document.getElementById('localidadError').style.display = 'none';
+    document.getElementById('localidad').classList.remove('form-controlError')
+    if(localidad == ''){
+        document.getElementById('localidadError').style.display = 'block';
+        document.getElementById('localidad').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('localidad');
+        }
+    }
+
+    document.getElementById('domicilioError').style.display = 'none';
+    document.getElementById('domicilio').classList.remove('form-controlError')
+    if(domicilio == ''){
+        document.getElementById('domicilioError').style.display = 'block';
+        document.getElementById('domicilio').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('domicilio');
+        }
+    }
+
+    document.getElementById('passwordError').style.display = 'none';
+    document.getElementById('password').classList.remove('form-controlError')
+    if(password == ''){
+        document.getElementById('passwordError').style.display = 'block';
+        document.getElementById('password').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('password');
+        }
+    }
+
+    document.getElementById('confirmPasswordError').style.display = 'none';
+    document.getElementById('passwordDiferente').style.display = 'none';
+    document.getElementById('confirmPasswordSinPasswordError').style.display = 'none';
+    document.getElementById('confirmPassword').classList.remove('form-controlError')
+    if(confirmPassword == ''){
+        document.getElementById('confirmPasswordError').style.display = 'block';
+        document.getElementById('confirmPassword').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('confirmPassword');
+        }
+    }else if(confirmPassword != '' && !password){
+        document.getElementById('confirmPasswordSinPasswordError').style.display = 'block';
+        document.getElementById('confirmPassword').classList.add('form-controlError')
+
+        if (!primerError) {
+            primerError = document.getElementById('confirmPassword');
+        }
+    }else if(confirmPassword != password){
+        document.getElementById('passwordDiferente').style.display = 'block';
+        document.getElementById('confirmPassword').classList.add('form-controlError')
+
+        if (!primerError) {
+            primerError = document.getElementById('confirmPassword');
         }
     }
 

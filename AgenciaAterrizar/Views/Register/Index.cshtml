@@ -1,6 +1,9 @@
 <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
 
-<h3 class="mb-5">Registrate para ser parte de <b>A<span>gencia</span>A<span>terrizar</span></b>:</h3>
+<div class="divTitulo">
+    <h3 class="mb-2">Registrate para ser parte de <b>A<span>gencia</span>A<span>terrizar</span></b>:</h3>
+    <hr class="mb-3">
+</div>
 
 <div class="col-8 divRegistrar animate__animated animate__fadeIn">
     <form class="form-group">
@@ -76,26 +79,29 @@
             <div class="mb-3">
                 <label for="pais" class="form-label">Nacionalidad:</label>
                 <input type="text" class="form-control" id="pais" value="Argentina" disabled placeholder="Ingrese su país de residencia" required>
+            </div> 
+            <div class="mb-3 inputForm">
+                <label for="provincias" class="form-label">Seleccione una provincia:</label>
+                <select id="provincias" class="form-control" >
+                    <option value="">Seleccione una provincia</option>
+                </select>
             </div>
-
-            <label for="provincias">Seleccione una provincia:</label>
-            <select id="provincias">
-                <option value="">Seleccione una provincia</option>
-                <!-- Opciones de provincias se llenarán dinámicamente -->
-            </select>
-
-            <label for="municipios">Seleccione un municipio:</label>
-            <select id="municipios">
+        </div>
+         <div class="divInputs">
+        <div class="mb-3 inputForm"> 
+            <label for="municipios" class="form-label">Seleccione un municipio:</label>
+            <select id="municipios" class="form-control">
                 <option value="">Seleccione un municipio</option>
                 <!-- Opciones de municipios se llenarán dinámicamente -->
             </select>
+        </div>
+           
              <!-- Domicilio -->
             <div class="mb-3">
                 <label for="domicilio" class="form-label">Domicilio:</label>
                 <input type="text" class="form-control" id="domicilio" placeholder="Ingrese su domicilio" required>
             </div>
         </div>
-        
             
         <div class="divInputs">
             <!-- Contraseña -->

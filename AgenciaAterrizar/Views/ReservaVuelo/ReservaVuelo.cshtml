@@ -28,12 +28,12 @@
                         <div class="mb-3 w-50 p-2 inputForm">
                             <label for="nombreCompleto_@(i)" class="form-label">Nombre completo</label>
                             <input type="text" class="form-control" id="nombreCompleto_@(i)" name="Pasajeros[@i].NombreCompleto" aria-describedby="nombreHelp_@(i)" placeholder="Como aparece en tu documento de viaje">
-                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nombreCompletoError_@(i)">Complete el nombre completo.</span>
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nombreCompletoError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Complete el nombre completo.</span>
                         </div>
                         <div class="mb-3 w-50 p-2 inputForm">
                             <label for="apellido_@(i)" class="form-label">Apellido/s</label>
                             <input type="text" class="form-control" id="apellido_@(i)" name="Pasajeros[@i].Apellido" placeholder="Como aparece en tu documento de viaje">
-                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="apellidoError_@(i)">Complete con el apellido.</span>
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="apellidoError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Complete con el apellido.</span>
                         </div>
                     </div>
 
@@ -43,13 +43,14 @@
                             <select class="form-control" id="selectPaises_@(i)" name="Pasajeros[@i].Pais">
                                 <option value="">Seleccione un país</option>
                             </select>
-                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="paisError_@(i)">Seleccione país de residencia.</span>
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="paisError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione país de residencia.</span>
                         </div>
 
                         <div class="mb-3 w-50 p-2 inputForm">
                             <label for="fechaNacimiento_@(i)" class="form-label">Fecha de Nacimiento</label>
                             <input type="date" class="form-control" id="fechaNacimiento_@(i)" name="Pasajeros[@i].FechaNacimiento">
-                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoError_@(i)">Elija la fecha de nacimiento.</span>
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Elija la fecha de nacimiento.</span>
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoEdadError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> El titular de la reserva debe ser mayor de 18 años.</span>
                         </div>
                     </div>
 
@@ -68,7 +69,7 @@
                         <div class="mb-3 w-50 p-2 inputForm">
                             <label for="nroDocumento_@(i)" class="form-label">Número de Documento</label>
                             <input type="text" class="form-control" id="nroDocumento_@(i)" name="Pasajeros[@i].NroDocumento">
-                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroDocumentoError_@(i)">Complete con el número de documento.</span>
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroDocumentoError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Complete con el número de documento.</span>
                         </div>
                     </div>
 
@@ -95,7 +96,7 @@
             <div class="mb-3">
                 <label for="email" class="form-label">Email para el envío del voucher</label>
                 <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
-                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="emailError">Ingrese el email de la reserva.</span>
+                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="emailError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingrese el email de la reserva.</span>
             </div>
 
             <div class="d-flex justify-content-evenly medioPago">
@@ -110,7 +111,7 @@
                 <div class="mb-3 w-50 p-2 inputForm">
                     <label for="nroTarjeta" class="form-label">Número de Tarjeta</label>
                     <input type="number" class="form-control" id="nroTarjeta" name="nroTarjeta">
-                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroTarjetaError">Ingrese el nro de tarjeta.</span>
+                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroTarjetaError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingrese el nro de tarjeta.</span>
                 </div>
             </div>
             
@@ -279,254 +280,296 @@
     </script>
     <script>
 
-        document.getElementById('finalizarCompra').addEventListener('click', function(e) {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', () => {
+            for (let i = 1; i <= @Model.pasajeros; i++) {
+                
+                let tipoDocumento = document.getElementById('tipoDocumento_' + i);
+                let nroDocumento = document.getElementById('nroDocumento_' + i);
 
-            // Corrobora que no existan campos incompletos
-            var erroresInput = 0;
+                // Escucha el evento de cambio para actualizar el tipo de input cuando el usuario cambie el tipo de documento.
+                tipoDocumento.addEventListener('change', cambiarTypeNroDocumento);
 
-            for(var i = 1; i <= @Model.pasajeros; i++)
-            {
-                document.getElementById('nombreCompletoError_'+i).style.display = 'none';
-                var nombre = document.getElementById('nombreCompleto_'+i).value;
-                if(nombre == ''){
-                    document.getElementById('nombreCompletoError_'+i).style.display = 'block';
-                    erroresInput++;
-                }
+                // Llama a la función inmediatamente para ajustar el tipo de input según el valor actual
+                cambiarTypeNroDocumento();
 
-                document.getElementById('apellidoError_'+i).style.display = 'none';
-                var apellido = document.getElementById('apellido_'+i).value;
-                if(apellido == ''){
-                    document.getElementById('apellidoError_'+i).style.display = 'block';
-                    erroresInput++;
-                }
-
-                document.getElementById('paisError_'+i).style.display = 'none';
-                var pais = document.getElementById('selectPaises_'+i).value;
-                if(pais == ''){
-                    document.getElementById('paisError_'+i).style.display = 'block';
-                    erroresInput++;
-                }
-
-                document.getElementById('fechaNacimientoError_'+i).style.display = 'none';
-                var fechaNacimiento = document.getElementById('fechaNacimiento_'+i).value;
-                if(fechaNacimiento == ''){
-                    document.getElementById('fechaNacimientoError_'+i).style.display = 'block';
-                    erroresInput++;
-                }
-
-                document.getElementById('nroDocumentoError_'+i).style.display = 'none';
-                var nroDocumento = document.getElementById('nroDocumento_'+i).value;
-                if(nroDocumento == ''){
-                    document.getElementById('nroDocumentoError_'+i).style.display = 'block';
-                    erroresInput++;
+                // Función para cambiar el tipo de input según el tipo de documento seleccionado
+                function cambiarTypeNroDocumento() {
+                    if (tipoDocumento.value === 'pasaporte') {
+                        nroDocumento.setAttribute('type', 'text');
+                    } else {
+                        nroDocumento.setAttribute('type', 'number');
+                    }
                 }
             }
+            
+        });
 
-            document.getElementById('emailError').style.display = 'none';
-            var email = document.getElementById('email').value;
-            if(email == ''){
-                document.getElementById('emailError').style.display = 'block';
-                erroresInput++;
-            }
+            document.getElementById('finalizarCompra').addEventListener('click', function(e) {
+                e.preventDefault();
 
-            document.getElementById('nroTarjetaError').style.display = 'none';
-            var nroTarjeta = document.getElementById('nroTarjeta').value;
-            if(nroTarjeta == ''){
-                document.getElementById('nroTarjetaError').style.display = 'block';
-                erroresInput++;
-            }
+                // Corrobora que no existan campos incompletos
+                var erroresInput = 0;
 
-            if(erroresInput > 0){
-                return;
-            }
-
-            //Obtengo del modelo que paso al HTML un objeto JSON para poder utilizarlo en un script de JS.
-            var modeloVuelo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
-
-            //Verifico si se trata de un vuelo ida y vuelta o solo ida para asignar los aeropuertos de vuelta si existen.
-            var aeropuertoDestinoID;
-            var nombreAeropuertoDestino;
-
-            if (modeloVuelo.intinerario[0].segments.length > 1) {
-                aeropuertoDestinoID = modeloVuelo.escalasIda[modeloVuelo.escalasIda.length - 1].arrival;
-                nombreAeropuertoDestino = modeloVuelo.escalasIda[modeloVuelo.escalasIda.length - 1].arrivalAirport.nombre;
-            } else {
-                aeropuertoDestinoID = modeloVuelo.escalasIda[0].arrival;
-                nombreAeropuertoDestino = modeloVuelo.escalasIda[0].arrivalAirport.nombre;
-            }
-
-            function generarNroVoucher() {
-                const timestamp = Date.now(); // Obtiene la marca de tiempo actual en milisegundos
-                const numAleatorio = Math.floor(Math.random() * 1000000); // Genera un número aleatorio entre 0 y 999999
-                return timestamp.toString() + numAleatorio.toString(); // Combina ambos en una cadena de números
-            }
-            var nroVoucher = generarNroVoucher();
-
-            //Genero el objeto que voy a pasar el controlador.
-            var reservaVuelo = {
-                NroVoucher: nroVoucher,
-                AeropuertoOrigenID: modeloVuelo.escalasIda[0].departure,
-                NombreAeropuertoOrigen: modeloVuelo.escalasIda[0].departureAirport.nombre,
-                FechaSalida: modeloVuelo.escalasIda[0].departureDate,
-                AerolineaID: modeloVuelo.codigoAerolinea,
-                AerolineaNombre: modeloVuelo.nombreAerolinea,
-                DuracionVueloIda: modeloVuelo.intinerario[0].duration,
-                CantidadPasajeros: modeloVuelo.pasajeros,
-                Email: document.getElementById('email').value,
-                MedioDePago: document.getElementById('medioPago').value,
-                NroTarjeta: document.getElementById('nroTarjeta').value,
-                CantidadCuotas: 1,
-                MontoTotalCompra: modeloVuelo.precio.total,
-                AeropuertoDestinoID: aeropuertoDestinoID,
-                NombreAeropuertoDestino: nombreAeropuertoDestino
-            }
-
-            //Creo las escalas del vuelo seleccionado para agregarlas al objeto que paso al controlador.
-            var escalas = [];
-            var escalasIdaHTMLPDF = ``;
-            for(var i = 0; i < modeloVuelo.escalasIda.length; i++)
-            {
-                var escala = {
-                    AerolineaID: modeloVuelo.escalasIda[i].airline,
-                    AeropuertoDestinoID: modeloVuelo.escalasIda[i].arrival,
-                    FechaLlegada: modeloVuelo.escalasIda[i].arrivalDate,
-                    AeropuertoOrigenID: modeloVuelo.escalasIda[i].departure,
-                    FechaSalida: modeloVuelo.escalasIda[i].departureDate,
-                    EscalaIda: modeloVuelo.escalasIda[i].ida,
-                    EscalaVuelta: modeloVuelo.escalasIda[i].vuelta,
-                    NroEscala: modeloVuelo.escalasIda[i].escalaNumber,
-                    DuracionVuelo: modeloVuelo.escalasIda[i].duration,
-                    NumeroVuelo: modeloVuelo.escalasIda[i].fligthNumber
-                }
-
-                escalasIdaHTMLPDF += `
-                    <li><b>Tramo ${i + 1} con ${escala.AerolineaID}</b>: Partida: ${formatoFechaMostrar(escala.FechaSalida)} desde ${escala.AeropuertoOrigenID} a las ${formatoFechaSinFechaMostrar(escala.FechaSalida)}hs.  - Arrivo: ${formatoFechaMostrar(escala.FechaLlegada)} - a ${escala.AeropuertoDestinoID} a las ${formatoFechaSinFechaMostrar(escala.FechaLlegada)}hs. - <b>Vuelo Nro</b>: ${escala.AerolineaID}${escala.NumeroVuelo} </li>
-                `
-
-                escalas.push(escala);
-            }
-
-            var escalasVueltaHTMLPDF = ``;
-            if( modeloVuelo.escalasVuelta.length > 0)
-            {
-                reservaVuelo.FechaRegreso = modeloVuelo.escalasVuelta[0].departureDate;
-                reservaVuelo.DuracionVueloRegreso = modeloVuelo.intinerario[1].duration;
-
-                for(var i = 0; i < modeloVuelo.escalasVuelta.length; i++)
+                for(var i = 1; i <= @Model.pasajeros; i++)
                 {
-                    var escala = {
-                        AerolineaID: modeloVuelo.escalasVuelta[i].airline,
-                        AeropuertoDestinoID: modeloVuelo.escalasVuelta[i].arrival,
-                        FechaLlegada: modeloVuelo.escalasVuelta[i].arrivalDate,
-                        AeropuertoOrigenID: modeloVuelo.escalasVuelta[i].departure,
-                        FechaSalida: modeloVuelo.escalasVuelta[i].departureDate,
-                        EscalaIda: modeloVuelo.escalasVuelta[i].ida,
-                        EscalaVuelta: modeloVuelo.escalasVuelta[i].vuelta,
-                        NroEscala: modeloVuelo.escalasVuelta[i].escalaNumber,
-                        DuracionVuelo: modeloVuelo.escalasVuelta[i].duration,
-                        NumeroVuelo: modeloVuelo.escalasVuelta[i].fligthNumber
+                    if(i == 1){
+                        document.getElementById('fechaNacimientoEdadError_1').style.display = 'none';
+                        var fechaNacimiento = new Date(document.getElementById('fechaNacimiento_1').value);
+                        var hoy = new Date();
+
+                        var edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+                        var mes = hoy.getMonth() - fechaNacimiento.getMonth();
+
+                        if(mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())){
+                            edad--;
+                        }
+
+                        if(edad < 18){
+                            document.getElementById('fechaNacimientoEdadError_1').style.display = 'block';
+                            erroresInput++;
+                        }
                     }
 
-                    escalasVueltaHTMLPDF += `
-                        <li><b>Tramo ${i + 1} con ${escala.AerolineaID}</b>: Partida: ${formatoFechaMostrar(escala.FechaSalida)} desde ${escala.AeropuertoOrigenID} a las ${formatoFechaSinFechaMostrar(escala.FechaSalida)}hs.  - Arrivo: ${formatoFechaMostrar(escala.FechaLlegada)} - a ${escala.AeropuertoDestinoID} a las ${formatoFechaSinFechaMostrar(escala.FechaLlegada)}hs. - <b>Vuelo Nro</b>: ${escala.AerolineaID}${escala.NumeroVuelo}  </li>
+                    document.getElementById('nombreCompletoError_'+i).style.display = 'none';
+                    var nombre = document.getElementById('nombreCompleto_'+i).value;
+                    if(nombre == ''){
+                        document.getElementById('nombreCompletoError_'+i).style.display = 'block';
+                        erroresInput++;
+                    }
+
+                    document.getElementById('apellidoError_'+i).style.display = 'none';
+                    var apellido = document.getElementById('apellido_'+i).value;
+                    if(apellido == ''){
+                        document.getElementById('apellidoError_'+i).style.display = 'block';
+                        erroresInput++;
+                    }
+
+                    document.getElementById('paisError_'+i).style.display = 'none';
+                    var pais = document.getElementById('selectPaises_'+i).value;
+                    if(pais == ''){
+                        document.getElementById('paisError_'+i).style.display = 'block';
+                        erroresInput++;
+                    }
+
+                    document.getElementById('fechaNacimientoError_'+i).style.display = 'none';
+                    var fechaNacimiento = document.getElementById('fechaNacimiento_'+i).value;
+                    if(fechaNacimiento == ''){
+                        document.getElementById('fechaNacimientoError_'+i).style.display = 'block';
+                        erroresInput++;
+                    }
+
+                    document.getElementById('nroDocumentoError_'+i).style.display = 'none';
+                    var nroDocumento = document.getElementById('nroDocumento_'+i).value;
+                    if(nroDocumento == ''){
+                        document.getElementById('nroDocumentoError_'+i).style.display = 'block';
+                        erroresInput++;
+                    }
+                }
+
+                document.getElementById('emailError').style.display = 'none';
+                var email = document.getElementById('email').value;
+                if(email == ''){
+                    document.getElementById('emailError').style.display = 'block';
+                    erroresInput++;
+                }
+
+                document.getElementById('nroTarjetaError').style.display = 'none';
+                var nroTarjeta = document.getElementById('nroTarjeta').value;
+                if(nroTarjeta == ''){
+                    document.getElementById('nroTarjetaError').style.display = 'block';
+                    erroresInput++;
+                }
+
+                if(erroresInput > 0){
+                    return;
+                }
+
+                //Obtengo del modelo que paso al HTML un objeto JSON para poder utilizarlo en un script de JS.
+                var modeloVuelo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+                //Verifico si se trata de un vuelo ida y vuelta o solo ida para asignar los aeropuertos de vuelta si existen.
+                var aeropuertoDestinoID;
+                var nombreAeropuertoDestino;
+
+                if (modeloVuelo.intinerario[0].segments.length > 1) {
+                    aeropuertoDestinoID = modeloVuelo.escalasIda[modeloVuelo.escalasIda.length - 1].arrival;
+                    nombreAeropuertoDestino = modeloVuelo.escalasIda[modeloVuelo.escalasIda.length - 1].arrivalAirport.nombre;
+                } else {
+                    aeropuertoDestinoID = modeloVuelo.escalasIda[0].arrival;
+                    nombreAeropuertoDestino = modeloVuelo.escalasIda[0].arrivalAirport.nombre;
+                }
+
+                function generarNroVoucher() {
+                    const timestamp = Date.now(); // Obtiene la marca de tiempo actual en milisegundos
+                    const numAleatorio = Math.floor(Math.random() * 1000000); // Genera un número aleatorio entre 0 y 999999
+                    return timestamp.toString() + numAleatorio.toString(); // Combina ambos en una cadena de números
+                }
+                var nroVoucher = generarNroVoucher();
+
+                //Genero el objeto que voy a pasar el controlador.
+                var reservaVuelo = {
+                    NroVoucher: nroVoucher,
+                    AeropuertoOrigenID: modeloVuelo.escalasIda[0].departure,
+                    NombreAeropuertoOrigen: modeloVuelo.escalasIda[0].departureAirport.nombre,
+                    FechaSalida: modeloVuelo.escalasIda[0].departureDate,
+                    AerolineaID: modeloVuelo.codigoAerolinea,
+                    AerolineaNombre: modeloVuelo.nombreAerolinea,
+                    DuracionVueloIda: modeloVuelo.intinerario[0].duration,
+                    CantidadPasajeros: modeloVuelo.pasajeros,
+                    Email: document.getElementById('email').value,
+                    MedioDePago: document.getElementById('medioPago').value,
+                    NroTarjeta: document.getElementById('nroTarjeta').value,
+                    CantidadCuotas: 1,
+                    MontoTotalCompra: modeloVuelo.precio.total,
+                    AeropuertoDestinoID: aeropuertoDestinoID,
+                    NombreAeropuertoDestino: nombreAeropuertoDestino
+                }
+
+                //Creo las escalas del vuelo seleccionado para agregarlas al objeto que paso al controlador.
+                var escalas = [];
+                var escalasIdaHTMLPDF = ``;
+                for(var i = 0; i < modeloVuelo.escalasIda.length; i++)
+                {
+                    var escala = {
+                        AerolineaID: modeloVuelo.escalasIda[i].airline,
+                        AeropuertoDestinoID: modeloVuelo.escalasIda[i].arrival,
+                        FechaLlegada: modeloVuelo.escalasIda[i].arrivalDate,
+                        AeropuertoOrigenID: modeloVuelo.escalasIda[i].departure,
+                        FechaSalida: modeloVuelo.escalasIda[i].departureDate,
+                        EscalaIda: modeloVuelo.escalasIda[i].ida,
+                        EscalaVuelta: modeloVuelo.escalasIda[i].vuelta,
+                        NroEscala: modeloVuelo.escalasIda[i].escalaNumber,
+                        DuracionVuelo: modeloVuelo.escalasIda[i].duration,
+                        NumeroVuelo: modeloVuelo.escalasIda[i].fligthNumber
+                    }
+
+                    escalasIdaHTMLPDF += `
+                        <li><b>Tramo ${i + 1} con ${escala.AerolineaID}</b>: Partida: ${formatoFechaMostrar(escala.FechaSalida)} desde ${escala.AeropuertoOrigenID} a las ${formatoFechaSinFechaMostrar(escala.FechaSalida)}hs.  - Arrivo: ${formatoFechaMostrar(escala.FechaLlegada)} - a ${escala.AeropuertoDestinoID} a las ${formatoFechaSinFechaMostrar(escala.FechaLlegada)}hs. - <b>Vuelo Nro</b>: ${escala.AerolineaID}${escala.NumeroVuelo} </li>
                     `
 
                     escalas.push(escala);
                 }
-            }
-            reservaVuelo.Escalas = escalas;
 
-            //Creo los acompañantes del vuelo seleccionado para agregarlas al objeto que paso al controlador.
-            var acompaniantes = [];
-            var pasajerosHTMLPDF = ``;
-            for(var i = 1; i <= modeloVuelo.pasajeros; i++)
-            {   
-                var acompaniante = {
-                    NombreCompleto : document.getElementById('nombreCompleto_' + i).value,
-                    Apellido: document.getElementById('apellido_' + i).value,
-                    Pais: document.getElementById('selectPaises_' + i).value,
-                    FechaNacimiento: document.getElementById('fechaNacimiento_' + i).value,
-                    TipoDocumento: document.getElementById('tipoDocumento_' + i).value,
-                    NroDocumento: document.getElementById('nroDocumento_' + i).value,
-                    Genero: document.querySelector('input[name="Pasajeros[' + i + '].Genero"]:checked').value
-                };
+                var escalasVueltaHTMLPDF = ``;
+                if( modeloVuelo.escalasVuelta.length > 0)
+                {
+                    reservaVuelo.FechaRegreso = modeloVuelo.escalasVuelta[0].departureDate;
+                    reservaVuelo.DuracionVueloRegreso = modeloVuelo.intinerario[1].duration;
 
-                pasajerosHTMLPDF += `
-                    <div class="detallePasajerosPDF">
-                        <p>Pasajero ${i}:</p>
-                        <p>${acompaniante.NombreCompleto} ${acompaniante.Apellido}.</p>
-                        <p>Nacionalidad: ${acompaniante.Pais}.</p>
-                        <p>Fecha de Nacimiento: ${acompaniante.FechaNacimiento}.</p>
-                        <p>Documento de Viaje: ${acompaniante.TipoDocumento} ${acompaniante.NroDocumento}.</p>
-                        <p>Género: ${acompaniante.Genero}.</p>
-                    </div>
-                `
-
-                acompaniantes.push(acompaniante);
-            }
-
-            //Agrego el HTML del PDF de la reserva
-            document.getElementById('nroVoucherPDF').innerText = reservaVuelo.NroVoucher;
-            document.getElementById('emailPDF').innerText = document.getElementById('email').value;           
-            document.getElementById('escalasIdaPDF').innerHTML = escalasIdaHTMLPDF;
-            if(modeloVuelo.escalasVuelta.length > 0){
-                document.getElementById('escalasVueltaPDF').innerHTML = escalasVueltaHTMLPDF;
-            }
-            document.getElementById('pasajerosPDF').innerHTML = pasajerosHTMLPDF;
-            document.getElementById('pagoPDF').innerHTML = `
-                <p>Tarjeta de ${reservaVuelo.MedioDePago} en un solo pago. <b>MONTO ABONADO</b>: $${reservaVuelo.MontoTotalCompra}</p>
-            `;
-
-
-            //Paso el objeto generado al controlador para proceder a almacenar la reserva, escalas y acompaniantes en la base de datos.
-            $.ajax({
-                url: appUrl + 'ReservaVuelo/GuardarNuevaReserva',
-                data: { ReservaVuelo: reservaVuelo, Acompaniantes: acompaniantes },
-                type: 'POST',
-                dataType: 'json',
-                success: function(result){
-
-                    if(!result.success)
+                    for(var i = 0; i < modeloVuelo.escalasVuelta.length; i++)
                     {
+                        var escala = {
+                            AerolineaID: modeloVuelo.escalasVuelta[i].airline,
+                            AeropuertoDestinoID: modeloVuelo.escalasVuelta[i].arrival,
+                            FechaLlegada: modeloVuelo.escalasVuelta[i].arrivalDate,
+                            AeropuertoOrigenID: modeloVuelo.escalasVuelta[i].departure,
+                            FechaSalida: modeloVuelo.escalasVuelta[i].departureDate,
+                            EscalaIda: modeloVuelo.escalasVuelta[i].ida,
+                            EscalaVuelta: modeloVuelo.escalasVuelta[i].vuelta,
+                            NroEscala: modeloVuelo.escalasVuelta[i].escalaNumber,
+                            DuracionVuelo: modeloVuelo.escalasVuelta[i].duration,
+                            NumeroVuelo: modeloVuelo.escalasVuelta[i].fligthNumber
+                        }
+
+                        escalasVueltaHTMLPDF += `
+                            <li><b>Tramo ${i + 1} con ${escala.AerolineaID}</b>: Partida: ${formatoFechaMostrar(escala.FechaSalida)} desde ${escala.AeropuertoOrigenID} a las ${formatoFechaSinFechaMostrar(escala.FechaSalida)}hs.  - Arrivo: ${formatoFechaMostrar(escala.FechaLlegada)} - a ${escala.AeropuertoDestinoID} a las ${formatoFechaSinFechaMostrar(escala.FechaLlegada)}hs. - <b>Vuelo Nro</b>: ${escala.AerolineaID}${escala.NumeroVuelo}  </li>
+                        `
+
+                        escalas.push(escala);
+                    }
+                }
+                reservaVuelo.Escalas = escalas;
+
+                //Creo los acompañantes del vuelo seleccionado para agregarlas al objeto que paso al controlador.
+                var acompaniantes = [];
+                var pasajerosHTMLPDF = ``;
+                for(var i = 1; i <= modeloVuelo.pasajeros; i++)
+                {   
+                    var acompaniante = {
+                        NombreCompleto : document.getElementById('nombreCompleto_' + i).value,
+                        Apellido: document.getElementById('apellido_' + i).value,
+                        Pais: document.getElementById('selectPaises_' + i).value,
+                        FechaNacimiento: document.getElementById('fechaNacimiento_' + i).value,
+                        TipoDocumento: document.getElementById('tipoDocumento_' + i).value,
+                        NroDocumento: document.getElementById('nroDocumento_' + i).value,
+                        Genero: document.querySelector('input[name="Pasajeros[' + i + '].Genero"]:checked').value
+                    };
+
+                    pasajerosHTMLPDF += `
+                        <div class="detallePasajerosPDF">
+                            <p>Pasajero ${i}:</p>
+                            <p>${acompaniante.NombreCompleto} ${acompaniante.Apellido}.</p>
+                            <p>Nacionalidad: ${acompaniante.Pais}.</p>
+                            <p>Fecha de Nacimiento: ${acompaniante.FechaNacimiento}.</p>
+                            <p>Documento de Viaje: ${acompaniante.TipoDocumento} ${acompaniante.NroDocumento}.</p>
+                            <p>Género: ${acompaniante.Genero}.</p>
+                        </div>
+                    `
+
+                    acompaniantes.push(acompaniante);
+                }
+
+                //Agrego el HTML del PDF de la reserva
+                document.getElementById('nroVoucherPDF').innerText = reservaVuelo.NroVoucher;
+                document.getElementById('emailPDF').innerText = document.getElementById('email').value;           
+                document.getElementById('escalasIdaPDF').innerHTML = escalasIdaHTMLPDF;
+                if(modeloVuelo.escalasVuelta.length > 0){
+                    document.getElementById('escalasVueltaPDF').innerHTML = escalasVueltaHTMLPDF;
+                }
+                document.getElementById('pasajerosPDF').innerHTML = pasajerosHTMLPDF;
+                document.getElementById('pagoPDF').innerHTML = `
+                    <p>Tarjeta de ${reservaVuelo.MedioDePago} en un solo pago. <b>MONTO ABONADO</b>: $${reservaVuelo.MontoTotalCompra}</p>
+                `;
+
+
+                //Paso el objeto generado al controlador para proceder a almacenar la reserva, escalas y acompaniantes en la base de datos.
+                $.ajax({
+                    url: appUrl + 'ReservaVuelo/GuardarNuevaReserva',
+                    data: { ReservaVuelo: reservaVuelo, Acompaniantes: acompaniantes },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(result){
+
+                        if(!result.success)
+                        {
+                            Swal.fire({
+                                title: 'Ups, existe un inconveniente:',
+                                text: result.message,
+                                icon: 'warning',
+                                confirmButtonText: 'Volver a intentarlo'
+                            });
+                        }else
+                        {
+                            Swal.fire({
+                                title: 'Compra realizada exitosamente.',
+                                text: '¡Felicitaciones, has reservado tu vuelo con éxito!',
+                                icon: 'success',
+                                showCancelButton: true,
+                                confirmButtonText: 'Descargar Voucher',
+                                cancelButtonText: 'Salir'
+                            }).then((result) => {
+                                if(result.isConfirmed){
+
+                                    document.getElementById('contenidoReserva').style.display = 'none';
+                                    document.getElementById('compraFinalizada').style.display = 'flex';
+
+                                    generarVoucher().then();
+
+                                }else{
+                                    document.getElementById('contenidoReserva').style.display = 'none';
+                                    document.getElementById('compraFinalizada').style.display = 'flex';
+                                }
+                            })
+                        }
+                    },
+                    error: function(kxr, status){
                         Swal.fire({
                             title: 'Ups, existe un inconveniente:',
-                            text: result.message,
+                            text: 'Ocurrió un error para proceder a reservar el vuelo. Por favor, intente más tarde.',
                             icon: 'warning',
                             confirmButtonText: 'Volver a intentarlo'
                         });
-                    }else
-                    {
-                        Swal.fire({
-                            title: 'Compra realizada exitosamente.',
-                            text: '¡Felicitaciones, has reservado tu vuelo con éxito!',
-                            icon: 'success',
-                            showCancelButton: true,
-                            confirmButtonText: 'Descargar Voucher',
-                            cancelButtonText: 'Salir'
-                        }).then((result) => {
-                            if(result.isConfirmed){
-
-                                document.getElementById('contenidoReserva').style.display = 'none';
-                                document.getElementById('compraFinalizada').style.display = 'flex';
-
-                                generarVoucher().then();
-
-                            }else{
-                                document.getElementById('contenidoReserva').style.display = 'none';
-                                document.getElementById('compraFinalizada').style.display = 'flex';
-                            }
-                        })
                     }
-                },
-                error: function(kxr, status){
-                    Swal.fire({
-                        title: 'Ups, existe un inconveniente:',
-                        text: 'Ocurrió un error para proceder a reservar el vuelo. Por favor, intente más tarde.',
-                        icon: 'warning',
-                        confirmButtonText: 'Volver a intentarlo'
-                    });
-                }
             })
         })
 

@@ -162,6 +162,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         confirmButtonText: 'Volver a intentarlo'
                     });
                 }
+                console.log(result.listaOfertas)
                 //Amadeus devuelve la información en formato JSON. Hay que convertirlo en Objeto de JS.
                 let listaOfertasJson = JSON.parse(result.listaOfertas);
 

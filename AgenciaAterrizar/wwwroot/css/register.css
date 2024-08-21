@@ -1,15 +1,22 @@
 h3 span{
-    color: #04001c;
+  color: #04001c;
+}
+
+h3{
+  color: rgb(249, 238, 225);
+}
+
+hr{
+  color: rgb(249, 238, 225);
 }
 
 .divRegistrar{
-    background-color: #3127643f;
-    padding: 20px 15px; 
-    width: 80vw; 
-    margin: auto;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1.5px solid ;
+  background-color: #31276465;
+  padding: 20px 15px; 
+  width: 80vw; 
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 4px 8px 8px rgba(0, 0, 0, 0.1);
 }
 
 .divInputs{

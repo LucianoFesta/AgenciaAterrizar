@@ -3,9 +3,9 @@ using Newtonsoft.Json.Linq;
 
 public class AuthenticatorAmadeus
 {
-private const string Client_id = "qgtt7kF5CG9A1pNEZWssXpbZsqGowzT7";
-    private const string Client_secret = "QAaLCJHUcn14ntIo";
-    private const string Grant_type = "client_credentials";
+private const string Client_id = "";
+    private const string Client_secret = "";
+    private const string Grant_type = "";
     private const string urlAmadeus = "https://test.api.amadeus.com/v1/security/oauth2/token";
 
     public async Task<string> ObtenerTokenAmadeus()

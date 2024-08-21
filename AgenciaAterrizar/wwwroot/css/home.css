@@ -199,6 +199,7 @@ i{
     color: rgb(252, 169, 74);  
 }
 
+
 .divBuscador i{
     color: rgb(252, 169, 74);
     font-size: 27px;
@@ -225,11 +226,17 @@ label{
 }
 
 .spanError{
-    color: red;
+    color: rgb(255, 240, 240);
+    width: 90vw;
 }
 
 .errorIcon{
-    color: red;
+    color: red !important;
+    font-size: 15px !important;
+}
+
+.form-controlError{
+    border: 1.5px solid red !important;
 }
 
 form{

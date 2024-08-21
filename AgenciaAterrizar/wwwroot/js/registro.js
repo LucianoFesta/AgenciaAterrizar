@@ -1,3 +1,11 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Estabalecer atributo min en los input date para limitar la selección de fechas.
+    var fechaActual = new Date().toISOString().split('T')[0];
+    var vencimientoPasaporte = document.getElementById("vencimientoPasaporte");
+
+    vencimientoPasaporte.setAttribute("min", fechaActual);
+})
+
 document.getElementById('btnRegister').addEventListener('click', (e) => {
     e.preventDefault();
 
@@ -16,6 +24,113 @@ document.getElementById('btnRegister').addEventListener('click', (e) => {
     var localidad = document.getElementById("localidad").value ;
     var domicilio = document.getElementById("domicilio").value ;
     var fechaNacimiento = document.getElementById("fechaNacimiento").value ;
+
+    var erroresInput = 0;
+    var primerError = null;
+
+    document.getElementById('nombreError').style.display = 'none';
+    document.getElementById('nombreCompleto').classList.remove('form-controlError')
+    if(nombreCompleto == ''){
+        document.getElementById('nombreError').style.display = 'block';
+        document.getElementById('nombreCompleto').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('nombreCompleto');
+        }
+    }
+
+    document.getElementById('apellidoError').style.display = 'none';
+    document.getElementById('apellido').classList.remove('form-controlError')
+    if(apellido == ''){
+        document.getElementById('apellidoError').style.display = 'block';
+        document.getElementById('apellido').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('apellido');
+        }
+    }
+
+    document.getElementById('pasaporteError').style.display = 'none';
+    document.getElementById('pasaporte').classList.remove('form-controlError')
+    if(pasaporte == ''){
+        document.getElementById('pasaporteError').style.display = 'block';
+        document.getElementById('pasaporte').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('pasaporte');
+        }
+    }
+
+    document.getElementById('nroDocumentoError').style.display = 'none';
+    document.getElementById('DNI').classList.remove('form-controlError')
+    if(DNI == ''){
+        document.getElementById('nroDocumentoError').style.display = 'block';
+        document.getElementById('DNI').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('DNI');
+        }
+    }
+
+    document.getElementById('vencimientoPasaporteError').style.display = 'none';
+    document.getElementById('vencimientoPasaporteErrorFecha').style.display = 'none';
+    document.getElementById('vencimientoPasaporte').classList.remove('form-controlError')
+    var fechaVtoDate = new Date(vencimientoPasaporte)
+    if(vencimientoPasaporte == ''){
+        document.getElementById('vencimientoPasaporteError').style.display = 'block';
+        document.getElementById('vencimientoPasaporte').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('vencimientoPasaporte');
+        }
+    }else if(fechaVtoDate < Date.now()){
+        document.getElementById('vencimientoPasaporteErrorFecha').style.display = 'block';
+        document.getElementById('vencimientoPasaporte').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('vencimientoPasaporte');
+        }
+    }
+
+
+    document.getElementById('fechaNacimientoError').style.display = 'none';
+    document.getElementById('fechaNacimientoErrorFecha').style.display = 'none';
+    document.getElementById('fechaNacimiento').classList.remove('form-controlError')
+    var fechaNacimientoFecha = new Date(document.getElementById('fechaNacimiento').value);
+    var hoy = new Date();
+    var edad = hoy.getFullYear() - fechaNacimientoFecha.getFullYear();
+    var mes = hoy.getMonth() - fechaNacimientoFecha.getMonth();
+    if(mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimientoFecha.getDate())){
+        edad--;
+    }
+    if(fechaNacimiento == ''){
+        document.getElementById('fechaNacimientoError').style.display = 'block';
+        document.getElementById('fechaNacimiento').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('vencimientoPasaporte');
+        }
+    }else if(edad < 18){
+        document.getElementById('fechaNacimientoErrorFecha').style.display = 'block';
+        document.getElementById('fechaNacimiento').classList.add('form-controlError')
+        erroresInput++;
+
+        if (!primerError) {
+            primerError = document.getElementById('fechaNacimiento');
+        }
+    }
+
+    if(erroresInput > 0){
+        primerError.scrollIntoView({ behavior: 'smooth' });
+        return;
+    }
 
     $.ajax({
         url:'../../Register/GuardarPersona',

@@ -300,3 +300,68 @@ function limpiarForm(){
     document.getElementById("fechaNacimiento").value = ''; 
 }
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    const provinciasSelect = document.getElementById('provincia');
+    const municipiosSelect = document.getElementById('localidad');
+
+    // Función para obtener las provincias de Argentina
+    async function obtenerProvincias() {
+        const url = 'https://apis.datos.gob.ar/georef/api/provincias';
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const provincias = data.provincias;
+
+            provincias.sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+            provincias.forEach(provincia => {
+                const option = document.createElement('option');
+                option.value = provincia.nombre;
+                option.textContent = provincia.nombre;
+                provinciasSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error al obtener las provincias:', error);
+        }
+    }
+
+    // Función para obtener los municipios según la provincia seleccionada
+    async function obtenerMunicipios(provincia) {
+        const url = `https://apis.datos.gob.ar/georef/api/municipios?provincia=${encodeURIComponent(provincia)}&max=1000`;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const municipios = data.municipios;
+
+            municipios.sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+            // Limpiar el select de municipios
+            municipiosSelect.innerHTML = '<option value="">Seleccione un municipio</option>';
+
+            municipios.forEach(municipio => {
+                const option = document.createElement('option');
+                option.value = municipio.nombre;
+                option.textContent = municipio.nombre;
+                municipiosSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error al obtener los municipios:', error);
+        }
+    }
+
+    // Evento para cambiar los municipios cuando se selecciona una provincia
+    provinciasSelect.addEventListener('change', function () {
+        const provinciaSeleccionada = provinciasSelect.value;
+        if (provinciaSeleccionada) {
+            obtenerMunicipios(provinciaSeleccionada);
+        } else {
+            municipiosSelect.innerHTML = '<option value="">Seleccione un municipio</option>';
+        }
+    });
+
+    // Obtener las provincias al cargar la página
+    obtenerProvincias();
+});

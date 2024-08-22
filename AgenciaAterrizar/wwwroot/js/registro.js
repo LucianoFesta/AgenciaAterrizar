@@ -17,9 +17,6 @@ document.getElementById('btnRegister').addEventListener('click', (e) => {
     var domicilio = document.getElementById("domicilio").value ;
     var fechaNacimiento = document.getElementById("fechaNacimiento").value ;
 
-    console.log(email,numeroTel,password,confirmPassword,nombreCompleto,apellido,tipoDocumento,
-        DNI,pasaporte,vencimientoPasaporte,pais,provincia,localidad, domicilio,fechaNacimiento )
-
     $.ajax({
         url:'../../Register/GuardarPersona',
         data: { 

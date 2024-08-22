@@ -93,32 +93,34 @@
             <div class="mb-3">
                 <label for="pais" class="form-label">Nacionalidad:</label>
                 <input type="text" class="form-control" id="pais" value="Argentina" disabled placeholder="Ingrese su país de residencia" required>
-            </div>
+            </div> 
 
             <!-- Provincia -->
-            <div class="mb-3">
-                <label for="provincia" class="form-label">Provincia:</label>
-                <input type="text" class="form-control" id="provincia" placeholder="Ingrese su provincia" required>
+            <div class="mb-3 inputForm">
+                <label for="provincia" class="form-label">Seleccione una provincia:</label>
+                <select id="provincia" class="form-control" >
+                    <option value="">Seleccione una provincia</option>
+                </select>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="provinciaError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una provincia</span>
             </div>
         </div>
 
-        <div class="divInputs">
+         <div class="divInputs">
             <!-- Localidad -->
-            <div class="mb-3">
-                <label for="localidad" class="form-label">Localidad:</label>
-                <input type="text" class="form-control" id="localidad" placeholder="Ingrese su localidad" required>
+            <div class="mb-3 inputForm"> 
+                <label for="localidad" class="form-label">Seleccione un municipio:</label>
+                <select id="localidad" class="form-control">
+                    <option value="">Seleccione un municipio</option>
+                </select>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="localidadError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una localidad</span>
             </div>
-
-            <!-- Domicilio -->
+             <!-- Domicilio -->
             <div class="mb-3">
                 <label for="domicilio" class="form-label">Domicilio:</label>
                 <input type="text" class="form-control" id="domicilio" placeholder="Ingrese su domicilio" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="domicilioError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingrese una dirección</span>
             </div>
         </div>
-        
             
         <div class="divInputs">
             <!-- Contraseña -->

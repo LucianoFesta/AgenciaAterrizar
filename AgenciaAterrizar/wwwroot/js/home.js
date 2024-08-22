@@ -642,7 +642,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
                                                 <div class="d-flex flex-column align-items-center justify-content-between">
                                                     <p class="card-text"><b>Precio Final: </b> $${oferta.precio.total}</p>
-                                                    <button class="buttonReserva mt-3" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)">
+                                                    <button class="buttonReserva" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
                                                         </svg>

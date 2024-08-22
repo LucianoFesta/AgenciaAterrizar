@@ -174,17 +174,26 @@
 }
 
 h3{
-    color: rgb(248, 202, 150);
+    color: rgb(240, 240, 240);
     font-style: italic;
 }
 
 hr{
     margin: 5px 0 0 0;
-    color: rgb(245, 191, 129);
+    color: rgb(75, 40, 0);
+}
+
+#tituloDeBusqueda{
+    width: 90vw;
+    margin: auto;
+    background-color: #aeabc08a;
+    padding: 10px 50px;
+    border: 1px solid rgb(231, 229, 229);
+    border-radius: 5px;
 }
 
 #tituloDeBusqueda h3{
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .card-title{
@@ -206,7 +215,14 @@ i{
 }
 
 label{
-    color: rgb(253, 228, 199);
+    color: rgb(78, 47, 0);
+    background-color: rgba(253, 253, 253, 0.486);
+    border-radius: 3px;
+    padding: 1px 2px;
+}
+
+.form-label{
+    margin-bottom: 0 !important;
 }
 
 .inputPasajeros{
@@ -215,14 +231,36 @@ label{
     height: 40px;
 }
 
-.divBuscador{
+.divBuscador {
     position: relative;
-    background-color: #31276465;
     padding: 32px 20px;
     width: 80vw;
     margin: auto;
+    margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 4px 8px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.fondoBorroso {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../images/playa.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(8px);
+    opacity: 0.7; 
+    z-index: -1; 
+    border-radius: inherit; 
+}
+
+form {
+    position: relative;
+    z-index: 1; /* Asegura que el formulario esté por encima del fondo */
 }
 
 .spanError{
@@ -400,18 +438,21 @@ label{
 }
 
 h5{
-    margin: 10px;
-    border-bottom: 1px solid #3127643f;
-    padding-bottom: 10px;
+    padding: 10px 7px;
+}
+
+.card-title{
+    margin-bottom: 10px;
+    background-color: #fff4e7;
 }
 
 .itinerario{
-    width: 85%;
+    width: 90%;
     margin: auto;
     border-radius: 5px;
     margin-top: 15px;
     margin-bottom: 15px;
-    padding: 5px 20px;
+    padding: 5px;
     background-color: #3127643f;
 }
 
@@ -432,9 +473,13 @@ h5{
 .itinerarioAccordion{
     font-size: 12px;
     width: 100%;
-    background-color: rgba(238, 153, 57, 0.461);
-    border-radius: 8px;
+    background-color: rgba(238, 153, 57, 0.247);
+    border-radius: 5px;
     margin-top: 20px;
+}
+
+.itinerarioAccordion i{
+    color: #212121;
 }
 
 .divLoading{
@@ -689,6 +734,10 @@ h5{
 @media (max-width: 480px) {
     /*RESULTADOS*/
 
+    #tituloDeBusqueda{
+        width: 100vw;
+    }
+
     .divOpciones{
         padding: 10px;
     }
@@ -698,7 +747,7 @@ h5{
     }
 
     .card{
-        width: 90vw;
+        width: 70vw;
     }
 
     .divContenidoOferta{
@@ -768,16 +817,16 @@ h5{
 
     /*RESULTADOS*/
 
+    #tituloDeBusqueda{
+        width: 90vw;
+    }
+
     .divOpciones{
         padding: 0px;
     }
 
     .divItinerario{
         padding: 0;
-    }
-
-    .card{
-        width: 95vw;
     }
 
     .divContenidoOferta{

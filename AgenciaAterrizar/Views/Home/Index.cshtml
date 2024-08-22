@@ -8,6 +8,7 @@
 </script>
 
 <div class="col-8 divBuscador animate__animated animate__fadeIn">
+   <div class="fondoBorroso"></div>
    <form>
         <div>
             <div class="d-flex align-items-center titleSearch">
@@ -41,13 +42,13 @@
 
             <div class="d-flex divFecha flex-wrap selectDates" id="camposIdayVuelta" style="display:flex;">
                 <div class="mb-3 mx-3 divInputFecha col-3">
-                    <label for="fechaDesde" class="form-label">Desde:</label>
+                    <label for="fechaDesde" class="form-label">Fecha de salida:</label>
                     <input type="date" class="form-control inputFecha select2" id="fechaDesde">
                     <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesde"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una fecha de ida.</span>
                     <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesdeMayorAHoy"><i class="fa-solid fa-circle-exclamation errorIcon"></i> La fecha de ida debe ser mayor a la de hoy.</span>
                 </div>
                 <div class="mb-3 mx-3 inputFecha col-3">
-                    <label for="fechaHasta" class="form-label">Hasta:</label>
+                    <label for="fechaHasta" class="form-label">Fecha de Regreso:</label>
                     <input type="date" class="form-control inputFecha select2" id="fechaHasta">
                     <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaHasta"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una fecha de regreso.</span>
                     <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaHastaMayorADesde"><i class="fa-solid fa-circle-exclamation errorIcon"></i> La fecha de regreso debe ser mayor a la de ida.</span>
@@ -72,7 +73,7 @@
 
             <div class="d-flex justify-content-center divFecha flex-wrap selectDates" id="campoIda" style="display:none;">
                 <div class="mb-3 mx-3 inputFecha col-3">
-                    <label for="fechaDesde" class="form-label">Fecha:</label>
+                    <label for="fechaDesde" class="form-label">Fecha de Salida:</label>
                     <input type="date" class="form-control inputFecha select2" id="fechaDesdeSoloIda">
                     <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesdeSoloIda"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una fecha.</span>
                     <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesdeMayorAHoySoloIda"><i class="fa-solid fa-circle-exclamation errorIcon"></i> La fecha debe ser mayor a la de hoy.</span>
@@ -120,13 +121,15 @@
     </div>
 </div>
 
+<div id="tituloDeBusqueda" style="display:none;">
+    <h3>Estas son las opciones que tenemos para vos:</h3>
+    <div class="animate__animated animate__fadeIn">
+        <hr>
+    </div>
 
-<div class="animate__animated animate__fadeIn" id="tituloDeBusqueda" style="display:none;">
-    <h3>Estos son los resultados de tu búsqueda:</h3>
-</div>
-
-<div class="row mt-3 mb-3 animate__animated animate__fadeIn">
-    <div class="divOpciones" id="listaOfertas"></div>
+    <div class="row mt-3 mb-3 animate__animated animate__fadeIn">
+        <div class="divOpciones" id="listaOfertas"></div>
+    </div>
 </div>
 
 @section Scripts{

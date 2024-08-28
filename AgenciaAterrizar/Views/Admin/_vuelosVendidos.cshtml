@@ -10,13 +10,13 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Aerolinea</th>
-                <th scope="col">Origen</th>
+                <th class="ocultar-en-768px" scope="col">ID</th>
+                <th class="ocultar-en-768px" scope="col">Aerolinea</th>
+                <th class="ocultar-en-550px" scope="col">Origen</th>
                 <th scope="col">Destino</th>
-                <th scope="col">Salida</th>
-                <th scope="col">Regreso</th>
-                <th scope="col">Pasajeros</th>
+                <th class="ocultar-en-550px" scope="col">Salida</th>
+                <th class="ocultar-en-768px" scope="col">Regreso</th>
+                <th class="ocultar-en-768px" scope="col">Pasajeros</th>
                 <th scope="col">Monto</th>
                 <th scope="col"></th>
             </tr>
@@ -25,25 +25,29 @@
             @foreach(var reserva in Model)
             {
                 <tr>
-                    <td>@reserva.ReservaVueloID</td>
-                    <td>@reserva.AerolineaID - @reserva.AerolineaNombre</td>
-                    <td>@reserva.AeropuertoOrigenID - @reserva.NombreAeropuertoOrigen</td>
+                    <td class="ocultar-en-768px">@reserva.ReservaVueloID</td>
+                    <td class="ocultar-en-768px">@reserva.AerolineaID - @reserva.AerolineaNombre</td>
+                    <td class="ocultar-en-550px">@reserva.AeropuertoOrigenID - @reserva.NombreAeropuertoOrigen</td>
                     <td>@reserva.AeropuertoDestinoID - @reserva.NombreAeropuertoDestino</td>
-                    <td>@reserva.FechaSalida.ToString("dd/MM/yyyy HH:mm")Hs.</td>
+                    <td class="ocultar-en-550px">@reserva.FechaSalida.ToString("dd/MM/yyyy HH:mm")Hs.</td>
                     @if(@reserva.FechaRegreso.HasValue){
-                       <td>@reserva.FechaRegreso.Value.ToString("dd/MM/yyyy HH:mm")Hs.</td> 
+                       <td class="ocultar-en-768px">@reserva.FechaRegreso.Value.ToString("dd/MM/yyyy HH:mm")Hs.</td> 
                     }else{
-                        <td>-----</td>
+                        <td class="ocultar-en-768px">-----</td>
                     }
-                    <td>@reserva.CantidadPasajeros</td>
+                    <td class="ocultar-en-768px">@reserva.CantidadPasajeros</td>
                     <td>$@reserva.MontoTotalCompra</td>        
                     <td>
                         <div class="d-flex flex-column tdBotones">
                             <div>
-                                <button type="button" data-id="@reserva.ReservaVueloID" class="btnCancelar btn btn-danger">Cancelar</button>
+                                <button type="button" data-id="@reserva.ReservaVueloID" class="btnCancelar btn btn-danger" data-bs-toggle="tooltip" title="Cancelar Reserva"><i class="fa-solid fa-ban"></i></button>
                             </div>
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalPasajeros_@reserva.ReservaVueloID">Pasajeros</button>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEscalas_@reserva.ReservaVueloID">Tramos</button>
+                            <div>
+                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-toggle="tooltip" title="Pasajeros" data-bs-target="#modalPasajeros_@reserva.ReservaVueloID"><i class="fa-solid fa-users"></i></button>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-toggle="tooltip" title="Tramos" data-bs-target="#modalEscalas_@reserva.ReservaVueloID"><i class="fa-solid fa-bars-progress"></i></button>
+                            </div>
                         </div>
                     </td>
                 </tr>

@@ -16,22 +16,23 @@
 
 <div class="divReserva" id="contenidoReserva" style="display: flex;">
     <div class="divTitulo">
-        <h3>¡Estás a un solo paso de concretar tu viaje!</h3>
+        <h3 class="titulo">¡Estás a un solo paso de concretar tu viaje!</h3>
 
         <form class="mt-5 ps-2 pe-4 animate__animated animate__fadeIn">
             <h5>Completá con los datos de los pasajeros:</h5>
+            <hr class="primerHr">
             <div class="itemForm">
                 @for (int i = 1; i <= Model.pasajeros; i++)
                 {
                     <h6>Pasajero @(i)</h6>
                     <div class="d-flex justify-content-evenly">
                         <div class="mb-3 w-50 p-2 inputForm">
-                            <label for="nombreCompleto_@(i)" class="form-label">Nombre completo</label>
+                            <label for="nombreCompleto_@(i)" class="form-label">Nombre completo: </label>
                             <input type="text" class="form-control" id="nombreCompleto_@(i)" name="Pasajeros[@i].NombreCompleto" aria-describedby="nombreHelp_@(i)" placeholder="Como aparece en tu documento de viaje">
                             <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nombreCompletoError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Complete el nombre completo.</span>
                         </div>
                         <div class="mb-3 w-50 p-2 inputForm">
-                            <label for="apellido_@(i)" class="form-label">Apellido/s</label>
+                            <label for="apellido_@(i)" class="form-label">Apellido/s: </label>
                             <input type="text" class="form-control" id="apellido_@(i)" name="Pasajeros[@i].Apellido" placeholder="Como aparece en tu documento de viaje">
                             <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="apellidoError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Complete con el apellido.</span>
                         </div>
@@ -39,7 +40,7 @@
 
                     <div class="d-flex justify-content-evenly">
                         <div class="mb-3 w-50 p-2 inputForm">
-                            <label for="pais_@(i)" class="form-label">País de Residencia</label>
+                            <label for="pais_@(i)" class="form-label">País de Residencia: </label>
                             <select class="form-control" id="selectPaises_@(i)" name="Pasajeros[@i].Pais">
                                 <option value="">Seleccione un país</option>
                             </select>
@@ -47,7 +48,7 @@
                         </div>
 
                         <div class="mb-3 w-50 p-2 inputForm">
-                            <label for="fechaNacimiento_@(i)" class="form-label">Fecha de Nacimiento</label>
+                            <label for="fechaNacimiento_@(i)" class="form-label">Fecha de Nacimiento: </label>
                             <input type="date" class="form-control" id="fechaNacimiento_@(i)" name="Pasajeros[@i].FechaNacimiento">
                             <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Elija la fecha de nacimiento.</span>
                             <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoEdadError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> El titular de la reserva debe ser mayor de 18 años.</span>
@@ -56,7 +57,7 @@
 
                     <div class="d-flex justify-content-evenly">
                         <div class="mb-3 w-50 p-2 inputForm">
-                            <label for="tipoDocumento_@(i)" class="form-label">Tipo de Documento</label>
+                            <label for="tipoDocumento_@(i)" class="form-label">Tipo de Documento: </label>
                             <select class="form-control" id="tipoDocumento_@(i)" name="Pasajeros[@i].TipoDocumento">
                                 <option value="pasaporte">Pasaporte</option>
                                 <option value="dni">Documento Nacional de Identidad</option>
@@ -67,7 +68,7 @@
                         </div>
 
                         <div class="mb-3 w-50 p-2 inputForm">
-                            <label for="nroDocumento_@(i)" class="form-label">Número de Documento</label>
+                            <label for="nroDocumento_@(i)" class="form-label">Número de Documento: </label>
                             <input type="text" class="form-control" id="nroDocumento_@(i)" name="Pasajeros[@i].NroDocumento">
                             <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroDocumentoError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Complete con el número de documento.</span>
                         </div>
@@ -89,19 +90,19 @@
                             </div>
                         </div>
                     </div>
-                <hr>
+                <hr class="ultimoHr">
                 }
             </div>
 
             <div class="mb-3">
-                <label for="email" class="form-label">Email para el envío del voucher</label>
+                <label for="email" class="form-label">Email para el envío del voucher: </label>
                 <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="emailError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingrese el email de la reserva.</span>
             </div>
 
             <div class="d-flex justify-content-evenly medioPago">
                 <div class="mb-3 w-50 p-2 inputForm">
-                    <label for="medioPago" class="form-label">Medio de Pago</label>
+                    <label for="medioPago" class="form-label">Medio de Pago: </label>
                     <select class="form-control" id="medioPago" name="medioPago">
                         <option value="credito">Tarjeta de Crédito</option>
                         <option value="debito">Tarjeta de Débito</option>
@@ -109,7 +110,7 @@
                 </div>
 
                 <div class="mb-3 w-50 p-2 inputForm">
-                    <label for="nroTarjeta" class="form-label">Número de Tarjeta</label>
+                    <label for="nroTarjeta" class="form-label">Número de Tarjeta: </label>
                     <input type="number" class="form-control" id="nroTarjeta" name="nroTarjeta">
                     <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroTarjetaError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingrese el nro de tarjeta.</span>
                 </div>

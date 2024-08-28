@@ -13,6 +13,26 @@ h4{
     font-size: 20px;
 }
 
+.spanError{
+    color: red;
+}
+
+.titulo{
+    text-align: center;
+}
+
+.primerHr{
+    margin-top: 5px;
+}
+
+hr{
+    margin-top: 50px;
+}
+
+.ultimoHr{
+    margin-bottom: 20px;
+}
+
 .card {
     width: 30%;
     height: 100%;

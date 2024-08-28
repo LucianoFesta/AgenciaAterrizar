@@ -103,3 +103,14 @@ table{
     height: 100vh;
     background-color: #000;
   }
+
+@media (max-width: 550px) {
+    .ocultar-en-550px {
+        display: none;
+    }
+}
+@media (max-width: 768px) {
+    .ocultar-en-768px {
+        display: none;
+    }
+}

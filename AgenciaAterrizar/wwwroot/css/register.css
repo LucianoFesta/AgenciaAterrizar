@@ -4,6 +4,7 @@ h3 span{
 
 h3{
   color: rgb(249, 238, 225);
+  text-align: center;
 }
 
 hr{
@@ -22,6 +23,12 @@ hr{
 .divInputs{
   display: flex;
   justify-content: space-around;
+  margin-top: 25px;
+}
+
+.divEmail{
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 .divInputs div{

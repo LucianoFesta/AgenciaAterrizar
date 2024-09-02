@@ -58,7 +58,17 @@
                 btn.addEventListener('click', () => {
                     const idReserva = btn.getAttribute('data-id');
 
-                    $.ajax({
+                    Swal.fire({
+                        title: "¿Desea cancelar la reserva?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Confirmar",
+                        cancelButtonText: "Cancelar"
+                    }).then((result) => {
+                        if(result.isConfirmed){
+                            $.ajax({
                         url: '../../Admin/EliminarReserva',
                         data: { ID: idReserva },
                         type: 'DELETE',
@@ -83,6 +93,9 @@
                                     confirmButtonText: 'Volver a intentarlo'
                                 });
                             }
+                        }
+                    })
+
                         }
                     })
                 })

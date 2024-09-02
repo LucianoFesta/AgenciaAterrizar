@@ -42,7 +42,7 @@
             <!-- Número de documento -->
             <div class="mb-3">
                 <label for="DNI" class="form-label">Número de documento:</label>
-                <input type="number" class="form-control" id="DNI" placeholder="Ingrese su número de documento" required>
+                <input type="text" class="form-control" id="DNI" placeholder="Ingrese su número de documento" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroDocumentoError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Nro Documento</span>            
             </div>
         </div>
@@ -51,15 +51,13 @@
             <!-- Pasaporte -->
             <div class="mb-3">
                 <label for="pasaporte" class="form-label">Pasaporte:</label>
-                <input type="text" class="form-control" id="pasaporte" placeholder="Ingrese su número de pasaporte" required>
-                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="pasaporteError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Nro Pasaporte</span>            
+                <input type="text" class="form-control" id="pasaporte" placeholder="Ingrese su número de pasaporte">            
             </div>
 
             <!-- Vencimiento de pasaporte -->
             <div class="mb-3">
                 <label for="vencimientoPasaporte" class="form-label">Vencimiento de pasaporte:</label>
-                <input type="date" class="form-control" id="vencimientoPasaporte" required>
-                <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="vencimientoPasaporteError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar fecha vto Pasaporte</span>            
+                <input type="date" class="form-control" id="vencimientoPasaporte">           
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="vencimientoPasaporteErrorFecha"><i class="fa-solid fa-circle-exclamation errorIcon"></i> El vto debe ser posterior a hoy</span>            
             </div>
         </div>

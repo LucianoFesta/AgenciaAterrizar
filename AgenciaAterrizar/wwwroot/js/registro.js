@@ -2,8 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Estabalecer atributo min en los input date para limitar la selección de fechas.
     var fechaActual = new Date().toISOString().split('T')[0];
     var vencimientoPasaporte = document.getElementById("vencimientoPasaporte");
-
     vencimientoPasaporte.setAttribute("min", fechaActual);
+
+
+    // Establecer que solo permita al usuario ingresar 8 caracteres, si completa menos se completan con ceros a la izquierda.
+    document.getElementById('DNI').addEventListener('input', function () {
+        let input = this.value.replace(/\D/g, ''); // Remover cualquier carácter no numérico
+        if (input.length > 8) {
+            input = input.substring(0, 8); // Limitar a 8 dígitos
+        }
+        this.value = input; // Actualizar el valor del campo
+    });
+    document.getElementById('DNI').addEventListener('blur', function () {
+        let input = this.value.replace(/\D/g, '');
+        input = input.padStart(8, '0'); // Completar con ceros a la izquierda si es menor a 8
+        this.value = input; // Actualizar el valor del campo
+    });
 })
 
 document.getElementById('btnRegister').addEventListener('click', (e) => {
@@ -53,18 +67,6 @@ document.getElementById('btnRegister').addEventListener('click', (e) => {
         }
     }
 
-    document.getElementById('pasaporteError').style.display = 'none';
-    document.getElementById('pasaporte').classList.remove('form-controlError')
-    if(pasaporte == ''){
-        document.getElementById('pasaporteError').style.display = 'block';
-        document.getElementById('pasaporte').classList.add('form-controlError')
-        erroresInput++;
-
-        if (!primerError) {
-            primerError = document.getElementById('pasaporte');
-        }
-    }
-
     document.getElementById('nroDocumentoError').style.display = 'none';
     document.getElementById('DNI').classList.remove('form-controlError')
     if(DNI == ''){
@@ -77,19 +79,10 @@ document.getElementById('btnRegister').addEventListener('click', (e) => {
         }
     }
 
-    document.getElementById('vencimientoPasaporteError').style.display = 'none';
     document.getElementById('vencimientoPasaporteErrorFecha').style.display = 'none';
     document.getElementById('vencimientoPasaporte').classList.remove('form-controlError')
     var fechaVtoDate = new Date(vencimientoPasaporte)
-    if(vencimientoPasaporte == ''){
-        document.getElementById('vencimientoPasaporteError').style.display = 'block';
-        document.getElementById('vencimientoPasaporte').classList.add('form-controlError')
-        erroresInput++;
-
-        if (!primerError) {
-            primerError = document.getElementById('vencimientoPasaporte');
-        }
-    }else if(fechaVtoDate < Date.now()){
+    if(fechaVtoDate < Date.now()){
         document.getElementById('vencimientoPasaporteErrorFecha').style.display = 'block';
         document.getElementById('vencimientoPasaporte').classList.add('form-controlError')
         erroresInput++;

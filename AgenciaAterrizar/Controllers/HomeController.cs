@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using AgenciaAterrizar.Models;
 using AgenciaAterrizar.Data;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 
 namespace AgenciaAterrizar.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ApplicationDbContext _context;
-
     private readonly AmadeusApiCliente _amadeusApiClient;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _rolManager;
@@ -25,10 +25,12 @@ public class HomeController : Controller
         _rolManager = rolManager;
     }
 
-public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index()
     {
+        var ultimoVueloBuscado = Request.Cookies["ultimoVueloBuscado"];
+
         await CrearRol();
-        return View();
+        return View("Index", ultimoVueloBuscado);
     }
 
     public async Task<JsonResult> CrearRol(){
@@ -111,6 +113,17 @@ public async Task<IActionResult> Index()
 
         try
         {
+            // Almaceno en las cookies del navegador del usuario por 30 días el vuelo buscado.
+            var guardarCookie = new CookieOptions{ Expires = DateTime.Now.AddDays(30) };
+            Response.Cookies.Append("ultimoVueloBuscado", JsonConvert.SerializeObject(new VueloCookie{
+                VueloIda = VueloIda,
+                VueloRegreso = VueloRegreso,
+                FechaDesde = FechaDesde,
+                FechaHasta = FechaHasta,
+                CantPasajeros = CantPasajeros
+            }), guardarCookie);
+
+            // Busca en Amadeus las opciones que tiene de vuelos.
             var vuelosOfertas = await _amadeusApiClient.ObtenerOfertaVuelos(VueloIda, VueloRegreso, FechaDesde, FechaHasta, CantPasajeros);
 
             var aeropuertoIda = _context.Aeropuertos.Where(a => a.AeropuertoID == VueloIda).FirstOrDefault();

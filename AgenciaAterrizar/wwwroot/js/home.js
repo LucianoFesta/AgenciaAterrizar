@@ -136,7 +136,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         }
 
-
         $.ajax({
             url: '../../Home/ObtenerVuelos',
             //data: { VueloIda: 'EZE', VueloRegreso: 'BKK', FechaDesde: '2024-08-10', FechaHasta: '2024-08-31', CantPasajeros: 2 },
@@ -791,4 +790,3 @@ function reservarVuelo(element) {
     // // Agregar el JSON como un parámetro de consulta en la URL
     // window.open(url, 'blank'); 
 }
-

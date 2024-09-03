@@ -15,14 +15,14 @@
         <div class="divInputs">
             <!-- Nombre completo -->
             <div class="mb-3">
-                <label for="nombreCompleto" class="form-label">Nombre completo:</label>
+                <label for="nombreCompleto" class="form-label labelBuscador">Nombre completo:</label>
                 <input type="text" class="form-control" id="nombreCompleto" placeholder="Ingrese su nombre completo" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nombreError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Nombre Completo</span>
             </div>
 
             <!-- Apellido -->
             <div class="mb-3">
-                <label for="apellido" class="form-label">Apellido:</label>
+                <label for="apellido" class="form-label labelBuscador">Apellido:</label>
                 <input type="text" class="form-control" id="apellido" placeholder="Ingrese su apellido" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="apellidoError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Apellido</span>
             </div>
@@ -31,7 +31,7 @@
         <div class="divInputs">
             <!-- Tipo de documento -->
             <div class="mb-3">
-                <label for="tipoDocumento" class="form-label">Tipo de documento:</label>
+                <label for="tipoDocumento" class="form-label labelBuscador">Tipo de documento:</label>
                 <select id="tipoDocumento" class="form-control">
                     <option value="DNI">Documento Nacional de Identidad</option>
                     <option value="DNI">Libreta Civica</option>
@@ -41,7 +41,7 @@
 
             <!-- Número de documento -->
             <div class="mb-3">
-                <label for="DNI" class="form-label">Número de documento:</label>
+                <label for="DNI" class="form-label labelBuscador">Número de documento:</label>
                 <input type="text" class="form-control" id="DNI" placeholder="Ingrese su número de documento" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroDocumentoError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Nro Documento</span>            
             </div>
@@ -50,13 +50,13 @@
         <div class="divInputs">
             <!-- Pasaporte -->
             <div class="mb-3">
-                <label for="pasaporte" class="form-label">Pasaporte:</label>
+                <label for="pasaporte" class="form-label labelBuscador">Pasaporte:</label>
                 <input type="text" class="form-control" id="pasaporte" placeholder="Ingrese su número de pasaporte">            
             </div>
 
             <!-- Vencimiento de pasaporte -->
             <div class="mb-3">
-                <label for="vencimientoPasaporte" class="form-label">Vencimiento de pasaporte:</label>
+                <label for="vencimientoPasaporte" class="form-label labelBuscador">Vencimiento de pasaporte:</label>
                 <input type="date" class="form-control" id="vencimientoPasaporte">           
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="vencimientoPasaporteErrorFecha"><i class="fa-solid fa-circle-exclamation errorIcon"></i> El vto debe ser posterior a hoy</span>            
             </div>
@@ -65,7 +65,7 @@
         <div class="divInputs">
             <!-- Fecha de nacimiento -->
             <div class="mb-3">
-                <label for="fechaNacimiento" class="form-label">Fecha de nacimiento:</label>
+                <label for="fechaNacimiento" class="form-label labelBuscador">Fecha de nacimiento:</label>
                 <input type="date" class="form-control" id="fechaNacimiento" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar fecha de Nacimiento</span>            
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="fechaNacimientoErrorFecha"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Debe ser mayor de 18 años.</span> 
@@ -73,7 +73,7 @@
 
             <!-- Número de teléfono -->
             <div class="mb-3">
-                <label for="numerotel" class="form-label">Número de teléfono:</label>                
+                <label for="numerotel" class="form-label labelBuscador">Número de teléfono:</label>                
                 <input type="tel" class="form-control" id="numerotel" placeholder="Ingrese su número de teléfono" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="numerotelError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar Número telefónico</span>
             </div>
@@ -81,7 +81,7 @@
 
         <!-- Email -->
         <div class="divEmail">
-            <label for="email" class="form-label">Correo Electrónico:</label>
+            <label for="email" class="form-label labelBuscador">Correo Electrónico:</label>
             <input type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico" required>
             <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="emailError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingresar email de reserva</span>
         </div>
@@ -89,13 +89,13 @@
         <div class="divInputs">
             <!-- País -->
             <div class="mb-3">
-                <label for="pais" class="form-label">Nacionalidad:</label>
+                <label for="pais" class="form-label labelBuscador">Nacionalidad:</label>
                 <input type="text" class="form-control" id="pais" value="Argentina" disabled placeholder="Ingrese su país de residencia" required>
             </div>
 
             <!-- Provincia -->
             <div class="mb-3">
-                <label for="provincia" class="form-label">Provincia:</label>
+                <label for="provincia" class="form-label labelBuscador">Provincia:</label>
                 <input type="text" class="form-control" id="provincia" placeholder="Ingrese su provincia" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="provinciaError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una provincia</span>
             </div>
@@ -104,14 +104,14 @@
         <div class="divInputs">
             <!-- Localidad -->
             <div class="mb-3">
-                <label for="localidad" class="form-label">Localidad:</label>
+                <label for="localidad" class="form-label labelBuscador">Localidad:</label>
                 <input type="text" class="form-control" id="localidad" placeholder="Ingrese su localidad" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="localidadError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una localidad</span>
             </div>
 
             <!-- Domicilio -->
             <div class="mb-3">
-                <label for="domicilio" class="form-label">Domicilio:</label>
+                <label for="domicilio" class="form-label labelBuscador">Domicilio:</label>
                 <input type="text" class="form-control" id="domicilio" placeholder="Ingrese su domicilio" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="domicilioError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingrese una dirección</span>
             </div>
@@ -121,13 +121,13 @@
         <div class="divInputs">
             <!-- Contraseña -->
             <div class="mb-3">
-                <label for="password" class="form-label">Contraseña:</label>
+                <label for="password" class="form-label labelBuscador">Contraseña:</label>
                 <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="passwordError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingrese una contraseña</span>
             </div>   
             <!-- Confirmación de contraseña -->
             <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirmación de contraseña:</label>
+                <label for="confirmPassword" class="form-label labelBuscador">Confirmación de contraseña:</label>
                 <input type="password" class="form-control" id="confirmPassword" placeholder="Confirme su contraseña" required>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="confirmPasswordError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Confirme su contraseña</span>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="confirmPasswordSinPasswordError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingrese una contraseña primero</span>

@@ -180,7 +180,7 @@ h3{
 
 hr{
     margin: 5px 0 0 0;
-    color: rgb(75, 40, 0);
+    color: rgb(255, 137, 2);
 }
 
 #tituloDeBusqueda{
@@ -214,11 +214,11 @@ i{
     font-size: 27px;
 }
 
-label{
-    color: rgb(78, 47, 0);
-    background-color: rgba(255, 255, 255, 0.454);
+.labelBuscador{
+    color: white;
+    background-color: rgb(0, 0, 0);
     border-radius: 3px;
-    padding: 1px 2px;
+    padding: 1px 10px 1px 2px;
 }
 
 .form-label{
@@ -233,6 +233,7 @@ label{
 
 .divBuscador {
     position: relative;
+    background-color: #070707b2;
     padding: 32px 20px;
     width: 80vw;
     margin: auto;
@@ -242,25 +243,32 @@ label{
     overflow: hidden;
 }
 
-.fondoBorroso {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.divSearch{
+    background-color: #568fa6;
     background-image: url('../images/playa.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    filter: blur(8px);
-    opacity: 0.7; 
-    z-index: -1; 
+    background-attachment: fixed;
+    opacity: 0.6;
+    padding: 30px 20px;
     border-radius: inherit; 
+    z-index: 1; 
 }
+
+.divCookie{
+    background-color: #fdefd9c0;
+    background-image: url('../images/navPanel.svg');
+    padding: 20px;
+}
+
+.divCookie h4{
+    color: #212121c2;
+}
+
 
 form {
     position: relative;
-    z-index: 1; /* Asegura que el formulario esté por encima del fondo */
 }
 
 .spanError{
@@ -275,10 +283,6 @@ form {
 
 .form-controlError{
     border: 1.5px solid red !important;
-}
-
-form{
-    position: relative;
 }
 
 .select2-container .select2-selection--single {
@@ -341,10 +345,6 @@ span .selection{
     color: white;
     background-color: rgb(252, 185, 109);
     border-color: rgb(238, 153, 57);
-}
-
-label{
-    font-weight: 600;
 }
 
 #listaOfertas h3{
@@ -708,6 +708,77 @@ h5{
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+
+/* CARD SOBRE ÚLTIMAS BÚSQUEDAS */
+.card {
+    margin-top: 25px;
+    width: 40%;
+    height: 100%;
+    padding: .8em;
+    background: #f5f5f5;
+    position: relative;
+    overflow: visible;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.card-img {
+    background-color: #ffcaa6;
+    height: 40%;
+    width: 100%;
+    border-radius: .5rem;
+    transition: .3s ease;
+}
+
+svg {
+    width: 20px;
+    height: 20px;
+}
+
+.card-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+/*Text*/
+.text-title {
+    margin-top: 15px;
+    font-weight: 900;
+    font-size: 1.2em;
+    line-height: 1.5;
+}
+
+.text-body {
+    font-size: .9em;
+    padding-bottom: 10px;
+}
+
+/*Button*/
+.card-button {
+    border: 1px solid #252525;
+    display: flex;
+    padding: .3em;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: .3s ease-in-out;
+}
+
+/*Hover*/
+.card-img:hover {
+    transform: translateY(-25%);
+    box-shadow: rgba(226, 196, 63, 0.25) 0px 13px 47px -5px, rgba(180, 71, 71, 0.3) 0px 8px 16px -8px;
+}
+
+.card-button:hover {
+    border: 1px solid #ffcaa6;
+    background-color: #ffcaa6;
+}
+   
+
   
 @keyframes typewriter {
     0% {

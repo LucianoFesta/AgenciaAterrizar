@@ -1,6 +1,24 @@
+body{
+  background-image: url('../images/navPanel.svg');
+  background-color: #fdefd9c0;
+  background-attachment: fixed;
+}
+
+label{
+  background-color: rgba(0, 0, 0, 0.507) !important;
+  color: white;
+  border-radius: 3px;
+  padding: 1px 10px 1px 2px;
+}
+
+hr{
+  margin: 5px 0 0 0;
+  color: rgb(253, 200, 140);
+}
+
 .divLogin{
-  background-color: #31276465;
-  padding: 20px 15px; 
+  background-color: #3b3b3b86;
+  padding: 20px 15px;
   width: 60vw; 
   margin: auto;
   margin-bottom: 55px;

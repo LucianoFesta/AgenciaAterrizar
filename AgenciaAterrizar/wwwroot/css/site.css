@@ -23,9 +23,9 @@ html {
 }
 
 body {
-  background: #F7F8F8;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #bba378, #F7F8F8);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #bb9e78, #F7F8F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #F7F8F8;  
+  /* background: -webkit-linear-gradient(to bottom, #bba378, #F7F8F8);  
+  background: linear-gradient(to bottom, #bb9e78, #F7F8F8);  */
   font-family: "Montserrat", sans-serif;
 }
 
@@ -48,7 +48,6 @@ body {
   background-color: #04001c !important;
   color: white !important;
   padding: 10px;
-  margin-bottom: 30px !important;
 }
 
 footer{

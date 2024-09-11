@@ -95,8 +95,10 @@
 
             <!-- Provincia -->
             <div class="mb-3">
-                <label for="provincia" class="form-label labelBuscador">Provincia:</label>
-                <input type="text" class="form-control" id="provincia" placeholder="Ingrese su provincia" required>
+                <label for="provincia" class="form-label labelBuscador">Seleccione una provincia:</label>
+                <select id="provincia" class="form-control" >
+                    <option value="" disabled>Seleccione una provincia</option>
+                </select>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="provinciaError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una provincia</span>
             </div>
         </div>
@@ -104,10 +106,14 @@
          <div class="divInputs">
             <!-- Localidad -->
             <div class="mb-3">
-                <label for="localidad" class="form-label labelBuscador">Localidad:</label>
-                <input type="text" class="form-control" id="localidad" placeholder="Ingrese su localidad" required>
+                <label for="localidad" class="form-label labelBuscador">Seleccione una localidad:</label>
+                <select id="localidad" class="form-control">
+                    <option value="" disabled>Seleccione una localidad</option>
+                    <!-- Opciones de localidad se llenarán dinámicamente -->
+                </select>
                 <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="localidadError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una localidad</span>
             </div>
+
              <!-- Domicilio -->
             <div class="mb-3">
                 <label for="domicilio" class="form-label labelBuscador">Domicilio:</label>

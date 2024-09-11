@@ -1,8 +1,24 @@
+body{
+    background-image: url('../images/navPanel.svg');
+    background-color: #fdefd9c0;
+    background-attachment: fixed;
+}
+
+main{
+    padding-bottom: 0 !important;
+}
+
 .divReserva{
     display: flex;
     justify-content: space-around;
     height: 100%;
     width: 100%;
+    padding: 20px 15px; 
+    background-color: #3b3b3b2a;
+}
+
+.labelBuscador{
+    background-color: rgba(0, 0, 0, 0.507);
 }
 
 h4{
@@ -11,6 +27,15 @@ h4{
     border-radius: 10px;
     font-style: italic;
     font-size: 20px;
+}
+
+h3{
+    color: rgb(240, 240, 240);
+    font-style: italic;
+}
+
+.tituloOfertas{
+    color: #212121c2
 }
 
 .spanError{

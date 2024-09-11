@@ -33,6 +33,31 @@ public class AmadeusApiCliente
             throw new Exception($"Error al obtener destinos aéreos: {response.StatusCode}");
         }
     }
+
+    public async Task<string> OfertaUltimaBusqueda( string VueloIda,  string VueloRegreso, string FechaDesde, string FechaHasta, int CantPasajeros )
+    {
+        var tokenUser = await _authenticator.ObtenerTokenAmadeus();
+
+        _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokenUser);
+        
+        //Determinar si es un vuelo ida y vuelta o solo un vuelo de ida.
+        if(!string.IsNullOrEmpty(FechaHasta)){
+            _httpClient.BaseAddress = new Uri($"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={VueloIda}&destinationLocationCode={VueloRegreso}&departureDate={FechaDesde}&returnDate={FechaHasta}&adults={CantPasajeros}&max=1&currencyCode=ARS");
+        }else{
+            _httpClient.BaseAddress = new Uri($"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={VueloIda}&destinationLocationCode={VueloRegreso}&departureDate={FechaDesde}&adults={CantPasajeros}&max=1&currencyCode=ARS");
+        }
+    
+        var response = await _httpClient.GetAsync("");
+        
+        if(response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            throw new Exception($"Error al obtener destinos aéreos: {response.StatusCode}");
+        }
+    }
 }
 
 // using AgenciaAterrizar.Models;

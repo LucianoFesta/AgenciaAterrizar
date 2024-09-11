@@ -120,7 +120,8 @@ public class HomeController : Controller
                 VueloRegreso = VueloRegreso,
                 FechaDesde = FechaDesde,
                 FechaHasta = FechaHasta,
-                CantPasajeros = CantPasajeros
+                CantPasajeros = CantPasajeros,
+                VueloIdaVuelta = EsVueloIdaVuelta
             }), guardarCookie);
 
             // Busca en Amadeus las opciones que tiene de vuelos.
@@ -136,6 +137,34 @@ public class HomeController : Controller
         {
             return Ok(new { success = false, message = "Ocurrió un error al obtener las ofertas de vuelos. Por favor, inténtelo de nuevo más tarde.", error = ex.Message });
         }
+    }
+
+    public async Task<IActionResult> BuscarOfertaCookie()
+    {
+        // Recuperar la cookie almacenada
+        var ultimaBusquedaVueloCookie = Request.Cookies["ultimoVueloBuscado"];
+
+        // Verificar si existe la cookie
+        if (string.IsNullOrEmpty(ultimaBusquedaVueloCookie))
+        {
+            return Json(new { success = false, message = "No se encontró ninguna búsqueda previa." });
+        }
+
+        // Deserializar el contenido de la cookie en un objeto de tipo VueloCookie
+        var vueloCookie = JsonConvert.DeserializeObject<VueloCookie>(ultimaBusquedaVueloCookie);
+
+        // Llamar a la API de Amadeus con los datos deserializados
+        var oferta = await _amadeusApiClient.OfertaUltimaBusqueda(vueloCookie.VueloIda, 
+                                                                vueloCookie.VueloRegreso, 
+                                                                vueloCookie.FechaDesde, 
+                                                                vueloCookie.FechaHasta, 
+                                                                vueloCookie.CantPasajeros);
+
+        var aeropuertoIda = _context.Aeropuertos.Where(a => a.AeropuertoID == vueloCookie.VueloIda).FirstOrDefault();
+        var aeropuertoVuelta = _context.Aeropuertos.Where(a => a.AeropuertoID == vueloCookie.VueloRegreso).FirstOrDefault();
+
+        // Retornar la oferta en formato JSON
+        return Json(new { success = true, vuelo = oferta, pasajeros = vueloCookie.CantPasajeros , idaVuelta = vueloCookie.VueloIdaVuelta, ida = aeropuertoIda, vuelta = aeropuertoVuelta });
     }
 
     public JsonResult BuscarCodigoAerolinea(string CodigoAerolinea)

@@ -178,15 +178,21 @@ h3{
     font-style: italic;
 }
 
+.tituloOfertas{
+    color: #212121c2
+}
+
 hr{
     margin: 5px 0 0 0;
     color: rgb(255, 137, 2);
 }
 
 #tituloDeBusqueda{
-    width: 90vw;
+    /* width: 90vw; */
     margin: auto;
-    background-color: #aeabc08a;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: #aeccd4;
     padding: 10px 50px;
     border: 1px solid rgb(231, 229, 229);
     border-radius: 5px;
@@ -260,6 +266,7 @@ i{
     background-color: #fdefd9c0;
     background-image: url('../images/navPanel.svg');
     padding: 20px;
+    margin-top: 15PX;
 }
 
 .divCookie h4{
@@ -711,7 +718,7 @@ h5{
 
 
 /* CARD SOBRE ÚLTIMAS BÚSQUEDAS */
-.card {
+.cardBusquedas {
     margin-top: 25px;
     width: 40%;
     height: 100%;

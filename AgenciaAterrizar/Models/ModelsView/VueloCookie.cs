@@ -7,6 +7,8 @@ namespace AgenciaAterrizar.Models
         public string FechaDesde { get; set; }
         public string? FechaHasta { get; set; }
         public int CantPasajeros { get; set; }
+
+        public bool VueloIdaVuelta { get; set; }
     }
 }
 

@@ -4,10 +4,14 @@
 
 <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
 
-<div class="divContenido animate__animated animate__fadeIn">
-    <h3 class="tituloVuelos">Vuelos Vendidos</h3>
 
-    <table class="table table-striped">
+<div class="divContenido animate__animated animate__fadeIn">
+    <div class="d-flex justify-content-between p-4">
+        <h3 class="tituloVuelos">Vuelos Vendidos</h3>
+        <button id="reportePdf" type="button" class="btn btn-success"><i class="fas fa-solid fa-print"></i>Imprimir Reporte</button>
+    </div>
+
+    <table id="reporte" class="table table-striped">
         <thead>
             <tr>
                 <th class="ocultar-en-768px" scope="col">ID</th>
@@ -27,8 +31,8 @@
                 <tr>
                     <td class="ocultar-en-768px">@reserva.ReservaVueloID</td>
                     <td class="ocultar-en-768px">@reserva.AerolineaID - @reserva.AerolineaNombre</td>
-                    <td class="ocultar-en-550px">@reserva.AeropuertoOrigenID - @reserva.NombreAeropuertoOrigen</td>
-                    <td>@reserva.AeropuertoDestinoID - @reserva.NombreAeropuertoDestino</td>
+                    <td class="ocultar-en-550px">@reserva.AeropuertoOrigenID</td>
+                    <td>@reserva.AeropuertoDestinoID</td>
                     <td class="ocultar-en-550px">@reserva.FechaSalida.ToString("dd/MM/yyyy HH:mm")Hs.</td>
                     @if(@reserva.FechaRegreso.HasValue){
                        <td class="ocultar-en-768px">@reserva.FechaRegreso.Value.ToString("dd/MM/yyyy HH:mm")Hs.</td> 

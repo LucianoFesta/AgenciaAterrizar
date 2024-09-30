@@ -56,29 +56,48 @@
             const btnImprimir = document.getElementById('reportePdf');
 
             btnImprimir.addEventListener('click', () => {
-                console.log('click')
 
-                var pdf = new jsPDF('landscape');
+                var pdf = new jsPDF('l', 'mm', [297, 210]);
                 var html = document.getElementById('reporte');
                 var htmlJson = pdf.autoTableHtmlToJson(html);
-                htmlJson.columns = htmlJson.columns.slice(0,-2); //Eliminar las columnas de los botones
+                htmlJson.columns = htmlJson.columns.slice(0,-1); //Eliminar las columnas de los botones
+
+                var contenido = (info) => {
+                    pdf.setLineWidth(10);
+
+                    pdf.setDrawColor(238, 153, 57);
+                    pdf.line(14, 12, 280, 12);
+
+                    pdf.setTextColor(255, 255, 255);
+                    pdf.setFontSize(13);
+                    pdf.setFontStyle('bold');
+
+                    pdf.text(17, 14, "Lista de reservas de Vuelos");
+
+                    // Configuración para el número de página
+                    const pagina = "Página " + info.pageCount;
+                    pdf.setTextColor(100, 100, 100); 
+                    pdf.setFontSize(10);
+
+                    const pageHeight = pdf.internal.pageSize.height;
+                    pdf.text(pagina, 253, pageHeight - 10);
+                };
 
                 pdf.autoTable(htmlJson.columns, htmlJson.data,{
-                    theme: 'grid',
-                    headStyles: {
-                        fillColor: [255, 165, 0],
-                        textColor: [0, 0, 0]
+                    startY: 20, addPageContent: contenido,
+                    styles: {
+                        lineColor: [238, 238, 238],
+                        lineWidth: 0.1
                     },
                     columnStyles: {
-                        0: { textColor: [152, 97, 1], halign: 'center', cellWidth: 'auto', fontSize: 10 },
-                        1: { halign: 'center', cellWidth: 'auto', fontSize: 10, overflow: 'hidden' },
-                        2: { halign: 'center', cellWidth: 'auto', fontSize: 10, overflow: 'hidden' },
-                        3: { halign: 'center', cellWidth: 'auto', fontSize: 10, overflow: 'hidden' },
-                        4: { halign: 'center', cellWidth: 'auto', fontSize: 10,overflow: 'hidden' },
-                        5: { halign: 'center', cellWidth: 'auto', fontSize: 10, overflow: 'hidden' },           
-                    },
-                    margin: {
-                        top: 10
+                        0: { columnWidth: 20 },
+                        1: { columnWidth: 56 },
+                        2: { columnWidth: 20 },
+                        3: { columnWidth: 25 },
+                        4: { columnWidth: 40 },
+                        5: { columnWidth: 40 },          
+                        6: { columnWidth: 25 } ,         
+                        7: { columnWidth: 40 }          
                     }
                 });
 

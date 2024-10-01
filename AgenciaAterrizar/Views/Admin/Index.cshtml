@@ -54,6 +54,7 @@
         function asignarEventos(){
             const botonesCancelar = document.querySelectorAll('.btnCancelar');
             const btnImprimir = document.getElementById('reportePdf');
+            const buscarVuelos = document.getElementById('btnFiltrarVuelos')
 
             btnImprimir.addEventListener('click', () => {
 
@@ -123,38 +124,56 @@
                         cancelButtonColor: "#d33",
                         confirmButtonText: "Confirmar",
                         cancelButtonText: "Cancelar"
+
                     }).then((result) => {
                         if(result.isConfirmed){
                             $.ajax({
-                        url: '../../Admin/EliminarReserva',
-                        data: { ID: idReserva },
-                        type: 'DELETE',
-                        dataType: 'json',
-                        success: function(result){
-                            if(result.result){
-                                Swal.fire({
-                                    title: 'Cancelación de Reserva.',
-                                    text: 'La reserva ha sido cancelada exitósamente.',
-                                    icon: 'success',
-                                    confirmButtonText: 'Aceptar'
-                                }).then((r) => {
-                                    if(r.isConfirmed){
-                                        cargarVista(vistaActual);
+                                url: '../../Admin/EliminarReserva',
+                                data: { ID: idReserva },
+                                type: 'DELETE',
+                                dataType: 'json',
+                                success: function(result){
+                                    if(result.result){
+                                        Swal.fire({
+                                            title: 'Cancelación de Reserva.',
+                                            text: 'La reserva ha sido cancelada exitósamente.',
+                                            icon: 'success',
+                                            confirmButtonText: 'Aceptar'
+                                        }).then((r) => {
+                                            if(r.isConfirmed){
+                                                cargarVista(vistaActual);
+                                            }
+                                        });
+                                    }else{
+                                        Swal.fire({
+                                            title: 'Cancelacón de Reserva:',
+                                            text: result.message,
+                                            icon: 'warning',
+                                            confirmButtonText: 'Volver a intentarlo'
+                                        });
                                     }
-                                });
-                            }else{
-                                Swal.fire({
-                                    title: 'Cancelacón de Reserva:',
-                                    text: result.message,
-                                    icon: 'warning',
-                                    confirmButtonText: 'Volver a intentarlo'
-                                });
-                            }
+                                }
+                            })
                         }
                     })
+                })
+            })
 
-                        }
-                    })
+            buscarVuelos.addEventListener('click', () => {
+                var desde = document.getElementById('FechaDesde').value;
+                var hasta = document.getElementById('FechaHasta').value;
+
+                $.ajax({
+                    url: '../../Admin/FiltrarVuelos',
+                    data: { desde, hasta },
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(result){
+                        console.log(result);
+                    },
+                    error: function (xrs, status){
+                        console.log('Ocurrió un error a la hora de mostrar vuelos vendido filtrados.');
+                    }
                 })
             })
         }

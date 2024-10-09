@@ -20,12 +20,14 @@ namespace AgenciaAterrizar.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, UserManager<IdentityUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -115,6 +117,18 @@ namespace AgenciaAterrizar.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    //Obtenemos el usuario logueado para saber si tiene el rol de Administrador
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                    if(user != null)
+                    {
+                        if(await _userManager.IsInRoleAsync(user, "Administrador"))
+                        {
+                            return LocalRedirect("/Admin");
+                        }
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

@@ -1,5 +1,6 @@
 using AgenciaAterrizar.Data;
 using AgenciaAterrizar.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -10,9 +11,13 @@ public class ReservaVueloController : Controller
 {
     private readonly ApplicationDbContext _context;
 
-    public ReservaVueloController(ApplicationDbContext context)
+    private readonly UserManager<IdentityUser> _userManager;
+
+    public ReservaVueloController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
     {
         _context = context;
+
+        _userManager = userManager;
     }
     
 
@@ -42,6 +47,11 @@ public class ReservaVueloController : Controller
         {
             try
             {
+                var userID = _userManager.GetUserId(User);
+                var personaID = _context.Personas.Where(p => p.UsuarioID == userID).SingleOrDefault();
+                
+                ReservaVuelo.PersonaId = personaID.PersonaID;
+
                 // Guardar la reserva principal
                 _context.ReservaVuelos.Add(ReservaVuelo);
                 _context.SaveChanges();

@@ -8,7 +8,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a asp-controller="Home" asp-action="Index" class="nav-link btnNav"  title="Manage">Hola @User.Identity?.Name!</a>
+        <a asp-controller="Perfil" asp-action="Index" class="nav-link btnNav"  title="Manage">Hola @User.Identity?.Name!</a>
     </li>
     @if(User.Identity.IsAuthenticated && User.IsInRole("Administrador")){
     <li>

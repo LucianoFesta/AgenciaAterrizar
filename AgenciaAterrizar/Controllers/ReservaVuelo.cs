@@ -1,5 +1,6 @@
 using AgenciaAterrizar.Data;
 using AgenciaAterrizar.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -10,9 +11,12 @@ public class ReservaVueloController : Controller
 {
     private readonly ApplicationDbContext _context;
 
-    public ReservaVueloController(ApplicationDbContext context)
+    private readonly UserManager<IdentityUser> _userManager;
+
+    public ReservaVueloController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
     
 
@@ -48,6 +52,13 @@ public class ReservaVueloController : Controller
 
                 // Obtener el ID de la reserva recién insertada
                 int reservaVueloID = ReservaVuelo.ReservaVueloID.Value;
+
+                var userID = _userManager.GetUserId(User);
+
+                var personaID = _context.Personas.Where(p => p.UsuarioID == userID ).SingleOrDefault();
+
+                ReservaVuelo.PersonaId = personaID.PersonaID;
+
 
                 // Asociar cada acompañante con la reserva recién creada
                 Acompaniantes.ForEach(acompaniante => {

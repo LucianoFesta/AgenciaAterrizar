@@ -9,14 +9,64 @@
     var appUrl = '@appUrl';
 </script>
 
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="carousel-image" style="background-image: url('../../images/ruta.jpg');">
+                <div class="carousel-caption">
+                    <p class="mb-4">AgenciaAterrizar</p>
+                    <h2 class="display-4 text-uppercase mb-4">¡Cumple tu sueño de viajar!</h2>
+                    <p class="mt-4">Descubre destinos increíbles alrededor del mundo.</p>
+                    <a href="#formSearch">
+                        <button type="button" class="btn btn-danger btnCarousel">¡Reservar ahora!</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="carousel-image" style="background-image: url('../../images/playas.jpg');">
+                <div class="carousel-caption">
+                    <p class="mt-4">AgenciaAterrizar</p>
+                    <h2 class="display-4 text-uppercase mb-4">Aventuras sin límites</h2>
+                    <p class="mt-4">Viaja y explora nuevas culturas.</p>
+                    <a href="#formSearch">
+                        <button type="button" class="btn btn-danger btnCarousel">¡Reservar ahora!</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="carousel-image" style="background-image: url('../../images/avion.jpg');">
+                <div class="carousel-caption">
+                    <p class="mt-4">AgenciaAterrizar</p>
+                    <h2 class="display-4 text-uppercase mb-4">Vivir, es viajar</h2>
+                    <p class="mt-4">Visita ese lugar que siempre quisiste conocer.</p>
+                    <a href="#formSearch">
+                        <button type="button" class="btn btn-danger btnCarousel">¡Reservar ahora!</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
 <div class="divSearch">
     <div class="col-8 divBuscador animate__animated animate__fadeIn">
         <div ></div>
-        <form>
+        <form id="formSearch">
             <div>
                 <div class="d-flex align-items-center titleSearch">
-                    <i class="fa-solid fa-plane-departure mx-3"></i>
-                    <h3>Tu próximo destino espera por vos!</h3>
+                    <img style="width: 40px;" src="../../images/fly.svg" alt="">
+                    <h2 class="display-20" style="color: aliceblue;">¿Dónde queres ir hoy?</h2>
                 </div>
             </div>
             <hr>
@@ -100,7 +150,7 @@
                 </div>
 
                 <div class="buttons">
-                    <button class="btn" id="buscarBtn"><span></span><p data-start="good luck!" data-text="DIRECTO AL VIAJE DE TUS SUEÑOS :)" data-title="TOMATE UN VUELO..."></p></button>
+                    <button class="btn" id="buscarBtn"><span></span><p data-start="good luck!" data-text="directo al viaje de mis sueños :)" data-title="Buscar ese Vuelo.."></p></button>
                 </div>
             </div>
         </form>
@@ -159,7 +209,7 @@
 }
 
 <div id="tituloDeBusqueda" style="display:none;">
-    <h3 class="tituloOfertas">Estas son las opciones que tenemos para vos:</h3>
+    <h3 class="tituloOfertas display-20 text-uppercase">Estas son las opciones que tenemos para vos:</h3>
     <div class="animate__animated animate__fadeIn">
         <hr>
     </div>

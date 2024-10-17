@@ -23,7 +23,8 @@ html {
 }
 
 body {
-  background: #F7F8F8;  
+  background-image: url('../images/endless-constellation.svg');
+  background-attachment: fixed;
   /* background: -webkit-linear-gradient(to bottom, #bba378, #F7F8F8);  
   background: linear-gradient(to bottom, #bb9e78, #F7F8F8);  */
   font-family: "Montserrat", sans-serif;

@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 // Renderizar la oferta en el DOM
                 $('#divUltimoVuelo').append(`
                     <div class="divCookie animate__animated animate__fadeIn">
-                        ${oferta.idaYvuelta ? `<h4>¿Sigues con ganas de volar a ${oferta.escalasVuelta[0].departureAirport.ciudad}? </h4>` : `<h4>¿Sigues con ganas de volar a ${oferta.escalasIda[oferta.escalasIda.length - 1].arrivalAirport.ciudad}? </h4>`}
+                        ${oferta.idaYvuelta ? `<h4>¿Seguis con ganas de volar a ${oferta.escalasVuelta[0].departureAirport.ciudad}? </h4>` : `<h4>¿Sigues con ganas de volar a ${oferta.escalasIda[oferta.escalasIda.length - 1].arrivalAirport.ciudad}? </h4>`}
                         <hr>
                         <div class="d-flex justify-content-center">
                             <form id="reservaFormUltimoVuelo" method="post" action="/ReservaVuelo/FinalizarCompra" target="_blank">
@@ -709,7 +709,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 // Generar el HTML para la oferta
                                 $('#listaOfertas').append(`
                                     <div class="card mt-4 animate__animated animate__fadeIn">
-                                        <h5 class="card-title"><i class="fa-solid fa-plane"></i> ${oferta.intinerario[0].segments[0].carrierCode} - ${oferta.nombreAerolinea}</h5>
+                                        <h5 class="text-title bg"><i class="fa-solid fa-plane"></i> ${oferta.intinerario[0].segments[0].carrierCode} - ${oferta.nombreAerolinea}</h5>
                                         <div class="divItinerario">
                                             <div class="card-body d-flex align-items-center justify-content-between divContenidoOferta">
                                                 <div class="divItinerarioCompleto">

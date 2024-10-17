@@ -1,9 +1,3 @@
-body{
-  background-image: url('../images/navPanel.svg');
-  background-color: #fdefd9c0;
-  background-attachment: fixed;
-}
-
 label{
   background-color: rgba(0, 0, 0, 0.507) !important;
   color: white;

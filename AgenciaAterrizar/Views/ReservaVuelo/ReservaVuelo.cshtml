@@ -131,7 +131,6 @@
     </div>
     <div class="card">
         <h4 class="text-center">Detalle de la compra:</h4>
-
         <div class="mt-4">
             <div class="text-center">
                 <p class="mb-3 aerolinea"><i class="fa-solid fa-plane"></i>Volás con: <b>@Model.nombreAerolinea</b></p>
@@ -523,7 +522,6 @@
                     <p>Tarjeta de ${reservaVuelo.MedioDePago} en un solo pago. <b>MONTO ABONADO</b>: $${reservaVuelo.MontoTotalCompra}</p>
                 `;
 
-
                 //Paso el objeto generado al controlador para proceder a almacenar la reserva, escalas y acompaniantes en la base de datos.
                 $.ajax({
                     url: appUrl + 'ReservaVuelo/GuardarNuevaReserva',
@@ -531,6 +529,8 @@
                     type: 'POST',
                     dataType: 'json',
                     success: function(result){
+
+                        console.log(result)
 
                         if(!result.success)
                         {

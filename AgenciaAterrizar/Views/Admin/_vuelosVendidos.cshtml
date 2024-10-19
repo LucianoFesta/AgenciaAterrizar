@@ -6,9 +6,31 @@
 
 
 <div class="divContenido animate__animated animate__fadeIn">
-    <div class="d-flex justify-content-between p-4">
-        <h3 class="tituloVuelos">Vuelos Vendidos</h3>
-        <button id="reportePdf" type="button" class="btn btn-success"><i class="fas fa-solid fa-print"></i>Imprimir Reporte</button>
+    <div class="d-flex justify-content-between">
+        <h3 class="tituloAdim">Detalle de Vuelos Vendidos</h3>
+    </div>
+    <hr class="mb-4">
+    
+    <div>
+        <div class="d-flex justify-content-end">
+            <button id="reportePdf" type="button" class="btn btn-success"><i class="fas fa-solid fa-print"></i> Imprimir Reporte</button>
+        </div>
+
+        <div class="d-flex align-items-center row mt-3 mb-3">
+            <div class="mb-3 col-3">
+                <label class="form-label">Fecha Desde</label>
+                <input type="date" id="FechaDesde" class="form-control">
+            </div>
+
+            <div class="mb-3 col-3">
+                <label class="form-label">Fecha Hasta </label>
+                <input type="date" id="FechaHasta" class="form-control">
+            </div>
+
+            <div class="mb-6 col-2">
+                <button id="btnFiltrarVuelos" type="button" class="btn btn-success"><i class="fas fa-solid fa-search"></i></button>
+            </div>
+        </div>
     </div>
 
     <table id="reporte" class="table table-striped">

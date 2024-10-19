@@ -30,8 +30,13 @@ h4{
 }
 
 h3{
-    color: rgb(240, 240, 240);
+    color: rgb(69, 69, 69);
     font-style: italic;
+}
+
+hr{
+    margin: 5px 0 0 0;
+    color: rgb(255, 137, 2);
 }
 
 .tituloOfertas{
@@ -61,7 +66,7 @@ hr{
 .card {
     width: 30%;
     height: 100%;
-    background: #3127643f;
+    background: #31276470;
     padding: 10px;
     transition: 1s ease-in-out;
     clip-path: polygon(30px 0%, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0% 30px);

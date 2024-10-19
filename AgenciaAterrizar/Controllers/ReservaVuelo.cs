@@ -46,6 +46,11 @@ public class ReservaVueloController : Controller
         {
             try
             {
+                // var userID = _userManager.GetUserId(User);
+                // var personaID = _context.Personas.Where(p => p.UsuarioID == userID).SingleOrDefault();
+                
+                // ReservaVuelo.PersonaId = personaID.PersonaID;
+
                 // Guardar la reserva principal
                 _context.ReservaVuelos.Add(ReservaVuelo);
                 _context.SaveChanges();

@@ -2,12 +2,6 @@ h3 span{
   color: rgb(145, 80, 0);
 }
 
-body{
-  background-image: url('../images/navPanel.svg');
-  background-color: #fdefd9c0;
-  background-attachment: fixed;
-}
-
 h3{
   padding-top: 30px;
   color: #212121c2;
@@ -23,6 +17,7 @@ hr{
   padding: 20px 15px; 
   width: 80vw; 
   margin: auto;
+  margin-bottom: 20px;
   border-radius: 10px;
   box-shadow: 4px 8px 8px rgba(0, 0, 0, 0.1);
 }

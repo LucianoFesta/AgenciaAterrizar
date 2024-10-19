@@ -6,16 +6,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
         data: { },
         type: 'GET',
         dataType: 'json',
+        beforeSend: function() {
+            // Muestra el indicador de carga antes de enviar la solicitud
+            $('#loadingInicial').show();
+        },
         success: async function(result){
+            $('#loadingInicial').hide();
+
             if(result.success){
-                console.log(result)
-
                 var ofertaVueloJSON = JSON.parse(result.vuelo);
-
                 var ofertaVuelo = ofertaVueloJSON.data;
+                var oferta = {}
 
                 if(!result.idaVuelta){
-                    let oferta = {
+                    oferta = {
                         idOferta: ofertaVuelo[0].id,
                         idaYvuelta: false,
                         pasajeros: result.pasajeros,
@@ -61,7 +65,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     oferta.cantEscalasIda = oferta.intinerario[0].segments.length - 1;
     
                 }else{
-                    let oferta = {
+                    oferta = {
                         idOferta: ofertaVuelo[0].id,
                         idaYvuelta: true,
                         pasajeros: result.pasajeros,
@@ -139,34 +143,48 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     oferta.cantEscalasIda = oferta.intinerario[0].segments.length - 1;
                     oferta.cantEscalasVuelta = oferta.intinerario[1].segments.length - 1;
 
-                    console.log(oferta)
+                }
 
-                    $('#divUltimoVuelo').append(`
-                        <div class="divCookie">
-                            <h4>¿Seguis con ganas de volar a ${oferta.escalasVuelta[0].departureAirport.ciudad}? </h4>
-                            <hr>
+                let ofertaJson = JSON.stringify(oferta); 
+
+                // Renderizar la oferta en el DOM
+                $('#divUltimoVuelo').append(`
+                    <div class="divCookie animate__animated animate__fadeIn">
+                        ${oferta.idaYvuelta ? `<h4>¿Seguis con ganas de volar a ${oferta.escalasVuelta[0].departureAirport.ciudad}? </h4>` : `<h4>¿Sigues con ganas de volar a ${oferta.escalasIda[oferta.escalasIda.length - 1].arrivalAirport.ciudad}? </h4>`}
+                        <hr>
+                        <div class="d-flex justify-content-center">
+                            <form id="reservaFormUltimoVuelo" method="post" action="/ReservaVuelo/FinalizarCompra" target="_blank">
+                                <input type="hidden" name="ofertaJson" id="ofertaInputUltimoVuelo">
+                            </form>
                             <div class="cardBusquedas">
                                 <div class="card-img">
-                                    <span class="text-center">${oferta.codigoAerolinea} - ${oferta.nombreAerolinea}</span>
+                                    <span class="text-center mx-2">${oferta.codigoAerolinea} - ${oferta.nombreAerolinea}</span>
                                 </div>
                                 <div class="card-info">
-                                    <p class="text-title"><i class="fa-solid fa-plane mx-2"></i><span>${oferta.escalasIda[0].departureAirport.ciudad}(${oferta.escalasIda[0].departureAirport.aeropuertoID}) - ${oferta.escalasVuelta[0].departureAirport.ciudad}(${oferta.escalasVuelta[0].departureAirport.aeropuertoID})</span></p>
+                                    ${oferta.idaYvuelta ? `<p class="text-title"><i class="fa-solid fa-plane mx-2"></i><span>${oferta.escalasIda[0].departureAirport.ciudad}(${oferta.escalasIda[0].departureAirport.aeropuertoID}) - ${oferta.escalasVuelta[0].departureAirport.ciudad}(${oferta.escalasVuelta[0].departureAirport.aeropuertoID})</span></p>` : `<p class="text-title"><i class="fa-solid fa-plane mx-2"></i><span>${oferta.escalasIda[0].departureAirport.ciudad}(${oferta.escalasIda[0].departureAirport.aeropuertoID}) - ${oferta.escalasIda[oferta.escalasIda.length - 1].arrivalAirport.ciudad}(${oferta.escalasIda[oferta.escalasIda.length - 1].arrivalAirport.aeropuertoID})</span></p>`}
+                                </div>
+                                <div class="d-flex">
+                                    <div class="card-info">
+                                        ${oferta.idaYvuelta ? `<p><i class="fa-solid fa-calendar-days mx-2"></i><span>${formatoFechaMostrar(oferta.escalasIda[0].departureDate)} - ${formatoFechaSinFechaMostrar(oferta.escalasIda[0].departureDate)}hs. al ${formatoFechaMostrar(oferta.escalasVuelta[oferta.escalasVuelta.length - 1].arrivalDate)} - ${formatoFechaSinFechaMostrar(oferta.escalasVuelta[oferta.escalasVuelta.length - 1].arrivalDate)}hs.</span></p>` : `<p><i class="fa-solid fa-calendar-days mx-2"></i><span>${formatoFechaMostrar(oferta.escalasIda[0].departureDate)} - ${formatoFechaSinFechaMostrar(oferta.escalasIda[0].departureDate)}hs.</span></p>`}
+                                    </div>
+                                    <div class="card-info mx-4">
+                                        <p><i class="fa-solid fa-user mx-2"></i><span>${oferta.pasajeros}</span></p>
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <span class="text-title">$${oferta.precio.total}</span>
-                                    <div class="card-button">
-                                        <svg class="svg-icon" viewBox="0 0 20 20">
-                                        <path d="M17.72,5.011H8.026c-0.271,0-0.49,0.219-0.49,0.489c0,0.271,0.219,0.489,0.49,0.489h8.962l-1.979,4.773H6.763L4.935,5.343C4.926,5.316,4.897,5.309,4.884,5.286c-0.011-0.024,0-0.051-0.017-0.074C4.833,5.166,4.025,4.081,2.33,3.908C2.068,3.883,1.822,4.075,1.795,4.344C1.767,4.612,1.962,4.853,2.231,4.88c1.143,0.118,1.703,0.738,1.808,0.866l1.91,5.661c0.066,0.199,0.252,0.333,0.463,0.333h8.924c0.116,0,0.22-0.053,0.308-0.128c0.027-0.023,0.042-0.048,0.063-0.076c0.026-0.034,0.063-0.058,0.08-0.099l2.384-5.75c0.062-0.151,0.046-0.323-0.045-0.458C18.036,5.092,17.883,5.011,17.72,5.011z"></path>
-                                        <path d="M8.251,12.386c-1.023,0-1.856,0.834-1.856,1.856s0.833,1.853,1.856,1.853c1.021,0,1.853-0.83,1.853-1.853S9.273,12.386,8.251,12.386z M8.251,15.116c-0.484,0-0.877-0.393-0.877-0.874c0-0.484,0.394-0.878,0.877-0.878c0.482,0,0.875,0.394,0.875,0.878C9.126,14.724,8.733,15.116,8.251,15.116z"></path>
-                                        <path d="M13.972,12.386c-1.022,0-1.855,0.834-1.855,1.856s0.833,1.853,1.855,1.853s1.854-0.83,1.854-1.853S14.994,12.386,13.972,12.386z M13.972,15.116c-0.484,0-0.878-0.393-0.878-0.874c0-0.484,0.394-0.878,0.878-0.878c0.482,0,0.875,0.394,0.875,0.878C14.847,14.724,14.454,15.116,13.972,15.116z"></path>
+                                    <div class="card-button" data-ultima-oferta='${ofertaJson}' onclick="reservarUltimaOferta(this)">
+                                        <svg class="svg-icon" viewBox="0 0 20 20" mt-2>
+                                            <path d="M17.72,5.011H8.026c-0.271,0-0.49,0.219-0.49,0.489c0,0.271,0.219,0.489,0.49,0.489h8.962l-1.979,4.773H6.763L4.935,5.343C4.926,5.316,4.897,5.309,4.884,5.286c-0.011-0.024,0-0.051-0.017-0.074C4.833,5.166,4.025,4.081,2.33,3.908C2.068,3.883,1.822,4.075,1.795,4.344C1.767,4.612,1.962,4.853,2.231,4.88c1.143,0.118,1.703,0.738,1.808,0.866l1.91,5.661c0.066,0.199,0.252,0.333,0.463,0.333h8.924c0.116,0,0.22-0.053,0.308-0.128c0.027-0.023,0.042-0.048,0.063-0.076c0.026-0.034,0.063-0.058,0.08-0.099l2.384-5.75c0.062-0.151,0.046-0.323-0.045-0.458C18.036,5.092,17.883,5.011,17.72,5.011z"></path>
+                                            <path d="M8.251,12.386c-1.023,0-1.856,0.834-1.856,1.856s0.833,1.853,1.856,1.853c1.021,0,1.853-0.83,1.853-1.853S9.273,12.386,8.251,12.386z M8.251,15.116c-0.484,0-0.877-0.393-0.877-0.874c0-0.484,0.394-0.878,0.877-0.878c0.482,0,0.875,0.394,0.875,0.878C9.126,14.724,8.733,15.116,8.251,15.116z"></path>
+                                            <path d="M13.972,12.386c-1.022,0-1.855,0.834-1.855,1.856s0.833,1.853,1.855,1.853s1.854-0.83,1.854-1.853S14.994,12.386,13.972,12.386z M13.972,15.116c-0.484,0-0.878-0.393-0.878-0.874c0-0.484,0.394-0.878,0.878-0.878c0.482,0,0.875,0.394,0.875,0.878C14.847,14.724,14.454,15.116,13.972,15.116z"></path>
                                         </svg>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    `)
-                    console.log(oferta)
-                }
+                        </div> 
+                    </div>
+                `)
             }
         },
         error: function(x, status){
@@ -337,7 +355,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         confirmButtonText: 'Volver a intentarlo'
                     });
                 }
-                console.log(result.listaOfertas)
+
                 //Amadeus devuelve la información en formato JSON. Hay que convertirlo en Objeto de JS.
                 let listaOfertasJson = JSON.parse(result.listaOfertas);
 
@@ -521,7 +539,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                 <div class="d-flex flex-column align-items-center justify-content-between">
                                                     <p class="card-text"><b>Precio Final: </b> $${oferta.precio.total}</p>
                                                     <button class="buttonReserva mt-3" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                        <svg class="mt-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
                                                         </svg>
                                                         <div class="text">Reservar Vuelo</div>
@@ -620,8 +638,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 // Completar con la cantidad de escalas
                                 oferta.cantEscalasIda = oferta.intinerario[0].segments.length - 1;
                                 oferta.cantEscalasVuelta = oferta.intinerario[1].segments.length - 1;
-    
-                                console.log(oferta)
         
                                 //Para poder pasarlo como atributo del elemento a.
                                 let ofertaJson = JSON.stringify(oferta); 
@@ -693,7 +709,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 // Generar el HTML para la oferta
                                 $('#listaOfertas').append(`
                                     <div class="card mt-4 animate__animated animate__fadeIn">
-                                        <h5 class="card-title"><i class="fa-solid fa-plane"></i> ${oferta.intinerario[0].segments[0].carrierCode} - ${oferta.nombreAerolinea}</h5>
+                                        <h5 class="text-title bg"><i class="fa-solid fa-plane"></i> ${oferta.intinerario[0].segments[0].carrierCode} - ${oferta.nombreAerolinea}</h5>
                                         <div class="divItinerario">
                                             <div class="card-body d-flex align-items-center justify-content-between divContenidoOferta">
                                                 <div class="divItinerarioCompleto">
@@ -818,7 +834,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                                     <p class="text-title"><b>Precio: </b> $${oferta.precio.total}</p>
                                                     <button class="buttonReserva" data-oferta='${ofertaJson}' onclick="reservarVuelo(this)">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+                                                            <path class="mt-3" stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
                                                         </svg>
                                                         <div class="text">Reservar Vuelo</div>
                                                     </button>
@@ -952,16 +968,15 @@ function reservarVuelo(element) {
 
     // Enviar el formulario
     document.getElementById('reservaForm').submit();
+}
 
-    // const ofertaJson = element.getAttribute('data-oferta');
-    // const oferta = JSON.parse(ofertaJson);
 
-    // console.log(oferta);
+function reservarUltimaOferta(element) {
+    const ofertaJson = element.getAttribute('data-ultima-oferta');
 
-    // // Convertir el objeto JSON a una cadena
-    // const ofertaString = encodeURIComponent(JSON.stringify(oferta));
+    // Poner la cadena JSON en el input oculto
+    document.getElementById('ofertaInputUltimoVuelo').value = ofertaJson;
 
-    // let url = `/ReservaVuelo?oferta=${ofertaString}`;
-    // // Agregar el JSON como un parámetro de consulta en la URL
-    // window.open(url, 'blank'); 
+    // Enviar el formulario
+    document.getElementById('reservaFormUltimoVuelo').submit(); 
 }

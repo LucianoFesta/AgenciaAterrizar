@@ -1,5 +1,5 @@
 label{
-  background-color: rgba(0, 0, 0, 0.507) !important;
+  /* background-color: rgba(0, 0, 0, 0.507) !important; */
   color: white;
   border-radius: 3px;
   padding: 1px 10px 1px 2px;
@@ -7,17 +7,22 @@ label{
 
 hr{
   margin: 5px 0 0 0;
-  color: rgb(253, 200, 140);
+  color:rgb(94, 89, 89);
 }
 
 .divLogin{
-  background-color: #3b3b3b86;
-  padding: 20px 15px;
-  width: 60vw; 
-  margin: auto;
+  background-color: transparent;
+
+  margin: 10%; /* Elimina márgenes automáticos */
+  
+   padding: 20px 15px;
+  width: 40vw; 
   margin-bottom: 55px;
-  border-radius: 10px;
-  box-shadow: 4px 8px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgb(128, 124, 124);
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px) brightness(0.8) saturate(150%);
+
 }
 
 .form-group{
@@ -26,6 +31,7 @@ hr{
 
 .input{
   height: 3rem;
+  border-radius: 40px;
 }
 
 .formulario{
@@ -36,7 +42,7 @@ hr{
   text-align: center;
 }
 
-/* From Uiverse.io by Madflows */ 
+/* From Uiverse.io by Madflows */
 .buttonRegister {
   position: relative;
   overflow: hidden;
@@ -51,11 +57,11 @@ hr{
   border: none;
   cursor: pointer;
 }
-  
+
 .buttonRegister:hover::before {
   transform: scaleX(1);
 }
-  
+
 .button-content {
   position: relative;
   z-index: 1;
@@ -77,4 +83,11 @@ hr{
     rgb(168, 89, 0) 94.3%
   );
   transition: all 0.475s;
+}
+
+body{
+  background-image: url('../images/pexels-mcraftpix-21014.jpg') ;
+  background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }

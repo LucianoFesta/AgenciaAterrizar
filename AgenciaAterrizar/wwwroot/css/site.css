@@ -13,7 +13,7 @@ html {
 }
 
 html,body{
-  min-height: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
 }
@@ -54,8 +54,9 @@ body {
 footer{
   background-color: #04001c !important;
   color: white !important;
-  padding: 0;
-  margin: 0;
+  width: 100%;
+  padding: 1rem 0; /* Ajusta el padding según sea necesario */
+  margin-top: auto; /* Empuja el footer al fondo */
 }
 
 .navBar a{

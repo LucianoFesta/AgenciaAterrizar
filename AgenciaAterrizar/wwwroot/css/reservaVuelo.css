@@ -3,7 +3,7 @@ main{
     font-family: 'Lucida Sans', sans-serif;
 }
 
-form{
+.form{
     background: #ffffff60;
     backdrop-filter: blur(3px);
     border-radius: 8px;

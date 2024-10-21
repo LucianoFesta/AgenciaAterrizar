@@ -59,10 +59,10 @@
 </div>
 
 
-<div class="divSearch">
+<div class="divSearch" id="formSearch">
     <div class="col-8 divBuscador animate__animated animate__fadeIn">
         <div ></div>
-        <form id="formSearch">
+        <form>
             <div>
                 <div class="d-flex align-items-center titleSearch">
                     <img style="width: 40px;" src="../../images/fly.svg" alt="">
@@ -95,13 +95,13 @@
 
                 <div class="d-flex divFecha flex-wrap selectDates" id="camposIdayVuelta" style="display:flex;">
                     <div class="mb-3 mx-3 divInputFecha col-3">
-                        <label for="fechaDesde" class="form-label labelBuscador">Fecha de salida:</label>
+                        <label for="fechaDesde" class="form-label labelBuscador">Salida:</label>
                         <input type="date" class="form-control inputFecha select2" id="fechaDesde">
                         <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesde"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una fecha de ida.</span>
                         <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesdeMayorAHoy"><i class="fa-solid fa-circle-exclamation errorIcon"></i> La fecha de ida debe ser mayor a la de hoy.</span>
                     </div>
                     <div class="mb-3 mx-3 inputFecha col-3">
-                        <label for="fechaHasta" class="form-label labelBuscador">Fecha de Regreso:</label>
+                        <label for="fechaHasta" class="form-label labelBuscador">Regreso:</label>
                         <input type="date" class="form-control inputFecha select2" id="fechaHasta">
                         <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaHasta"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una fecha de regreso.</span>
                         <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaHastaMayorADesde"><i class="fa-solid fa-circle-exclamation errorIcon"></i> La fecha de regreso debe ser mayor a la de ida.</span>
@@ -126,7 +126,7 @@
 
                 <div class="d-flex justify-content-center divFecha flex-wrap selectDates" id="campoIda" style="display:none;">
                     <div class="mb-3 mx-3 inputFecha col-3">
-                        <label for="fechaDesde" class="form-label  labelBuscador">Fecha de Salida:</label>
+                        <label for="fechaDesde" class="form-label  labelBuscador">Salida:</label>
                         <input type="date" class="form-control inputFecha select2" id="fechaDesdeSoloIda">
                         <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesdeSoloIda"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Seleccione una fecha.</span>
                         <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="inputFechaDesdeMayorAHoySoloIda"><i class="fa-solid fa-circle-exclamation errorIcon"></i> La fecha debe ser mayor a la de hoy.</span>
@@ -150,7 +150,7 @@
                 </div>
 
                 <div class="buttons">
-                    <button class="btn" id="buscarBtn"><span></span><p data-start="good luck!" data-text="directo al viaje de mis sueños :)" data-title="Buscar ese Vuelo.."></p></button>
+                    <button class="btn buscarBtn" id="buscarBtn"><span></span><p data-start="good luck!" data-text="directo al viaje de mis sueños :)" data-title="Buscar ese Vuelo.."></p></button>
                 </div>
             </div>
         </form>

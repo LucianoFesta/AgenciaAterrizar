@@ -1,3 +1,7 @@
+body{
+    font-family: 'Lucida Sans', sans-serif !important;
+}
+
 .carousel-image {
     position: relative;
     width: 100%;
@@ -249,7 +253,6 @@ hr{
 }
 
 #tituloDeBusqueda{
-    margin: auto;
     margin-bottom: 15px;
     padding: 10px 50px;
     border: 1px solid rgb(231, 229, 229);
@@ -257,10 +260,16 @@ hr{
 }
 
 #tituloDeBusqueda h3{
+    font-size: 20px;
+    border-radius: 4px;
     margin-top: 20px;
     padding: 8px;
     background-color: #00000060;
     color: #ffffff;
+}
+
+#tituloDeBusqueda hr{
+    color: black;
 }
 
 .card-title{
@@ -300,8 +309,8 @@ i{
 
 .divBuscador {
     position: relative;
-    /* transform: translateY(-30%); */
-    background-color: #07070796;
+    background-color: #07070757;
+    backdrop-filter: blur(3px);
     padding: 15px 20px;
     width: 80vw;
     margin: auto;
@@ -424,16 +433,13 @@ span .selection{
     padding-top: 20px;
 }
 
-.divOpciones{
-    padding: 20px 40px;
-    width: 90vw;
-    margin: auto;
-}
 
 .card{
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.267);
     width: 85vw;
     margin: auto;
+    backdrop-filter: blur(10px);
+    background-color: #fffbfbf5;
 }
 
 
@@ -526,7 +532,7 @@ h5{
     margin-top: 15px;
     margin-bottom: 15px;
     padding: 5px;
-    background-color: #3127643f;
+    background-color: #0100072a;
 }
 
 .itinerario p{
@@ -986,11 +992,11 @@ svg {
   
   
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     /*RESULTADOS*/
 
     #tituloDeBusqueda{
-        width: 100vw;
+        width: 100vw !important;
     }
 
     .divOpciones{
@@ -1011,6 +1017,75 @@ svg {
 
     .divItinerarioCompleto {
         width: 100%;
+    }
+
+    .divBuscador {
+        width: 95vw;
+    }
+
+    .divSearch{
+        padding: 30px 0;
+    }
+
+    h2{
+        font-size: 20px;
+    }
+
+    h3{
+        font-size: 17px;
+    }
+
+    .selectDestinos{
+        flex-direction: column !important;
+        width: 70vw;
+        margin: 0 !important;
+    }
+
+    .select2-container .select2-selection--single{
+        width: 80vw !important;
+    }
+
+    .select2-search--dropdown .select2-search__field, 
+    .select2-results__option, 
+    .select2-container--default .select2-results>.select2-results__options, 
+    .select2-container--open .select2-dropdown--below, 
+    .select2-container--default .select2-selection--single 
+    .select2-selection__rendered,
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        width: 80vw !important;
+    }
+
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        width: 78vw !important;
+    }
+
+    .inputFecha{
+        width: 80vw !important;
+    }
+
+    .divInputPasajeros{
+        width: 16vw !important;
+    }
+
+    .buttons{
+        justify-content: center;
+
+    }
+
+    .buscarBtn{
+        width: 80vw !important;
+    }
+
+    .cardBusquedas{
+        width: 95vw !important;
+    }
+
+    .cardBusquedas p{
+        display: flex;
+    }
+
+    .card{
+        width: 90vw !important;
     }
 
 }
@@ -1045,11 +1120,11 @@ svg {
     .select2-container--default .select2-selection--single 
     .select2-selection__rendered,
     .select2-container--default .select2-selection--single .select2-selection__rendered{
-        width: 60vw !important;
+        width: 80vw;
     }
 
     .select2-container--default .select2-search--dropdown .select2-search__field {
-        width: 58vw !important;
+        width: 58vw;
     }
 
     .selectDates{
@@ -1070,14 +1145,23 @@ svg {
         margin-top: 20px;
     }
 
+    .cardBusquedas{
+        width: 75vw;
+    }
+
+    .cardBusquedas p{
+        display: flex;
+    }
+
+    .card{
+        width: 90vw !important;
+    }
+
     /*RESULTADOS*/
 
     #tituloDeBusqueda{
-        width: 90vw;
-    }
-
-    .divOpciones{
-        padding: 0px;
+        width: 97vw !important;
+        padding: 0;
     }
 
     .divItinerario{

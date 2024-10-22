@@ -26,7 +26,8 @@ form h5{
 }
 
 .labelBuscador{
-    background-color: rgba(0, 0, 0, 0.507);
+    /* background-color: rgba(0, 0, 0, 0.507); */
+    color: black;
 }
 
 h4{
@@ -80,20 +81,6 @@ hr{
 .ultimoHr{
     margin-bottom: 20px;
 }
-
-/* .card {
-    width: 30%;
-    height: 100%;
-    background: #31276470;
-    padding: 10px;
-    transition: 1s ease-in-out;
-    clip-path: polygon(30px 0%, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0% 30px);
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    display: flex;
-    flex-direction: column;
-} */
-
 
 .cardReserva {
     width: 30vw;
@@ -232,6 +219,7 @@ hr{
 
 .form-control{
     height: 35px;
+    border-radius: 3em;
 }
 
 .inputGenero{
@@ -240,6 +228,7 @@ hr{
     border-radius: 10px;
     background-color: white;
     margin-top: 14px;
+    border-radius: 3em;
 }
 
 .inputGenero div{

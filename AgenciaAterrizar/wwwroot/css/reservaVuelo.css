@@ -318,6 +318,7 @@ h6{
     align-items: center;
     height: 70vh;
     width: 60vw;
+    margin: auto;
 }
 
 .buttonHome {

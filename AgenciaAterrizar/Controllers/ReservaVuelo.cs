@@ -58,11 +58,11 @@ public class ReservaVueloController : Controller
                 // Obtener el ID de la reserva recién insertada
                 int reservaVueloID = ReservaVuelo.ReservaVueloID.Value;
 
-                var userID = _userManager.GetUserId(User);
+                // var userID = _userManager.GetUserId(User);
 
-                var personaID = _context.Personas.Where(p => p.UsuarioID == userID ).SingleOrDefault();
+                // var personaID = _context.Personas.Where(p => p.UsuarioID == userID ).SingleOrDefault();
 
-                ReservaVuelo.PersonaId = personaID.PersonaID;
+                // ReservaVuelo.PersonaId = personaID.PersonaID;
 
 
                 // Asociar cada acompañante con la reserva recién creada

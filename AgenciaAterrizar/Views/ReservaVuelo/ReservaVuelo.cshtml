@@ -533,7 +533,6 @@
 
                 //Genero el objeto que voy a pasar el controlador.
                 var reservaVuelo = {
-                    PersonaId: document,
                     NroVoucher: nroVoucher,
                     AeropuertoOrigenID: modeloVuelo.escalasIda[0].departure,
                     NombreAeropuertoOrigen: modeloVuelo.escalasIda[0].departureAirport.nombre,
@@ -635,6 +634,7 @@
                     acompaniantes.push(acompaniante);
                 }
 
+
                 //Agrego el HTML del PDF de la reserva
                 document.getElementById('nroVoucherPDF').innerText = reservaVuelo.NroVoucher;
                 document.getElementById('emailPDF').innerText = document.getElementById('email').value;           
@@ -654,8 +654,6 @@
                     type: 'POST',
                     dataType: 'json',
                     success: function(result){
-
-                        console.log(result)
 
                         if(!result.success)
                         {

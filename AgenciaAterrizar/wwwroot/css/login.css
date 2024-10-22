@@ -1,12 +1,19 @@
 body{
   font-family: 'Lucida Sans', sans-serif !important;
+  background-image: url('../images/pexels-mcraftpix-21014.jpg') ;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 label{
-  /* background-color: rgba(0, 0, 0, 0.507) !important; */
   color: white;
   border-radius: 3px;
   padding: 1px 10px 1px 2px;
+}
+
+.divTitulo h3{
+  font-size: 20px;
 }
 
 hr{
@@ -16,10 +23,8 @@ hr{
 
 .divLogin{
   background-color: transparent;
-
-  margin: 10%; /* Elimina márgenes automáticos */
-  
-   padding: 20px 15px;
+  margin: 10%;
+  padding: 20px 15px;
   width: 40vw; 
   margin-bottom: 55px;
   border: 2px solid rgb(128, 124, 124);
@@ -34,7 +39,7 @@ hr{
 }
 
 .input{
-  height: 3rem;
+  height: 40px;
   border-radius: 40px;
 }
 
@@ -50,8 +55,8 @@ hr{
 .buttonRegister {
   position: relative;
   overflow: hidden;
-  width: 80vw;
-  height: 3rem;
+  width: 70%;
+  height: 2.5rem;
   padding: 0 2rem;
   border-radius: 1.5rem;
   background: #3d3a4e;
@@ -89,9 +94,30 @@ hr{
   transition: all 0.475s;
 }
 
-body{
-  background-image: url('../images/pexels-mcraftpix-21014.jpg') ;
-  background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+@media (max-width: 1024px) {
+
+  .divLogin{
+    margin: auto;
+    width: 50vw;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .divLogin{
+    margin: auto;
+    width: 50vw;
+  }
+}
+
+
+@media (max-width: 576px) {
+  .divLogin{
+    margin: auto;
+    width: 80vw;
+  }
+
+  .divTitulo h3{
+    font-size: 15px;
+  }
 }

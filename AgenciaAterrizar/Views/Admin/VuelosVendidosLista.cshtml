@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Administración</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+
+    <!-- Template Main CSS File -->
+    <link rel="stylesheet" href="~/lib/bootstrap/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <div class="section">
+        <div>
+            <aside id="sidebar" class="sidebar">
+                <ul class="sidebar-nav" id="sidebar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link " asp-controller="Admin" asp-action="Index">
+                        <span>Administración</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Admin" asp-action="VuelosVendidosLista">
+                            <i class="bi bi-person"></i>
+                            <span>Vuelos Vendidos</span>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+
+        <div>
+            <section>
+                <div class="divContenido animate__animated animate__fadeIn">
+                    <div class="d-flex justify-content-between">
+                        <h3 class="tituloAdim">Detalle de Vuelos Vendidos</h3>
+                    </div>
+                    <hr class="mb-4">
+                    
+                    <div>
+                        <div class="d-flex justify-content-end">
+                            <button id="reportePdf" type="button" class="btn btn-success"><i class="fas fa-solid fa-print"></i> Imprimir Reporte</button>
+                        </div>
+
+                        <div class="d-flex align-items-center row mt-3 mb-3">
+                            <div class="mb-3 col-3">
+                                <label class="form-label">Fecha Desde</label>
+                                <input type="date" id="FechaDesde" class="form-control">
+                            </div>
+
+                            <div class="mb-3 col-3">
+                                <label class="form-label">Fecha Hasta </label>
+                                <input type="date" id="FechaHasta" class="form-control">
+                            </div>
+
+                            <div class="mb-6 col-2">
+                                <button id="btnFiltrarVuelos" type="button" class="btn btn-success"><i class="fas fa-solid fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table id="reporte" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="ocultar-en-768px" scope="col">ID</th>
+                                <th class="ocultar-en-768px" scope="col">Aerolinea</th>
+                                <th class="ocultar-en-550px" scope="col">Origen</th>
+                                <th scope="col">Destino</th>
+                                <th class="ocultar-en-550px" scope="col">Salida</th>
+                                <th class="ocultar-en-768px" scope="col">Regreso</th>
+                                <th class="ocultar-en-768px" scope="col">Pasajeros</th>
+                                <th scope="col">Monto</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-listaVuelos"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/js/main.js"></script>
+    <script src="~/js/vuelosVendidos.js"></script>
+
+</body>
+
+</html>

@@ -22,6 +22,11 @@ public class AdminController : Controller
         return View();
     }
 
+    public IActionResult VuelosVendidosLista()
+    {
+        return View();
+    }
+
     [HttpGet("vuelosVendidos")]
     public async Task<IActionResult> VuelosVendidos()
     {
@@ -32,6 +37,69 @@ public class AdminController : Controller
             .ToListAsync();
 
         return PartialView("_vuelosVendidos", listaVuelosVendidos);
+    }
+
+    public JsonResult ListaVuelosVendidos()
+    {
+        var listaVuelosVendidos = _context.ReservaVuelos
+            .Include(rv => rv.Acompaniantes)
+            .Include(rv => rv.Escalas)
+            .Where(rv => rv.Eliminado == false)
+            .ToList();
+
+        var lista = listaVuelosVendidos
+            .ToList().Select(v => new {
+                v.ReservaVueloID,
+                v.PersonaId,
+                v.NroVoucher,
+                v.AeropuertoOrigenID,
+                v.NombreAeropuertoOrigen,
+                v.AeropuertoDestinoID,
+                v.NombreAeropuertoDestino,
+                v.FechaSalida,
+                v.FechaRegreso,
+                v.EscalaID,
+                v.AcompanianteID,
+                v.AerolineaID,
+                v.AerolineaNombre,
+                v.DuracionVueloIda,
+                v.DuracionVueloRegreso,
+                v.CantidadPasajeros,
+                v.Email,
+                v.MedioDePago,
+                v.NroTarjeta,
+                v.CantidadCuotas,
+                v.MontoTotalCompra,
+                v.Eliminado,
+                // Traer acompañantes completos
+                Acompaniantes = v.Acompaniantes.Select(a => new {
+                    a.AcompanianteID,
+                    a.NombreCompleto,
+                    a.Apellido,
+                    a.Pais,
+                    a.FechaNacimiento,
+                    a.TipoDocumento,
+                    a.NroDocumento,
+                    a.Genero
+                }).ToList(),
+                // Traer escalas completas
+                Escalas = v.Escalas.Select(e => new {
+                    e.EscalaID,
+                    e.AerolineaID,
+                    e.AeropuertoDestinoID,
+                    e.FechaLlegada,
+                    e.AeropuertoOrigenID,
+                    e.FechaSalida,
+                    e.EscalaIda,
+                    e.EscalaVuelta,
+                    e.NroEscala,
+                    e.DuracionVuelo,
+                    e.NumeroVuelo
+                }).ToList()
+
+            }).ToList();
+
+        return Json(lista);
     }
 
     public JsonResult EliminarReserva(int ID)

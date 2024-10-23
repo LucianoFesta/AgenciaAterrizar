@@ -1,181 +1,63 @@
-<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+<!DOCTYPE html>
+<html lang="en">
 
-<section class="d-flex animate__animated animate__fadeIn">
-    <ul class="ulMenuLateral" id="menu">
-        <li class="menu-header"><a href="#" aria-disabled="true"><span><i class="fa-solid fa-user-tie"></i> Administración</span></a></li>
-        <li><a href="#" data-view="vuelosVendidos"><span>Vuelos Vendidos</span></a></li>
-        <li><a href="#" data-view="hotelesVendidos"><span>Hoteles Vendidos</span></a></li>
-    </ul>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <div class="contenido" id="contenido">
-        <h3 class="text-center tituloAdim">Bienvenido @User.Identity.Name!</h3>
+    <title>Administración</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+
+    <!-- Template Main CSS File -->
+    <link rel="stylesheet" href="~/lib/bootstrap/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <div class="section">
+        <!-- ======= Sidebar ======= -->
+        <div>
+            <aside id="sidebar" class="sidebar">
+
+                <ul class="sidebar-nav" id="sidebar-nav">
+
+                    <li class="nav-item">
+                        <a class="nav-link " asp-controller="Admin" asp-action="Index">
+                        <span>Administración</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Admin" asp-action="VuelosVendidosLista">
+                            <i class="bi bi-person"></i>
+                            <span>Vuelos Vendidos</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </aside>
+        </div>
+        <div>
+            <section>
+                <h1>Hola Administrador</h1>
+            </section>
+        </div>
     </div>
-</section>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function(){
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-        const listaMenu = document.querySelectorAll('#menu li a');
-        const contenidoHtml = document.getElementById('contenido');
-        let vistaActual = '';
+  <!-- Template Main JS File -->
+  <script src="~/js/main.js"></script>
 
-        listaMenu.forEach(item => {
-            item.addEventListener('click', function(e){
-                e.preventDefault();
-                
-                //Elimina los atributos active de tolos los li.
-                listaMenu.forEach(link => link.parentElement.classList.remove('active'));
-                
-                // Agregar la clase 'active' al elemento seleccionado
-                item.parentElement.classList.add('active');
-                
-                const vista = item.getAttribute('data-view');
+</body>
 
-                cargarVista(vista);
-            })
-        })
-
-        function cargarVista(vista){
-            fetch(`/${vista}`)
-                .then(response => response.text())
-                .then(html => {
-                    contenidoHtml.innerHTML = html;
-                    vistaActual = vista;
-                    // Como al momento de cargar el DOM no están los botónes, se debe asignar manualmente los eventos a los componentes html agregados a la vista.
-                    asignarEventos();
-                })
-                .catch(e => {
-                    contenidoHtml.innerHTML = '<p>Error al cargar el contenido de la vista</p>';
-                    console.log('Error al cargar vista: ', e);
-                })
-        }
-
-
-        function asignarEventos(){
-            const botonesCancelar = document.querySelectorAll('.btnCancelar');
-            const btnImprimir = document.getElementById('reportePdf');
-            const buscarVuelos = document.getElementById('btnFiltrarVuelos')
-
-            btnImprimir.addEventListener('click', () => {
-
-                var pdf = new jsPDF('l', 'mm', [297, 210]);
-                var html = document.getElementById('reporte');
-                var htmlJson = pdf.autoTableHtmlToJson(html);
-                htmlJson.columns = htmlJson.columns.slice(0,-1); //Eliminar las columnas de los botones
-
-                var contenido = (info) => {
-                    pdf.setLineWidth(10);
-
-                    pdf.setDrawColor(238, 153, 57);
-                    pdf.line(14, 12, 280, 12);
-
-                    pdf.setTextColor(255, 255, 255);
-                    pdf.setFontSize(13);
-                    pdf.setFontStyle('bold');
-
-                    pdf.text(17, 14, "Lista de reservas de Vuelos");
-
-                    // Configuración para el número de página
-                    const pagina = "Página " + info.pageCount;
-                    pdf.setTextColor(100, 100, 100); 
-                    pdf.setFontSize(10);
-
-                    const pageHeight = pdf.internal.pageSize.height;
-                    pdf.text(pagina, 253, pageHeight - 10);
-                };
-
-                pdf.autoTable(htmlJson.columns, htmlJson.data,{
-                    startY: 20, addPageContent: contenido,
-                    styles: {
-                        lineColor: [238, 238, 238],
-                        lineWidth: 0.1
-                    },
-                    columnStyles: {
-                        0: { columnWidth: 20 },
-                        1: { columnWidth: 56 },
-                        2: { columnWidth: 20 },
-                        3: { columnWidth: 25 },
-                        4: { columnWidth: 40 },
-                        5: { columnWidth: 40 },          
-                        6: { columnWidth: 25 } ,         
-                        7: { columnWidth: 40 }          
-                    }
-                });
-
-                var stringPdf = pdf.output('datauristring');
-                var iframe = "<iframe width='100%' height='100%' src='" + stringPdf + "'></iframe>"
-
-                var ventana = window.open();
-                ventana.document.open();
-                ventana.document.write(iframe);
-                ventana.document.close();
-            })
-
-            // Asignamos el evento click a los botones agregados al html que tengan clase .btnCancelar.
-            botonesCancelar.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const idReserva = btn.getAttribute('data-id');
-
-                    Swal.fire({
-                        title: "¿Desea cancelar la reserva?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Confirmar",
-                        cancelButtonText: "Cancelar"
-
-                    }).then((result) => {
-                        if(result.isConfirmed){
-                            $.ajax({
-                                url: '../../Admin/EliminarReserva',
-                                data: { ID: idReserva },
-                                type: 'DELETE',
-                                dataType: 'json',
-                                success: function(result){
-                                    if(result.result){
-                                        Swal.fire({
-                                            title: 'Cancelación de Reserva.',
-                                            text: 'La reserva ha sido cancelada exitósamente.',
-                                            icon: 'success',
-                                            confirmButtonText: 'Aceptar'
-                                        }).then((r) => {
-                                            if(r.isConfirmed){
-                                                cargarVista(vistaActual);
-                                            }
-                                        });
-                                    }else{
-                                        Swal.fire({
-                                            title: 'Cancelacón de Reserva:',
-                                            text: result.message,
-                                            icon: 'warning',
-                                            confirmButtonText: 'Volver a intentarlo'
-                                        });
-                                    }
-                                }
-                            })
-                        }
-                    })
-                })
-            })
-
-            buscarVuelos.addEventListener('click', () => {
-                var desde = document.getElementById('FechaDesde').value;
-                var hasta = document.getElementById('FechaHasta').value;
-
-                $.ajax({
-                    url: '../../Admin/FiltrarVuelos',
-                    data: { desde, hasta },
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(result){
-                        console.log(result);
-                    },
-                    error: function (xrs, status){
-                        console.log('Ocurrió un error a la hora de mostrar vuelos vendido filtrados.');
-                    }
-                })
-            })
-        }
-    });
-</script>
+</html>

@@ -1,54 +1,6 @@
-
-.ulMenuLateral {
-    list-style: none;
-    width: 18vw;
-    min-height: 100vh;
-    background-color: #04001cd8;
-    padding: 0;
-    margin: 0;
-}
-
-.ulMenuLateral .menu-header {
-    background-color: #04001cd8; /* Cambia el color de fondo */
-    padding: 10px;
-    width: 100%;
-    font-weight: bold; /* Texto en negrita para el encabezado */
-    border-bottom: 1px solid white; /* Línea separadora */
-    pointer-events: none; /* Deshabilita la interacción */
-}
-
-.ulMenuLateral li{
-    border-bottom: 1px solid white;
-}
-
-.ulMenuLateral li a{
-    display: block;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px;
-    transition: background-color 0.3s;
-    text-align: center;
-    display: block; /* Hace que el enlace ocupe todo el área del `li` */
-}
-
-.ulMenuLateral li a:hover{
-    background-color: #555;
-}
-
-
-.ulMenuLateral li.active a {
-    background-color: #ddd; 
-    font-weight: bold; 
-    color: #000; 
-}
-
 body{
     margin: 0;
     padding: 0;
-}
-
-.navBar{
-    margin-bottom: 15px !important;
 }
 
 .container{

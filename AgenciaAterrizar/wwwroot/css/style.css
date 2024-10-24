@@ -14,9 +14,17 @@
   }
   
   body {
-    font-family: "Open Sans", sans-serif;
+    font-family: 'Lucida Sans', sans-serif !important;
     background: #f6f9ff;
     color: #444444;
+  }
+
+  body {
+    background-image: url('../images/endless-constellation.svg');
+    background-attachment: fixed;
+    /* background: -webkit-linear-gradient(to bottom, #bba378, #F7F8F8);  
+    background: linear-gradient(to bottom, #bb9e78, #F7F8F8);  */
+    font-family: "Montserrat", sans-serif;
   }
   
   a {
@@ -232,9 +240,9 @@
   }
   
   section {
-    width: 80vw; /* El contenido principal ocupa el 80% restante */
-    padding: 20px; /* Añade algo de padding para separarlo del borde */
-    background-color: #f8f9fa; /* Puedes cambiar el fondo para diferenciar la sección */
+    width: 80vw;
+    padding: 20px; 
+    background-color: #f8f9fa;
   }
   
 

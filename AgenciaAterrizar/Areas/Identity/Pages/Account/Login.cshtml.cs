@@ -125,7 +125,7 @@ namespace AgenciaAterrizar.Areas.Identity.Pages.Account
                     {
                         if(await _userManager.IsInRoleAsync(user, "Administrador"))
                         {
-                            return LocalRedirect("/Admin");
+                            return LocalRedirect("/Admin/VuelosVendidosLista");
                         }
                     }
 

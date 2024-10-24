@@ -11,7 +11,7 @@ public class MigrationController : Controller
         _context = context;
     }
 
-    [HttpGet]
+    [HttpGet("/migrateRun")]
     public IActionResult RunMigrations()
     {
         // Aplica las migraciones pendientes

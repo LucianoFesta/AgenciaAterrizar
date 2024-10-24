@@ -53,7 +53,7 @@
                     
                     <div>
                         <div class="d-flex justify-content-end">
-                            <button id="reportePdf" type="button" class="btn btn-success"><i class="fas fa-solid fa-print"></i> Imprimir Reporte</button>
+                            <button id="reportePdf" type="button" class="btn btn-success" onclick="imprimirReporte()"><i class="fas fa-solid fa-print"></i> Imprimir Reporte</button>
                         </div>
 
                         <div class="d-flex align-items-center row mt-3 mb-3">
@@ -68,7 +68,7 @@
                             </div>
 
                             <div class="mb-6 col-2">
-                                <button id="btnFiltrarVuelos" type="button" class="btn btn-success"><i class="fas fa-solid fa-search"></i></button>
+                                <button id="btnFiltrarVuelos" type="button" class="btn btn-success" onclick="listadoVuelosVendidos()"><i class="fas fa-solid fa-search"></i></button>
                             </div>
                         </div>
                     </div>
@@ -94,9 +94,9 @@
         </div>
     </div>
 
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Template Main JS File -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/vuelosVendidos.js"></script>
 

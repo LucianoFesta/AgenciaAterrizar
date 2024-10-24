@@ -59,7 +59,7 @@ function listadoVuelosVendidos(){
                         <td class="ocultar-en-550px">${fechaSalida} Hs.</td>
                         <td class="ocultar-en-768px">${fechaRegreso ? fechaRegreso : '-----'} Hs.</td>
                         <td class="ocultar-en-768px">${reserva.cantidadPasajeros}</td>
-                        <td>$ ${reserva.montoTotalCompra}</td>        
+                        <td class="tdMonto">$ ${reserva.montoTotalCompra}</td>        
                         <td class="p-4">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${reserva.reservaVueloID}" data-bs-toggle="dropdown" aria-expanded="false">

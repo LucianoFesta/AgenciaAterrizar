@@ -471,7 +471,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 // Generar el HTML para la oferta
                                 $('#listaOfertas').append(`
                                     <div class="card mt-4 animate__animated animate__fadeIn">
-                                        <span class="card-title"><i class="fa-solid fa-plane"></i> ${oferta.intinerario[0].segments[0].carrierCode} - ${oferta.nombreAerolinea}</span>
+                                        <h5 class="text-title bg"><i class="fa-solid fa-plane"></i> ${oferta.intinerario[0].segments[0].carrierCode} - ${oferta.nombreAerolinea}</h5>
                                         <div class="divItinerario">
                                             <div class="card-body d-flex align-items-center justify-content-between divContenidoOferta">
                                                 <div class="divItinerarioCompleto">

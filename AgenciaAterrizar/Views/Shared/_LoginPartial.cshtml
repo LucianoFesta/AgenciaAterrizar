@@ -12,7 +12,7 @@
     </li>
     @if(User.Identity.IsAuthenticated && User.IsInRole("Administrador")){
     <li>
-        <a asp-controller="Admin" asp-action="Index" class="nav-link btnNav"><p>Administración</p></a>
+        <a asp-controller="Admin" asp-action="VuelosVendidosLista" class="nav-link btnNav"><p>Administración</p></a>
     </li>
     }
     <li class="nav-item">

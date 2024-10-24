@@ -27,23 +27,39 @@ body{
 .divContenido{
     margin: 20px;
     height: 100%;
+    margin-bottom: 70px;
 }
 
 table{
     text-align: center;
     vertical-align: middle;
+    font-size: 13px;
 }
 
 .itemPasajero{
     padding: 15px;
     font-size: 15px;
-    background-color: #dbd7d7;
+    background-color: #fff0d59d;
+    color: black;
     margin-bottom: 10px;
     border-radius: 5px;
 }
 
+.itemPasajero b{
+    color: orange;
+}
+
+.modal-body{
+    background: url(../images/pattern-randomized.svg);
+
+}
+
+.modal-header, .modal-footer{
+    background-color: #6969698a;
+}
+
 .tituloModal{
-    color: #ee9939;
+    color: #fff;
 }
 
 .modal-backdrop {

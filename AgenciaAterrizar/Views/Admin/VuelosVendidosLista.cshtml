@@ -27,15 +27,16 @@
         <div>
             <aside id="sidebar" class="sidebar">
                 <ul class="sidebar-nav" id="sidebar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link " asp-controller="Admin" asp-action="Index">
-                        <span>Administración</span>
+                    <li class="nav-item admin">
+                        <a class="nav-link d-flex justify-content-center disabled" asp-controller="Admin" asp-action="Index">
+                            <i class="bi bi-house-gear-fill"></i>
+                            <span>Administración</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Admin" asp-action="VuelosVendidosLista">
-                            <i class="bi bi-person"></i>
+                            <i class="bi bi-airplane-engines"></i>
                             <span>Vuelos Vendidos</span>
                         </a>
                     </li>
@@ -43,8 +44,12 @@
             </aside>
         </div>
 
-        <div>
+        <div class="content">
+
             <section>
+                <button class="btn btnToggle" id="toggleSidebar" type="button">
+                    <i class="bi bi-list"></i>
+                </button>
                 <div class="divContenido animate__animated animate__fadeIn">
                     <div class="d-flex justify-content-between">
                         <h3 class="tituloAdim">Detalle de Vuelos Vendidos</h3>
@@ -73,7 +78,7 @@
                         </div>
                     </div>
 
-                    <table id="reporte" class="table table-striped">
+                    <table id="reporte" class="table table-striped mb-4">
                         <thead>
                             <tr>
                                 <th class="ocultar-en-768px" scope="col">ID</th>
@@ -97,6 +102,8 @@
 
     <!-- Template Main JS File -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/vuelosVendidos.js"></script>
 

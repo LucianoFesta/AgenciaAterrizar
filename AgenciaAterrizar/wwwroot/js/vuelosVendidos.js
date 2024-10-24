@@ -4,6 +4,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 });
 
+
+document.getElementById('toggleSidebar').addEventListener('click', function() {
+    var sidebar = document.getElementById('sidebar');
+
+    if (window.innerWidth <= 768) {
+        sidebar.classList.toggle('active');
+    } else {
+        
+        sidebar.classList.toggle('collapsed');
+        document.querySelector('.content').classList.toggle('full-width');
+    }
+});
+
+
+
 function listadoVuelosVendidos(){
     $('#tbody-listaVuelos').empty();
 
@@ -36,7 +51,7 @@ function listadoVuelosVendidos(){
                 });
 
                 $('#tbody-listaVuelos').append(`
-                    <tr>
+                    <tr class="p-2">
                         <td class="ocultar-en-768px">${reserva.reservaVueloID}</td>
                         <td class="ocultar-en-768px">${reserva.aerolineaID} - ${reserva.aerolineaNombre}</td>
                         <td class="ocultar-en-550px">${reserva.aeropuertoOrigenID}</td>
@@ -45,17 +60,16 @@ function listadoVuelosVendidos(){
                         <td class="ocultar-en-768px">${fechaRegreso ? fechaRegreso : '-----'} Hs.</td>
                         <td class="ocultar-en-768px">${reserva.cantidadPasajeros}</td>
                         <td>$ ${reserva.montoTotalCompra}</td>        
-                        <td>
-                            <div class="d-flex flex-column tdBotones">
-                                <div>
-                                    <button type="button" class="btnCancelar btn btn-danger" data-bs-toggle="tooltip" title="Cancelar Reserva" onclick="cancelarReserva(${reserva.reservaVueloID})"><i class="fa-solid fa-ban"></i></button>
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-toggle="tooltip" title="Pasajeros" data-bs-target="#modalPasajeros_${reserva.reservaVueloID}"><i class="fa-solid fa-users"></i></button>
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-toggle="tooltip" title="Tramos" data-bs-target="#modalEscalas_${reserva.reservaVueloID}"><i class="fa-solid fa-bars-progress"></i></button>
-                                </div>
+                        <td class="p-4">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${reserva.reservaVueloID}" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton_${reserva.reservaVueloID}">
+                                    <li><a class="dropdown-item" href="#" onclick="cancelarReserva(${reserva.reservaVueloID})">Cancelar Reserva</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPasajeros_${reserva.reservaVueloID}">Pasajeros</a></li>
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalEscalas_${reserva.reservaVueloID}">Tramos</a></li>
+                                </ul>
                             </div>
                         </td>
                     </tr>    

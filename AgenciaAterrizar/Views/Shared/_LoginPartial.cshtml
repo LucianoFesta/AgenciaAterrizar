@@ -7,9 +7,11 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    @if(User.Identity.IsAuthenticated && User.IsInRole("Cliente")){
     <li class="nav-item">
         <a asp-controller="Perfil" asp-action="Index" class="nav-link btnNav"  title="Manage">Mis Viajes</a>
     </li>
+    }
     @if(User.Identity.IsAuthenticated && User.IsInRole("Administrador")){
     <li>
         <a asp-controller="Admin" asp-action="VuelosVendidosLista" class="nav-link btnNav"><p>Administración</p></a>

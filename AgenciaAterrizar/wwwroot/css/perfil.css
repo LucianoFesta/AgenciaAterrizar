@@ -1,0 +1,228 @@
+ 
+h2{
+  font-family: 'Lucida Sans', sans-serif;
+  text-align: start;
+  padding: 10px;
+  margin-top: 14px !important;
+  font-size: 20px;
+  margin: auto;
+  backdrop-filter: blur(3px);
+  background-color: #4f4f4f31;
+  border-bottom: 1px solid black;
+}
+
+h2 span{
+  font-weight: 200;
+}
+
+a{
+  text-decoration: none;
+}
+
+.card {
+  width: 50vw;
+  height: 40vh;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 15px 15px 30px #bebebe;
+  transition: 0.2s ease-in-out;
+  margin-top: 30px;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+
+.divReservas{
+  display: flex;
+  width: 80%;
+  margin: auto;
+}
+
+.divProxVuelos{
+  position: relative;
+  padding-top: 20px;
+  background: #ffffff60;
+  backdrop-filter: blur(3px);
+  border-radius: 8px;
+  margin: 50px 0;
+}
+
+.titulo{
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  color: white;
+  background-color: #00960c91;
+  font-weight: bold;
+  font-size: 17px;
+  padding: 5px 30px;
+  border-radius: 7px;
+  margin-bottom: 10px;
+}
+
+.tituloAnteriores{
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  color: white;
+  background-color: #96000091;
+  font-weight: bold;
+  font-size: 17px;
+  padding: 5px 30px;
+  border-radius: 7px;
+  margin-bottom: 10px;
+}
+  
+.img {
+  width: 100%;
+  height: 20vh;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  background-image: url('../images/avion.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.5;
+  display: flex;
+  align-items: top;
+  justify-content: right;
+}
+
+.save {
+  transition: 0.2s ease-in-out;
+  border-radius: 10px;
+  margin: 20px;
+  width: 30px;
+  height: 30px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+  
+.text {
+  padding: 20px;
+
+}
+
+.save .svg {
+  transition: 0.2s ease-in-out;
+  width: 15px;
+  height: 15px;
+}
+  
+.icon-box {
+  margin-top: 15px;
+  margin-right: 4px;
+  width: 50%;
+  background-color: #e3fff9;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out
+}
+
+.icon-box:hover{
+  background-color: #c2faee;
+}
+  
+.icon-box svg {
+  width: 17px;
+}
+
+.text .h3 {
+  font-family: 'Lucida Sans' sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: black;
+}
+
+.h3 span{
+  font-weight: 100;
+}
+  
+.text .p {
+  font-family: 'Lucida Sans' sans-serif;
+  color: #999999;
+  font-size: 13px;
+}
+
+.icon-box .span {
+  margin-left: 10px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Lucida Sans' sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #9198e5;
+}
+  
+.card:hover {
+  cursor: auto;
+  box-shadow: 0px 10px 20px rgba(0,0,0,0.1);
+}
+
+.save:hover {
+  transform: scale(1.1) rotate(10deg);
+}
+
+.save:hover .svg {
+  fill: #ced8de;
+}
+
+.modal-header{
+  background-color: #9198e544;
+  padding: 7px;
+}
+
+.modal-title{
+  font-size: 17px;
+  font-weight:bold
+}
+
+.modal-dialog{
+  max-width: 50vw !important;
+  margin: 10vh auto !important;
+}
+
+.modal-body{
+  background: url(../images/pattern-randomized.svg);
+}
+
+.modal-footer{
+  background: url(../images/pattern-randomized.svg);
+}
+
+@media (max-width: 1024px) {
+
+  .divReservas{
+    flex-direction: column;
+  }
+
+  .card{
+    width: 80vw !important;
+    margin: 10px 0 15px  0;
+  }
+
+  h2{
+    font-size: 15px;
+  }
+
+  .btnOpciones{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .icon-box{
+    width: 100%;
+  }
+
+  .modal-dialog{
+    max-width: 70vw !important;
+    margin: 10vh auto !important;
+  }
+
+}

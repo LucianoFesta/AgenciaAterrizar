@@ -70,6 +70,7 @@
                             <label for="nroDocumento_@(i)" class="form-label labelBuscador">Número de Documento: </label>
                             <input type="text" class="form-control" id="nroDocumento_@(i)" name="Pasajeros[@i].NroDocumento">
                             <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroDocumentoError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Complete con el número de documento.</span>
+                            <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="lengthNroDocumentoError_@(i)"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Debe tener mas de 7 caracteres.</span>
                         </div>
                     </div>
 
@@ -112,6 +113,7 @@
                     <label for="nroTarjeta" class="form-label labelBuscador">Número de Tarjeta: </label>
                     <input type="number" class="form-control" id="nroTarjeta" name="nroTarjeta">
                     <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="nroTarjetaError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Ingrese el nro de tarjeta.</span>
+                    <span class="spanError animate__animated animate__fadeIn" style="display: none;" id="lengthNroTarjetaError"><i class="fa-solid fa-circle-exclamation errorIcon"></i> Deber tener 16 caracteres.</span>
                 </div>
             </div>
             
@@ -423,6 +425,13 @@
                         document.getElementById('nroDocumentoError_'+i).style.display = 'block';
                         erroresInput++;
                     }
+
+                    document.getElementById('lengthNroDocumentoError_'+i).style.display = 'none';
+                    var legthNroDocumento = document.getElementById('nroDocumento_'+i).value;
+                    if(legthNroDocumento.length < 8){
+                        document.getElementById('lengthNroDocumentoError_'+i).style.display = 'block';
+                        erroresInput++;
+                    }
                 }
 
                 document.getElementById('emailError').style.display = 'none';
@@ -436,6 +445,13 @@
                 var nroTarjeta = document.getElementById('nroTarjeta').value;
                 if(nroTarjeta == ''){
                     document.getElementById('nroTarjetaError').style.display = 'block';
+                    erroresInput++;
+                }
+
+                document.getElementById('lengthNroTarjetaError').style.display = 'none';
+                var lengthNroTarjeta = document.getElementById('nroTarjeta').value;
+                if(lengthNroTarjeta.length != 16){
+                    document.getElementById('lengthNroTarjetaError').style.display = 'block';
                     erroresInput++;
                 }
 
@@ -483,6 +499,8 @@
                     AeropuertoDestinoID: aeropuertoDestinoID,
                     NombreAeropuertoDestino: nombreAeropuertoDestino
                 }
+
+                console.log(reservaVuelo)
 
                 //Creo las escalas del vuelo seleccionado para agregarlas al objeto que paso al controlador.
                 var escalas = [];

@@ -495,7 +495,7 @@
                     MedioDePago: document.getElementById('medioPago').value,
                     NroTarjeta: document.getElementById('nroTarjeta').value,
                     CantidadCuotas: 1,
-                    MontoTotalCompra: modeloVuelo.precio.total,
+                    MontoTotalCompra: parseFloat(modeloVuelo.precio.total),
                     AeropuertoDestinoID: aeropuertoDestinoID,
                     NombreAeropuertoDestino: nombreAeropuertoDestino
                 }

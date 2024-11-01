@@ -38,6 +38,7 @@ table{
     text-align: center;
     vertical-align: middle;
     font-size: 13px;
+    margin-bottom: 500px;
 }
 
 .itemPasajero{
@@ -74,7 +75,20 @@ table{
     width: 100vw;
     height: 100vh;
     background-color: #000;
-  }
+}
+
+.graficoTorta{
+    width: 35vw
+}
+
+h6{
+    background-color: rgba(255, 166, 0, 0.308);
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
 
 @media (max-width: 550px) {
     .ocultar-en-550px {

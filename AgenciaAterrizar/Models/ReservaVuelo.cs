@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AgenciaAterrizar.Models
 {
@@ -25,6 +26,8 @@ namespace AgenciaAterrizar.Models
         public string MedioDePago { get; set; }
         public string NroTarjeta { get; set; }
         public int CantidadCuotas { get; set; }
+
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal MontoTotalCompra { get; set; }
         public byte[]? Vaucher { get; set; }
         public string? TipoVaucher { get; set; }

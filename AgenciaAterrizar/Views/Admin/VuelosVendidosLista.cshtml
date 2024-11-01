@@ -44,7 +44,7 @@
             </aside>
         </div>
 
-        <div class="content">
+        <div class="content" id="content">
 
             <section>
                 <button class="btn btnToggle" id="toggleSidebar" type="button">
@@ -78,7 +78,7 @@
                         </div>
                     </div>
 
-                    <table id="reporte" class="table table-striped mb-4">
+                    <table id="reporte" class="table table-striped mb-6">
                         <thead>
                             <tr>
                                 <th class="ocultar-en-768px" scope="col">ID</th>
@@ -94,19 +94,52 @@
                         </thead>
                         <tbody id="tbody-listaVuelos"></tbody>
                     </table>
+
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="tituloAdim">Información Adicional</h3>
+                        </div>
+                        <hr class="mb-4">
+
+                        <div class="d-flex justify-content-between">
+                            <div class="mt-2 graficoTorta">
+                                <div class="cardGrafico">
+                                    <div class="">
+                                        <h6>Cantidad de reservas por país</h6>
+                                    </div>
+                                    <div class="">
+                                        <canvas id="graficoPais"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-2 graficoTorta">
+                                <div class="cardGrafico">
+                                    <div class="">
+                                        <h6>Cantidad de reservas por mes</h6>
+                                    </div>
+                                    <div class="">
+                                        <canvas id="graficoMes"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
     </div>
 
 
-    <!-- Template Main JS File -->
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/"></script>
-    <script src="~/js/main.js"></script>
-    <script src="~/js/vuelosVendidos.js"></script>
 
 </body>
+
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/js/main.js"></script>
+<script src="~/js/vuelosVendidos.js"></script>
 
 </html>

@@ -133,41 +133,34 @@
   background-color: #010b1dab;
 }
 
-/* Para pantallas pequeñas */
+
 @media (max-width: 768px) {
-    .sidebar {
-        position: absolute; /* Permite que el sidebar flote sobre el contenido */
-        left: -250px; /* Ocultar sidebar fuera de la pantalla */
-        width: 250px; /* Ancho del sidebar */
-        height: 100%; /* Asegura que ocupe toda la altura */
-        background: white; /* Color de fondo del sidebar */
-        transition: left 0.3s ease; /* Transición suave */
-        z-index: 1000; /* Asegura que el sidebar esté por encima del contenido */
-    }
+  .sidebar {
+      position: absolute; 
+      left: -250px; 
+      width: 250px; 
+      height: 100%; 
+      background: white; 
+      transition: left 0.3s ease; 
+      z-index: 1000; 
+  }
 
-    /* Cuando el sidebar está visible */
-    .sidebar.active {
-        left: 0; /* Muestra el sidebar */
-    }
+  .sidebar.active {
+      left: 0; 
+  }
 
-    /* Se asegura que el section ocupe todo el ancho */
-    .content {
-        width: 100vw; /* Ancho completo */
-    }
+  .content {
+      width: 100vw;
+  }
 
-    #toggleSidebar {
-      position: absolute; /* Cambiar a posición absoluta */
-      left: 5%; /* Ajustar la posición del botón */
-      top: 25%; /* Asegurar que esté a una distancia razonable del borde */
-      z-index: 1100; /* Asegura que el botón esté encima del sidebar */
+  #toggleSidebar {
+    position: absolute; 
+    left: 5%;
+    top: 25%;
+    z-index: 1100; 
   }
 }
 
-@media (max-width: 1199px) {
-  /* .sidebar {
-    left: -300px;
-  } */
-}
 
 .sidebar::-webkit-scrollbar {
   width: 5px;

@@ -2,7 +2,71 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
     listadoVuelosVendidos();
 
+    generarGraficos();
+
 });
+
+
+function generarGraficos(){
+
+    var colorFondoPais = [];
+    var dataPais = [5, 2, 2, 5, 1, 3, 4];
+    var labelsPais = ['Aruba', 'Argentina', 'Brasil', 'USA', 'Colombia', 'Rep. Dominicana', 'México'];
+
+    var graficoTortaPais = document.getElementById("graficoPais");
+
+    dataPais.forEach(info => {
+        var color = generarColor();
+        colorFondoPais.push(color);
+    });
+
+    graficoNuevoCircular = new Chart(graficoTortaPais, {
+        type: 'pie',
+        data: {
+            labels: labelsPais,
+            datasets: [{
+                data: dataPais,
+                backgroundColor: colorFondoPais,
+            }],
+        },
+    });
+
+
+    var colorFondoMes = [];
+    var dataMes = [9, 5, 1, 3, 4];
+    var labelsMes = ['Enero', 'Febrero', 'Marzo', 'Noviembre', 'Diciembre'];
+
+    var graficoTortaMes = document.getElementById("graficoMes");
+
+    dataMes.forEach(info => {
+        var color = generarColor();
+        colorFondoMes.push(color);
+    });
+
+    graficoNuevoCircular = new Chart(graficoTortaMes, {
+        type: 'pie',
+        data: {
+            labels: labelsMes,
+            datasets: [{
+                data: dataMes,
+                backgroundColor: colorFondoMes,
+            }],
+        },
+    });
+}
+
+function generarColor() {
+    // El valor de GG será alto (de 128 a 255) para garantizar que predomine el verde.
+    // Los valores de RR y BB serán bajos (de 0 a 127).
+
+    let rr = Math.floor(Math.random() * 128) + 128; // 128 a 255 
+    let gg = Math.floor(Math.random() * 128); // 0 a 127
+    let bb = Math.floor(Math.random() * 128); // 0 a 127
+
+    // Convertimos a hexadecimal y formateamos para que tenga siempre dos dígitos.
+    let colorHex = `#${rr.toString(16).padStart(2, '0')}${gg.toString(16).padStart(2, '0')}${bb.toString(16).padStart(2, '0')}`;
+    return colorHex;
+}
 
 
 document.getElementById('toggleSidebar').addEventListener('click', function() {

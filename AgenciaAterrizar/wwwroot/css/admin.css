@@ -99,4 +99,14 @@ h6{
     .ocultar-en-768px {
         display: none;
     }
+
+    .divGraficos{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .graficoTorta{
+        width: 50vw;
+        margin-top: 15px !important;
+    }
 }
